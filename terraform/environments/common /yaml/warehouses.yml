@@ -1,0 +1,6 @@
+# Access Role 一覧
+# 書式：
+warehouses:
+  - name: analyst_warehouse
+    comment: analyst warehouse
+    warehouse_size: xsmall

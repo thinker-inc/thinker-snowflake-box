@@ -25,12 +25,12 @@ provider  "snowflake" {
   role  = var.role_securtyadmin
 }
 
-# provider "snowflake_sysadmin" {
-#   alias    = "tf_snowflake_sysadmin"
-#   account  = var.account_sysadmin
-#   username = var.username_sysadmin
-#   password = var.password_sysadmin
-#   region  = var.region_sysadmin
-#   role  = var.role_sysadmin
-#   warehouse = var.warehouse_sysadmin
-# }
+provider "snowflake" {
+  alias    = "tf_sysadmin"
+  account  = var.account_sysadmin
+  username = var.username_sysadmin
+  password = var.password_sysadmin
+  region  = var.region_sysadmin
+  role  = var.role_sysadmin
+  warehouse = var.warehouse_sysadmin
+}

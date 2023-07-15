@@ -16,6 +16,10 @@ locals {
     file("${path.root}/yaml/access_roles_to_functional_roles.yml")
   )
 
+  warehouses_yml = yamldecode(
+    file("${path.root}/yaml/warehouses.yml")
+  )
+
   # Access role のリスト
   access_roles = flatten(local.access_roles_yml["access_roles"])
   # Functional role のリスト
@@ -24,5 +28,7 @@ locals {
   users = local.users_yml["users"]
   # grant Access role to Functional role のリスト
   grant_access_role_to_functional_role = flatten(local.access_roles_to_functional_roles_yml["grant_access_roles_to_functional_roles"])
+  # warehouse のリスト
+  warehouses = local.warehouses_yml["warehouses"]
 
 }
