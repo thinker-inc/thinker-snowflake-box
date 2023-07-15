@@ -38,3 +38,28 @@ variable "region_securtyadmin" {
 variable "role_securtyadmin" {
   description = "Snowflake role"
 }
+
+
+variable "account_sysadmin" {
+  description = "Snowflake account"
+}
+
+variable "username_sysadmin" {
+  description = "Snowflake username"
+}
+
+variable "password_sysadmin" {
+  description = "Snowflake password"
+}
+
+variable "region_sysadmin" {
+  description = "Snowflake region"
+}
+
+variable "role_sysadmin" {
+  description = "Snowflake role"
+}
+
+variable "warehouse_sysadmin" {
+  description = "Snowflake role"
+}

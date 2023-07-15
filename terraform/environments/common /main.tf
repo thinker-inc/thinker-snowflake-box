@@ -18,3 +18,12 @@ module "grant_roles" {
 
   grant_access_roles_to_functional_roles = local.grant_access_role_to_functional_role
 }
+
+module "warehouses" {
+  source = "../../modules/snowflake/warehouses"
+  providers = {
+    snowflake = snowflake.tf_sysadmin
+  }
+
+  warehouses = local.warehouses
+}
