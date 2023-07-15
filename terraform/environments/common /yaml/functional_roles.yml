@@ -1,0 +1,17 @@
+# Functional Role一覧
+# 書式：
+functional_roles:
+  - name: analyst
+    comment: Analyst only role
+
+# # Functional role を付与するユーザー一覧
+# # 書式：
+# grant_functional_roles_to_user:
+#   - role_name: DEVELOPER_HOGE
+#     users:
+#       - HOGE_USER_1
+#       - HOGE_USER_2
+#   - role_name: ANALYST_HOGE
+#     users:
+#       - HOGE_USER_3
+#       - HOGE_USER_4
