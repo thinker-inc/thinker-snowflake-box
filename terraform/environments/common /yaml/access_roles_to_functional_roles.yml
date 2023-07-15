@@ -1,0 +1,11 @@
+# Access role を付与する Functional role 一覧
+# 書式：
+grant_access_roles_to_functional_roles:
+   - access_role: analyst_rw
+     functional_roles:
+        - analyst
+        # - <Functional Role 1_2>
+  #  - access_role: <Access Role 2>
+  #    functional_roles:
+  #       - <Functional Role 2_1>
+  #       - <Functional Role 2_2>

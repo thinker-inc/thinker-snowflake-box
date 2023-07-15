@@ -1,0 +1,7 @@
+# Access Role 一覧
+# 書式：
+users:
+  - name: analyst_1
+    login_name: analyst_1
+    comment: "A user of snowflake"
+    # password: secret
