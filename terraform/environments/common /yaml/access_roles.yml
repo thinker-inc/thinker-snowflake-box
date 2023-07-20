@@ -7,17 +7,25 @@ access_roles:
 
 # # オブジェクトに対する権限を付与する Access Role 一覧
 # # 書式：
-# grant_on_object_to_access_role:
-#   - name: <object1>_<parameter1_1>_<parameter1_2>_... # 一意な名前にする
-#     type: <object1>
-#     roles:
-#       - <Access Role 1_1>
+grant_on_object_to_access_role:
+  - name: DATABASE_DIESEL_DATAMART_USAGE # 一意な名前にする
+    type: DATABASE
+    parameter:
+      database_name: DIESEL_DATAMART
+      privilege: USAGE
+    roles:
+      - analyst_rw
+  - name: SCHEMA_DIESEL_DATAMART_DEV_USAGE # 一意な名前にする
+    type: SCHEMA
+    parameter:
+      database_name: DIESEL_DATAMART
+      schema_name: DEV
+      privilege: USAGE
+    roles:
+      - analyst_rw
 #       - <Access Role 1_2>
-#       :
 #   - name: <object2>_<parameter2_1>_<parameter2_2>_...
 #     type: <object2>
 #     roles:
 #       - <Access Role 2_1>
 #       - <Access Role 2_2>
-#       :
-#   :
