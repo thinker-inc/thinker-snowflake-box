@@ -2,28 +2,16 @@
 module "functional_and_access_roles" {
   source = "../../modules/snowflake/functional_and_access_roles"
   providers = {
-    snowflake = snowflake.tf_useradmin
+    snowflake = snowflake.terraform
   }
 
-  functional_roles                       = local.functional_roles
-  access_roles                           = local.access_roles
   users                                  = local.users
-}
+  functional_roles                       = local.functional_roles
+  grant_functional_roles_to_user         = local.grant_functional_roles_to_user
 
-module "grant_roles" {
-  source = "../../modules/snowflake/grant_roles"
-  providers = {
-    snowflake = snowflake.tf_securityadmin
-  }
-
+  access_roles                           = local.access_roles
+  grant_on_object_to_access_role         = local.grant_on_object_to_access_role
+  
   grant_access_roles_to_functional_roles = local.grant_access_role_to_functional_role
-}
 
-module "warehouses" {
-  source = "../../modules/snowflake/warehouses"
-  providers = {
-    snowflake = snowflake.tf_sysadmin
-  }
-
-  warehouses = local.warehouses
 }
