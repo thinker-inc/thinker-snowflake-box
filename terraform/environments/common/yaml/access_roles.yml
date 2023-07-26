@@ -1,28 +1,129 @@
 # Access Role 一覧
 # 書式：
 access_roles:
-  - name: analyst_rw
-    comment: create_analyst_rw
+  - name: datamart_dev_rw
+    comment: create datamart_dev_rw
 
+  - name: datamart_dev_r
+    comment: create datamart_dev_r
+
+  - name: datamart_prd_rw
+    comment: create datamart_prd_rw
+
+  - name: datamart_prd_r
+    comment: create datamart_prd_r
+
+  - name: dwh_dev_rw
+    comment: create dwh_dev_rw
+
+  - name: dwh_dev_r
+    comment: create dwh_dev_r
+
+  - name: dwh_prd_rw
+    comment: create dwh_prd_rw
+
+  - name: dwh_prd_r
+    comment: create dwh_prd_r
+
+  - name: rawdata_dev_rw
+    comment: create rawdata_dev_rw
+
+  - name: rawdata_dev_r
+    comment: create rawdata_dev_r
+
+  - name: rawdata_prd_rw
+    comment: create rawdata_prd_rw
+
+  - name: rawdata_prd_r
+    comment: create rawdata_prd_r
 
 # # オブジェクトに対する権限を付与する Access Role 一覧
 # # 書式：
 grant_on_object_to_access_role:
-  - name: DATABASE_DIESEL_DATAMART_USAGE # 一意な名前にする
-    type: DATABASE
-    parameter:
-      database_name: DIESEL_DATAMART
-      privilege: USAGE
-    roles:
-      - analyst_rw
-  - name: SCHEMA_DIESEL_DATAMART_DEV_USAGE # 一意な名前にする
-    type: SCHEMA
-    parameter:
-      database_name: DIESEL_DATAMART
-      schema_name: DEV
-      privilege: USAGE
-    roles:
-      - analyst_rw
+    - name: DATAMART_DEV_RW_GRANT_DATABASE_DIESEL_DATAMART_USAGE # 一意な名前にする
+      role: datamart_dev_rw
+      type: DATABASE
+      parameter:
+        object_name: DISEL_DATAMART
+        privileges:
+          - USAGE
+
+    - name: DATAMART_DEV_RW_GRANT_SCHEMA_DIESEL_DATAMART_DEV_USAGE # 一意な名前にする
+      role: datamart_dev_rw
+      type: SCHEMA
+      parameter:
+        object_name: DISEL_DATAMART.DEV
+        privileges:
+          - USAGE
+
+    - name: DATAMART_PRD_RW_GRANT_DATABASE_DIESEL_DATAMART_USAGE # 一意な名前にする
+      role: datamart_prd_rw
+      type: DATABASE
+      parameter:
+        object_name: DISEL_DATAMART
+        privileges:
+          - USAGE
+
+
+
+    # - name: SCHEMA_DIESEL_DATAMART_DEV_USAGE
+    #   role: datamart_dev_rw
+    #   type: SCHEMA
+    #   parameter:
+    #     object_name: DISEL_DWH
+    #     schema_name: DEV
+    #     privileges:
+    #       - USAGE
+
+#   - name: DATABASE_DIESEL_DATAMART_USAGE # 一意な名前にする
+#     type: DATABASE
+#     parameter:
+#       object_name: DIESEL_DATAMART
+#       privilege:
+#         - USAGE
+#     roles:
+#       - datamart_dev_rw
+#       - datamart_dev_r
+#       - datamart_prd_rw
+#       - datamart_prd_r
+
+  # - name: DATABASE_DIESEL_DWH_USAGE # 一意な名前にする
+  #   type: DATABASE
+  #   parameter:
+  #     object_name: DIESEL_DWH
+  #     privileges:
+  #       - USAGE
+  #   roles:
+  #     - dwh_dev_rw
+  #     - dwh_dev_r
+  #     - dwh_prd_rw
+  #     - dwh_prd_r
+
+  # - name: DATABASE_DIESEL_RAWDATA_USAGE # 一意な名前にする
+  #   type: DATABASE
+  #   parameter:
+  #     object_name: DIESEL_RAWDATA
+  #     privileges:
+  #       - USAGE
+  #   roles:
+  #     - rawdata_dev_rw
+  #     - rawdata_dev_r
+  #     - rawdata_prd_rw
+  #     - rawdata_prd_r
+
+  # - name: SCHEMA_DIESEL_DATAMART_DEV_USAGE # 一意な名前にする
+  #   type: SCHEMA
+  #   parameter:
+  #     object_name: DIESEL_DATAMART
+  #     schema_name: DEV
+  #     privileges:
+  #       - USAGE
+  #   roles:
+  #     - datamart_dev_rw
+  #     - datamart_dev_r
+  #     - datamart_prd_rw
+  #     - datamart_prd_r
+
 #       - <Access Role 1_2>
 #   - name: <object2>_<parameter2_1>_<parameter2_2>_...
 #     type: <object2>

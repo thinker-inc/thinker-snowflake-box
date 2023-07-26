@@ -1,17 +1,47 @@
 # Functional Role一覧
 # 書式：
 functional_roles:
-  - name: analyst
-    comment: Analyst only role
+  - name: data_scientist
+    comment: data scientist only role
+
+  - name: data_analyst
+    comment: data analyst only role
+
+  - name: data_engineer
+    comment: data engineer only role
+
+  - name: bi
+    comment: bi only role
+
+  - name: dbt
+    comment: dbt only role
+
+  - name: elt
+    comment: elt only role
 
 # Functional role を付与するユーザー一覧
 # 書式：
 grant_functional_roles_to_user:
-  - role_name: analyst
+  - role_name: data_scientist
     users:
-      - analyst_1
-  #     - <User 2_1>
-  # - role_name: <Functional RolE 2>
-  #   users:
-  #     - <User 1_2>
-  #     - <User 2_2>
+      - ds_user_1
+
+  - role_name: data_analyst
+    users:
+      - da_user_1
+
+  - role_name: data_engineer
+    users:
+      - de_user_1
+
+  - role_name: bi
+    users:
+      - bi_user
+
+  - role_name: dbt
+    users:
+      - dbt_user
+
+  - role_name: elt
+    users:
+      - elt_user

@@ -1,6 +1,11 @@
 variable "users" {
   type        = list(any)
-  description = "user roleリスト"
+  description = "user リスト"
+}
+
+variable "warehouses" {
+  type        = list(any)
+  description = "ウェアハウス リスト"
 }
 
 variable "functional_roles" {

@@ -1,6 +1,39 @@
-# Access Role 一覧
+# Warehouse 一覧
 # 書式：
 warehouses:
-  - name: analyst_warehouse
-    comment: analyst warehouse
+  - name: DS_WH
+    comment: for data scientist warehouse
     warehouse_size: xsmall
+    min_cluster_count: 1
+    max_cluster_count: 1
+    auto_suspend: 60
+  - name: DA_WH
+    comment: for data analyst warehouse
+    warehouse_size: xsmall
+    min_cluster_count: 1
+    max_cluster_count: 1
+    auto_suspend: 60
+  - name: DE_WH
+    comment: for data engineer warehouse
+    warehouse_size: xsmall
+    min_cluster_count: 1
+    max_cluster_count: 1
+    auto_suspend: 60
+  - name: BI_WH
+    comment: for BI warehouse
+    warehouse_size: xsmall
+    min_cluster_count: 1
+    max_cluster_count: 1
+    auto_suspend: 60
+  - name: DBT_WH
+    comment: for dbt warehouse
+    warehouse_size: xsmall
+    min_cluster_count: 1
+    max_cluster_count: 1
+    auto_suspend: 60
+  - name: ELT_WH
+    comment: for ELT warehouse
+    warehouse_size: xsmall
+    min_cluster_count: 1
+    max_cluster_count: 1
+    auto_suspend: 60

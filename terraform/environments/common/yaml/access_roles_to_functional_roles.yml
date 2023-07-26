@@ -1,11 +1,46 @@
 # Access role を付与する Functional role 一覧
 # 書式：
 grant_access_roles_to_functional_roles:
-   - access_role: analyst_rw
+   - access_roles: datamart_dev_rw
      functional_roles:
-        - analyst
-        # - <Functional Role 1_2>
-  #  - access_role: <Access Role 2>
-  #    functional_roles:
-  #       - <Functional Role 2_1>
-  #       - <Functional Role 2_2>
+         - data_engineer
+         - dbt
+   # - access_roles: datamart_dev_r
+   #   functional_roles:
+   - access_roles: datamart_prd_rw
+     functional_roles:
+         - data_scientist
+         - data_engineer
+         - dbt
+   - access_roles: datamart_prd_r
+     functional_roles:
+         - data_analyst
+         - bi
+   - access_roles: dwh_dev_rw
+     functional_roles:
+         - data_engineer
+         - dbt
+   # - access_roles: dwh_dev_r
+   #   functional_roles:
+   - access_roles: dwh_prd_rw
+     functional_roles:
+         - data_scientist
+         - data_engineer
+         - dbt
+   - access_roles: dwh_prd_r
+     functional_roles:
+         - data_analyst
+   - access_roles: rawdata_dev_rw
+     functional_roles:
+         - data_engineer
+         - elt
+   - access_roles: rawdata_dev_r
+     functional_roles:
+         - dbt
+   - access_roles: rawdata_prd_rw
+     functional_roles:
+         - data_engineer
+         - elt
+   - access_roles: rawdata_prd_r
+     functional_roles:
+         - dbt

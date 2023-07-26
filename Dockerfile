@@ -4,6 +4,6 @@ RUN wget https://releases.hashicorp.com/terraform/1.5.3/terraform_1.5.3_linux_am
     && unzip ./terraform_1.5.3_linux_amd64.zip -d /usr/local/bin \
     && rm ./terraform_1.5.3_linux_amd64.zip
 
+COPY ./terraform/ /usr/src/
+WORKDIR /usr/src/environments/common/
 CMD ["terraform", "init"]
-
-WORKDIR /usr/src/

@@ -1,44 +1,43 @@
 # on Database
-resource "snowflake_database_grant" "on_database_grant" {
+resource "snowflake_grant_privileges_to_role" "on_database_grant" {
   for_each = {
     for grant in var.grant_on_object_to_access_role : grant.name => {
-      database_name = grant.parameter.database_name
-      privilege     = grant.parameter.privilege
-      roles         = grant.roles
+      roles         = grant.role
+      object_name   = grant.parameter.object_name
+      privileges    = grant.parameter.privileges
     }
     if grant.type == "DATABASE"
   }
-  database_name = each.value.database_name
-  privilege     = each.value.privilege
-  roles         = each.value.roles
-  # 先に存在しなければならないが、参照していないので依存関係を付ける
-  depends_on = [snowflake_role.roles]
+  privileges = each.value.privileges
+  role_name  = each.value.roles
+  on_account_object {
+    object_type = "DATABASE"
+    object_name = each.value.object_name
+  }
 }
 
 # on Schema
-resource "snowflake_schema_grant" "on_schema_grant" {
+resource "snowflake_grant_privileges_to_role" "on_schema_grant" {
   for_each = {
     for grant in var.grant_on_object_to_access_role : grant.name => {
-      schema_name   = grant.parameter.schema_name
-      database_name = grant.parameter.database_name
-      privilege     = grant.parameter.privilege
-      roles         = grant.roles
+      roles         = grant.role
+      object_name   = grant.parameter.object_name
+      privileges    = grant.parameter.privileges
     }
     if grant.type == "SCHEMA"
   }
-  database_name = each.value.database_name
-  schema_name   = each.value.schema_name
-  privilege     = each.value.privilege
-  roles         = each.value.roles
-  # 先に存在しなければならないが、参照していないので依存関係を付ける
-  depends_on = [snowflake_role.roles]
+  privileges  = each.value.privileges
+  role_name   = each.value.roles
+  on_schema {
+    schema_name = each.value.object_name
+  }
 }
 
 # # on (future) table
 # resource "snowflake_table_grant" "on_table" {
 #   for_each = {
 #     for grant in var.grant_on_object_to_access_role : grant.name => {
-#       database_name = grant.parameter.database_name
+#       object_name = grant.parameter.object_name
 #       schema_name   = grant.parameter.schema_name
 #       table_name    = lookup(grant.parameter, "table_name", null)
 #       privilege     = grant.parameter.privilege
@@ -47,7 +46,7 @@ resource "snowflake_schema_grant" "on_schema_grant" {
 #     }
 #     if grant.type == "TABLE"
 #   }
-#   database_name = each.value.database_name
+#   object_name = each.value.object_name
 #   schema_name   = each.value.schema_name
 #   table_name    = each.value.table_name
 #   privilege     = each.value.privilege
