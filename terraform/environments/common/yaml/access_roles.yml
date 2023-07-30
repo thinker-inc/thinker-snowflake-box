@@ -201,7 +201,7 @@ grant_on_object_to_access_role:
         - TRUNCATE
         - DELETE
 
-  - name: DATAMART_R_GRANT_FUTURE_DIESEL_DATAMART_SCHEMA_SELECT # 一意な名前にする
+  - name: DATAMART_R_GRANT_FUTURE_TABLE_DIESEL_DATAMART_SCHEMA_SELECT # 一意な名前にする
     role: datamart_r
     type: TABLE
     parameter:
@@ -277,7 +277,96 @@ grant_on_object_to_access_role:
         - SELECT
 
 
-  # role に対して object_nameで指定したスキーマprivilegesを付与する
+  # grant future views (role に対して 指定したスキーマ内のビューに将来にわたってprivilegesを付与する)
+  - name: DATAMART_RW_GRANT_FUTURE_VIEW_DIESEL_DATAMART_SCHEMA_ALL # 一意な名前にする
+    role: datamart_rw
+    type: VIEW
+    parameter:
+      database_name: diesel_datamart
+      schema_name: schema
+      privileges:
+        - SELECT
+        - INSERT
+        - UPDATE
+        - TRUNCATE
+        - DELETE
+
+  - name: DATAMART_R_GRANT_FUTURE_VIEW_DIESEL_DATAMART_SCHEMA_SELECT # 一意な名前にする
+    role: datamart_r
+    type: VIEW
+    parameter:
+      database_name: diesel_datamart
+      schema_name: schema
+      privileges:
+        - SELECT
+
+  - name: DWH_RW_GRANT_FUTURE_VIEW_DIESEL_DWH_SCHEMA_ALL # 一意な名前にする
+    role: dwh_rw
+    type: VIEW
+    parameter:
+      database_name: diesel_dwh
+      schema_name: schema
+      privileges:
+        - SELECT
+        - INSERT
+        - UPDATE
+        - TRUNCATE
+        - DELETE
+
+  - name: DWH_R_GRANT_FUTURE_VIEW_DIESEL_DWH_SCHEMA_SELECT # 一意な名前にする
+    role: dwh_r
+    type: VIEW
+    parameter:
+      database_name: diesel_dwh
+      schema_name: schema
+      privileges:
+        - SELECT
+
+  - name: RAWDATA_RW_GRANT_FUTURE_VIEW_DIESEL_RAWDATA_USERBI_ALL # 一意な名前にする
+    role: rawdata_rw
+    type: VIEW
+    parameter:
+      database_name: diesel_rawdata
+      schema_name: user_bi
+      privileges:
+        - SELECT
+        - INSERT
+        - UPDATE
+        - TRUNCATE
+        - DELETE
+
+  - name: RAWDATA_R_GRANT_FUTURE_VIEW_DIESEL_RAWDATA_USERBI_SELECT # 一意な名前にする
+    role: rawdata_r
+    type: VIEW
+    parameter:
+      database_name: diesel_rawdata
+      schema_name: user_bi
+      privileges:
+        - SELECT
+
+  - name: RAWDATA_RW_GRANT_FUTURE_VIEW_DIESEL_RAWDATA_ACCESSLOG_ALL # 一意な名前にする
+    role: rawdata_rw
+    type: VIEW
+    parameter:
+      database_name: diesel_rawdata
+      schema_name: accesslog
+      privileges:
+        - SELECT
+        - INSERT
+        - UPDATE
+        - TRUNCATE
+        - DELETE
+
+  - name: RAWDATA_R_GRANT_FUTURE_VIEW_DIESEL_RAWDATA_ACCESSLOG_SELECT # 一意な名前にする
+    role: rawdata_r
+    type: VIEW
+    parameter:
+      database_name: diesel_rawdata
+      schema_name: accesslog
+      privileges:
+        - SELECT
+
+  # grant warehouse(role に対して object_nameで指定したウェアハウスのprivilegesを付与する)
   - name: DS_WH_USAGE_GRANT_WAREHOUSE_DS_WH_USAGE # 一意な名前にする
     role: ds_wh_usage
     type: WAREHOUSE
