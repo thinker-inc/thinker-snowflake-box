@@ -5,7 +5,7 @@ resource "snowflake_warehouse" "warehouses" {
     warehouse.name => warehouse
   }
 
-  name                  = each.value.name
+  name                  = upper("${terraform.workspace}_${each.value.name}")
   comment               = each.value.comment
   warehouse_size        = each.value.warehouse_size
   min_cluster_count     = each.value.min_cluster_count

@@ -3,17 +3,18 @@ resource "snowflake_grant_privileges_to_role" "on_database_grant" {
   for_each = {
     for grant in var.grant_on_object_to_access_role : grant.name => {
       roles         = grant.role
-      object_name   = grant.parameter.object_name
+      database_name = grant.parameter.database_name
       privileges    = grant.parameter.privileges
     }
-    if grant.type == "DATABASE"
+    if grant.type == "DATABASE" #|| true
   }
   privileges = each.value.privileges
-  role_name  = each.value.roles
+  role_name  = "${terraform.workspace}_${each.value.roles}"
   on_account_object {
     object_type = "DATABASE"
-    object_name = each.value.object_name
+    object_name = upper("${each.value.database_name}")
   }
+  depends_on = [snowflake_role.roles, snowflake_database.databases]
 }
 
 # on Schema
@@ -21,54 +22,87 @@ resource "snowflake_grant_privileges_to_role" "on_schema_grant" {
   for_each = {
     for grant in var.grant_on_object_to_access_role : grant.name => {
       roles         = grant.role
-      object_name   = grant.parameter.object_name
+      database_name = grant.parameter.database_name
+      schema_name   = grant.parameter.schema_name
       privileges    = grant.parameter.privileges
     }
     if grant.type == "SCHEMA"
   }
   privileges  = each.value.privileges
-  role_name   = each.value.roles
+  role_name   = upper("${terraform.workspace}_${each.value.roles}")
   on_schema {
-    schema_name = each.value.object_name
+    schema_name = upper("${each.value.database_name}.${terraform.workspace}_${each.value.schema_name}")
   }
+
+  depends_on = [snowflake_role.roles, snowflake_database.databases, snowflake_schema.schemas]
 }
 
-# # on (future) table
-# resource "snowflake_table_grant" "on_table" {
-#   for_each = {
-#     for grant in var.grant_on_object_to_access_role : grant.name => {
-#       object_name = grant.parameter.object_name
-#       schema_name   = grant.parameter.schema_name
-#       table_name    = lookup(grant.parameter, "table_name", null)
-#       privilege     = grant.parameter.privilege
-#       on_future     = lookup(grant.parameter, "on_future", null)
-#       roles         = grant.roles
-#     }
-#     if grant.type == "TABLE"
-#   }
-#   object_name = each.value.object_name
-#   schema_name   = each.value.schema_name
-#   table_name    = each.value.table_name
-#   privilege     = each.value.privilege
-#   on_future     = each.value.on_future
-#   roles         = each.value.roles
-#   # 先に存在しなければならないが、参照していないので依存関係を付ける
-#   depends_on = [snowflake_role.roles]
-# }
+# on Existing Table
+resource "snowflake_grant_privileges_to_role" "on_existing_table" {
+  for_each = {
+    for grant in var.grant_on_object_to_access_role : grant.name => {
+      roles         = grant.role
+      database_name = grant.parameter.database_name
+      schema_name   = grant.parameter.schema_name
+      privileges    = grant.parameter.privileges
+    }
+    if grant.type == "EXISTING_TABLE"
+  }
+  privileges  = each.value.privileges
+  role_name   = "${terraform.workspace}_${each.value.roles}"
+  on_schema_object {
+    all {
+      object_type_plural = "TABLES"
+      in_schema          = upper("${each.value.database_name}.${terraform.workspace}_${each.value.schema_name}")
+    }
+  }
+  depends_on = [snowflake_role.roles, snowflake_database.databases, snowflake_schema.schemas]
+}
 
-# # on warehouse
-# resource "snowflake_warehouse_grant" "on_warehouse_grant" {
-#   for_each = {
-#     for grant in var.grant_on_object_to_access_role : grant.name => {
-#       warehouse_name = grant.parameter.warehouse_name
-#       privilege      = grant.parameter.privilege
-#       roles          = grant.roles
-#     }
-#     if grant.type == "WAREHOUSE"
-#   }
-#   warehouse_name = each.value.warehouse_name
-#   privilege      = each.value.privilege
-#   roles          = each.value.roles
-#   # 先に存在しなければならないが、参照していないので依存関係を付ける
-#   depends_on = [snowflake_role.roles]
-# }
+# on future table
+resource "snowflake_grant_privileges_to_role" "on_table" {
+  for_each = {
+    for grant in var.grant_on_object_to_access_role : grant.name => {
+      roles         = grant.role
+      database_name = grant.parameter.database_name
+      schema_name   = grant.parameter.schema_name
+      privileges    = grant.parameter.privileges
+    }
+    if grant.type == "TABLE"
+  }
+  privileges  = each.value.privileges
+  role_name   = "${terraform.workspace}_${each.value.roles}"
+  on_schema_object{
+    future{
+      object_type_plural = "TABLES"
+      in_schema          = upper("${each.value.database_name}.${terraform.workspace}_${each.value.schema_name}")
+    }
+  }
+  # 先に存在しなければならないが、参照していないので依存関係を付ける
+  depends_on = [snowflake_role.roles, snowflake_database.databases, snowflake_schema.schemas]
+}
+
+# on view
+
+# on warehouse
+resource "snowflake_grant_privileges_to_role" "on_warehouse_grant" {
+  for_each = {
+    for grant in var.grant_on_object_to_access_role : grant.name => {
+      roles         = grant.role
+      object_name   = grant.parameter.object_name
+      privileges    = grant.parameter.privileges
+    }
+    if grant.type == "WAREHOUSE"
+  }
+  privileges = each.value.privileges
+  role_name  = upper("${terraform.workspace}_${each.value.roles}")
+  on_account_object {
+    object_type = "WAREHOUSE"
+    object_name = upper("${terraform.workspace}_${each.value.object_name}")
+  }
+  depends_on = [snowflake_role.roles]
+}
+
+# on task
+
+# on pipe

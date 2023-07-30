@@ -6,6 +6,8 @@ module "functional_and_access_roles" {
   }
 
   users                                  = local.users
+  databases                              = local.databases
+  schemas                                = local.schemas
   warehouses                             = local.warehouses
   functional_roles                       = local.functional_roles
   grant_functional_roles_to_user         = local.grant_functional_roles_to_user

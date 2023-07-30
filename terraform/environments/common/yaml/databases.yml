@@ -1,0 +1,33 @@
+databases:
+  - name: diesel_datamart
+    comment: "create datamart"
+    data_retention_time_in_days: 1
+
+  - name: diesel_dwh
+    comment: "create dwh"
+    data_retention_time_in_days: 1
+
+  - name: diesel_rawdata
+    comment: "create rawdata"
+    data_retention_time_in_days: 1
+
+schemas:
+  - name: diesel_datamart.schema # 一意な名前
+    database: diesel_datamart
+    schema: schema
+    comment: "create datamart schema"
+
+  - name: diesel_dwh.schema # 一意な名前
+    database: diesel_dwh
+    schema: schema
+    comment: "create dwh schema"
+
+  - name: diesel_rawdata.user_bi # 一意な名前
+    database: diesel_rawdata
+    schema: user_bi
+    comment: "create rawdata user_bi schema"
+
+  - name: diesel_rawdata.accesslog # 一意な名前
+    database: diesel_rawdata
+    schema: accesslog
+    comment: "create rawdata accesslog schema"

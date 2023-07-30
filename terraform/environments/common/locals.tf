@@ -4,6 +4,10 @@ locals {
     file("${path.root}/yaml/users.yml")
   )
 
+  databases_yml = yamldecode(
+    file("${path.root}/yaml/databases.yml")
+  )
+
   functional_roles_yml = yamldecode(
     file("${path.root}/yaml/functional_roles.yml")
   )
@@ -22,7 +26,12 @@ locals {
 
   # user のリスト
   users = local.users_yml["users"]
-  
+
+  # database のリスト
+  databases = local.databases_yml["databases"]
+
+  # schemaのリスト
+  schemas = local.databases_yml["schemas"]
   # Functional role のリスト
   functional_roles = local.functional_roles_yml["functional_roles"]
   # grant Functional role to ユーザーのリスト

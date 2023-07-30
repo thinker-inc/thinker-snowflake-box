@@ -1,46 +1,57 @@
 # Access role を付与する Functional role 一覧
 # 書式：
 grant_access_roles_to_functional_roles:
-   - access_roles: datamart_dev_rw
-     functional_roles:
-         - data_engineer
-         - dbt
-   # - access_roles: datamart_dev_r
-   #   functional_roles:
-   - access_roles: datamart_prd_rw
-     functional_roles:
-         - data_scientist
-         - data_engineer
-         - dbt
-   - access_roles: datamart_prd_r
-     functional_roles:
-         - data_analyst
-         - bi
-   - access_roles: dwh_dev_rw
-     functional_roles:
-         - data_engineer
-         - dbt
-   # - access_roles: dwh_dev_r
-   #   functional_roles:
-   - access_roles: dwh_prd_rw
-     functional_roles:
-         - data_scientist
-         - data_engineer
-         - dbt
-   - access_roles: dwh_prd_r
-     functional_roles:
-         - data_analyst
-   - access_roles: rawdata_dev_rw
-     functional_roles:
-         - data_engineer
-         - elt
-   - access_roles: rawdata_dev_r
-     functional_roles:
-         - dbt
-   - access_roles: rawdata_prd_rw
-     functional_roles:
-         - data_engineer
-         - elt
-   - access_roles: rawdata_prd_r
-     functional_roles:
-         - dbt
+  - access_roles: datamart_rw
+    functional_roles:
+      - data_scientist
+      - data_engineer
+      - dbt
+
+  - access_roles: datamart_r
+    functional_roles:
+      - data_analyst
+      - bi
+
+  - access_roles: dwh_rw
+    functional_roles:
+      - data_scientist
+      - data_engineer
+      - dbt
+
+  - access_roles: dwh_r
+    functional_roles:
+      - data_analyst
+
+  - access_roles: rawdata_rw
+    functional_roles:
+      - data_engineer
+      - elt
+
+  - access_roles: rawdata_r
+    functional_roles:
+      - data_scientist
+      - dbt
+
+  - access_roles: ds_wh_usage
+    functional_roles:
+      - data_scientist
+
+  - access_roles: da_wh_usage
+    functional_roles:
+      - data_analyst
+
+  - access_roles: de_wh_usage
+    functional_roles:
+      - data_engineer
+
+  - access_roles: bi_wh_usage
+    functional_roles:
+      - bi
+
+  - access_roles: dbt_wh_usage
+    functional_roles:
+      - dbt
+
+  - access_roles: elt_wh_usage
+    functional_roles:
+      - elt

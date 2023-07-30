@@ -5,7 +5,7 @@ resource "snowflake_user" "users" {
     user.name => user
   }
   
-  name          = each.value.name
+  name          = upper(each.value.name)
   login_name    = each.value.login_name
   comment       = each.value.comment
   # password  = each.value.password

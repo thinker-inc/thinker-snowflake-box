@@ -1,0 +1,6 @@
+account   = "GS97040"
+username  = "TERRAFORM_USER_TEST"
+password  = "_dQkUC#fG(4m"
+region    = "ap-northeast-1.aws"
+role      = "TERRAFORM"
+warehouse = "TERRAFORM_WH"
