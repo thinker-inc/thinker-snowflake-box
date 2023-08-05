@@ -9,7 +9,7 @@ resource "snowflake_grant_privileges_to_role" "on_database_grant" {
     if grant.type == "DATABASE" #|| true
   }
   privileges = each.value.privileges
-  role_name  = "${terraform.workspace}_${each.value.roles}"
+  role_name  = upper("${terraform.workspace}_${each.value.roles}")
   on_account_object {
     object_type = "DATABASE"
     object_name = upper("${each.value.database_name}")
@@ -49,7 +49,7 @@ resource "snowflake_grant_privileges_to_role" "on_existing_table" {
     if grant.type == "EXISTING_TABLE"
   }
   privileges  = each.value.privileges
-  role_name   = "${terraform.workspace}_${each.value.roles}"
+  role_name   = upper("${terraform.workspace}_${each.value.roles}")
   on_schema_object {
     all {
       object_type_plural = "TABLES"
@@ -71,7 +71,7 @@ resource "snowflake_grant_privileges_to_role" "on_table" {
     if grant.type == "TABLE"
   }
   privileges  = each.value.privileges
-  role_name   = "${terraform.workspace}_${each.value.roles}"
+  role_name   = upper("${terraform.workspace}_${each.value.roles}")
   on_schema_object{
     future{
       object_type_plural = "TABLES"
@@ -94,7 +94,7 @@ resource "snowflake_grant_privileges_to_role" "on_view" {
     if grant.type == "VIEW"
   }
   privileges  = each.value.privileges
-  role_name   = "${terraform.workspace}_${each.value.roles}"
+  role_name   = upper("${terraform.workspace}_${each.value.roles}")
   on_schema_object{
     future{
       object_type_plural = "VIEWS"

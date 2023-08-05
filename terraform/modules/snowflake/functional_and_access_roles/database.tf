@@ -16,4 +16,6 @@ resource "snowflake_schema" "schemas" {
   database              = upper("${each.value.database}")
   name                  = upper("${terraform.workspace}_${each.value.schema}")
   comment               = each.value.comment
+
+  depends_on = [snowflake_database.databases]
 }

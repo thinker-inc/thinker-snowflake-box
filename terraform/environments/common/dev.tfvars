@@ -1,5 +1,5 @@
-account   = "GS97040"
-username  = "TERRAFORM_USER_TEST"
+account   = "RX08018"
+username  = "TERRAFORM_USER"
 password  = "_dQkUC#fG(4m"
 region    = "ap-northeast-1.aws"
 role      = "TERRAFORM"
