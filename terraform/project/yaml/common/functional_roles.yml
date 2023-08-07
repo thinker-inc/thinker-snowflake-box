@@ -22,26 +22,32 @@ functional_roles:
 # Functional role を付与するユーザー一覧
 # 書式：
 grant_functional_roles_to_user:
-  - role_name: data_scientist
+  - name: data_scientist
+    role_name: data_scientist
     users:
       - ds_user_1
 
-  - role_name: data_analyst
+  - name: data_analyst
+    role_name: data_analyst
     users:
       - da_user_1
 
-  - role_name: data_engineer
+  - name: data_engineer
+    role_name: data_engineer
     users:
       - de_user_1
 
-  - role_name: bi
+  - name: bi
+    role_name: bi
     users:
       - bi_user
 
-  - role_name: dbt
+  - name: dbt
+    role_name: dbt
     users:
       - dbt_user
 
-  - role_name: elt
+  - name: elt
+    role_name: elt
     users:
       - elt_user
