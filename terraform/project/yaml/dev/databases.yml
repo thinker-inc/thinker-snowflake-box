@@ -1,0 +1,4 @@
+databases:
+  - name: test_db
+    comment: "create datamart"
+    data_retention_time_in_days: 1

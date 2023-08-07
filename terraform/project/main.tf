@@ -1,6 +1,6 @@
 # Functional roleとAccess roleを作成
 module "functional_and_access_roles" {
-  source = "../../modules/snowflake/functional_and_access_roles"
+  source = "../modules/snowflake/functional_and_access_roles"
   providers = {
     snowflake = snowflake.terraform
   }
