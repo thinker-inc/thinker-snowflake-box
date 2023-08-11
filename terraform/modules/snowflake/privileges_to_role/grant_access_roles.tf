@@ -14,7 +14,6 @@ resource "snowflake_grant_privileges_to_role" "on_database_grant" {
     object_type = "DATABASE"
     object_name = upper("${each.value.database_name}")
   }
-  depends_on = [snowflake_role.roles, snowflake_database.databases]
 }
 
 # on Schema
@@ -33,8 +32,6 @@ resource "snowflake_grant_privileges_to_role" "on_schema_grant" {
   on_schema {
     schema_name = upper("${each.value.database_name}.${terraform.workspace}_${each.value.schema_name}")
   }
-
-  depends_on = [snowflake_role.roles, snowflake_database.databases, snowflake_schema.schemas]
 }
 
 # on Existing Table
@@ -56,7 +53,6 @@ resource "snowflake_grant_privileges_to_role" "on_existing_table" {
       in_schema          = upper("${each.value.database_name}.${terraform.workspace}_${each.value.schema_name}")
     }
   }
-  depends_on = [snowflake_role.roles, snowflake_database.databases, snowflake_schema.schemas]
 }
 
 # on future table
@@ -78,8 +74,6 @@ resource "snowflake_grant_privileges_to_role" "on_table" {
       in_schema          = upper("${each.value.database_name}.${terraform.workspace}_${each.value.schema_name}")
     }
   }
-  # 先に存在しなければならないが、参照していないので依存関係を付ける
-  depends_on = [snowflake_role.roles, snowflake_database.databases, snowflake_schema.schemas]
 }
 
 # on view
@@ -101,8 +95,6 @@ resource "snowflake_grant_privileges_to_role" "on_view" {
       in_schema          = upper("${each.value.database_name}.${terraform.workspace}_${each.value.schema_name}")
     }
   }
-  # 先に存在しなければならないが、参照していないので依存関係を付ける
-  depends_on = [snowflake_role.roles, snowflake_database.databases, snowflake_schema.schemas]
 }
 
 # on warehouse
@@ -121,7 +113,6 @@ resource "snowflake_grant_privileges_to_role" "on_warehouse_grant" {
     object_type = "WAREHOUSE"
     object_name = upper("${terraform.workspace}_${each.value.object_name}")
   }
-  depends_on = [snowflake_role.roles]
 }
 
 # on task

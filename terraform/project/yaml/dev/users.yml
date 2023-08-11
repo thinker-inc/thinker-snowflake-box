@@ -2,7 +2,7 @@
 # 書式：
 users:
   - name: ds_user_2
-    login_name: ds_user_1
+    login_name: ds_user_2
     default_warehouse: "ds_wh"
     default_role: "data_scientist"
     comment: "A user of data scientist"
