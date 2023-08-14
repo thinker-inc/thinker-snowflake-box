@@ -1,0 +1,25 @@
+# Functional Role一覧
+# functional_roles:
+  # ***********書式**********
+  # - name: FROLE_NAME # 一意な名前
+  #   # optional
+  #   comment: hoge # string
+  # *********************
+
+#   - name: data_scientist
+#     comment: data scientist only role
+
+  # - name: data_analyst
+  #   comment: data analyst only role
+
+  # - name: data_engineer
+  #   comment: data engineer only role
+
+  # - name: bi
+  #   comment: bi only role
+
+  # - name: dbt
+  #   comment: dbt only role
+
+  # - name: elt
+  #   comment: elt only role

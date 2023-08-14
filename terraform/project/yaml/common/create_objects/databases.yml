@@ -1,0 +1,20 @@
+databases:
+  # ***********書式**********
+  # - name: DATABASE_NAME # 一意な名前
+  #   # optional
+  #   comment: # string
+  #   data_retention_time_in_days: # integer
+  #   is_transient: # boolean
+  # *********************
+
+  - name: diesel_datamart
+    comment: "create datamart"
+    data_retention_time_in_days: 1
+
+  # - name: diesel_dwh
+  #   comment: "create dwh"
+  #   data_retention_time_in_days: 1
+
+  # - name: diesel_rawdata
+  #   comment: "create rawdata"
+  #   data_retention_time_in_days: 1

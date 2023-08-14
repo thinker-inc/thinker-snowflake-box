@@ -1,7 +1,0 @@
-# Access role を付与する Functional role 一覧
-# 書式：
-grant_access_roles_to_functional_roles:
-  - name: datamart_rw_dev
-    access_roles: datamart_rw
-    functional_roles:
-      - bi

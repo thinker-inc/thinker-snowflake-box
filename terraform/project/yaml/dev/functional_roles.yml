@@ -1,7 +1,0 @@
-# Functional role を付与するユーザー一覧
-# 書式：
-grant_functional_roles_to_user:
-  - name: data_scientist_dev
-    role_name: data_scientist
-    users:
-      - ds_user_2
