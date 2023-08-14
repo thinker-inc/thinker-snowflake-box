@@ -3,7 +3,7 @@
   # ***********書式**********
   # - name: WAREHOUSE_NAME # 一意な名前
   #   # required
-  #   warehouse_size: XSMALL # XSMALL | SMALL | MEDIUM | LARGE | XLARGE | XXLARGE | XXXLARGE | X4LARGE | X5LARGE | X6LARGE
+    # warehouse_size: SMALL # XSMALL | SMALL | MEDIUM | LARGE | XLARGE | XXLARGE | XXXLARGE | X4LARGE | X5LARGE | X6LARGE
     # # optional
     # auto_suspend: #Number
     # comment: #String
