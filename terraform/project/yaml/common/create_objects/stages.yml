@@ -1,0 +1,20 @@
+# stages:
+#   # ***********書式**********
+#   - name: DATABASE_NAME # 一意な名前
+#     # Required
+#     stage_name: # String
+#     database: # String
+#     schema: # String
+#     # Optional
+#     aws_external_id: # String
+#     comment: # String
+#     copy_options: # String
+#     credentials: # String, Sensitive
+#     directory: # String
+#     encryption: # String
+#     file_format: # String
+#     snowflake_iam_user: # String
+#     storage_integration: # String
+#     tag: # Block List, Deprecated
+#     url: # String
+#   # *********************

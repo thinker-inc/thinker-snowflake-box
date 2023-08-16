@@ -1,14 +1,14 @@
-schemas:
+# schemas:
   # ***********書式**********
-  - name: DATABASE.schema # 一意な名前
-    # required
-    database: DATABASE_NAME
-    schema: SCHEMA
-    # # optioonal
-    # comment: # stirings
-    # data_retention_days: # integer
-    # is_managed: # boolean
-    # is_transient: # boolean
+  # - name: DATABASE.schema # 一意な名前
+  #   # required
+  #   database: DATABASE_NAME
+  #   schema: SCHEMA
+  #   # optioonal
+  #   comment: # stirings
+  #   data_retention_days: # integer
+  #   is_managed: # boolean
+  #   is_transient: # boolean
   # *********************
 
   # - name: diesel_datamart.schema # 一意な名前

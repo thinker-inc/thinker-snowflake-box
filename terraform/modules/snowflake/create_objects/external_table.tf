@@ -3,19 +3,18 @@ resource "snowflake_external_table" "external_tables" {
     for table in var.external_tables : table.name => table
   }
 
-  database    = each.value.database
-  schema      = each.value.schema
-  name        = each.value.name
+  database    = upper(each.value.database)
+  schema      = upper("${terraform.workspace}_${each.value.schema}")
+  name        = upper(each.value.exteranl_table_name)
 
-  comment     = contains(keys(each.value), "comment") ? each.value.comment : "aa"
   file_format = each.value.file_format
   location    = each.value.location
+  pattern     = each.value.pattern
+
 
   auto_refresh       = contains(keys(each.value), "auto_refresh") ? each.value.auto_refresh : true
   aws_sns_topic      = contains(keys(each.value), "aws_sns_topic") ? each.value.aws_sns_topic : ""
   comment            = contains(keys(each.value), "comment") ? each.value.comment : ""
-  partition_by       = contains(keys(each.value), "partition_by") ? each.value.partition_by :
-  pattern            = contains(keys(each.value), "pattern") ? each.value.pattern :
 
 
   dynamic "column" {
@@ -29,7 +28,7 @@ resource "snowflake_external_table" "external_tables" {
 
   depends_on = [
     snowflake_database.databases,
-    snowflake_schema.schema,
+    snowflake_schema.schemas,
     snowflake_file_format.csv_file_format,
     snowflake_file_format.json_file_format,
     snowflake_file_format.avro_file_format,

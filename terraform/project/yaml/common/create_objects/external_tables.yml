@@ -1,7 +1,8 @@
 # external_tables:
   # ***********書式**********
-  # - name: external_table # String
+  # - name: external_table # 一意な名前
   #   # required
+  #   exteranl_table_name: # String
   #   column:
   #     - name: id # String
   #       type: int # e.g. VARIANT
@@ -16,5 +17,4 @@
   #   auto_refresh: # Boolean
   #   aws_sns_topic: # String
   #   comment: # String
-  #   partition_by: # List of String
   # *********************

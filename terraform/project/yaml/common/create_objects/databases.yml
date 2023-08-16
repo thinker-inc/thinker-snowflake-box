@@ -1,6 +1,6 @@
-databases:
+# databases:
   # ***********書式**********
-  - name: DATABASE_NAME # 一意な名前
+  # - name: DATABASE_NAME # 一意な名前
     # # optional
     # comment: # string
     # data_retention_time_in_days: # integer

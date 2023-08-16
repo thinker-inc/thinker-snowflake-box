@@ -1,0 +1,35 @@
+# policies:
+#   # ***********書式**********
+#   # マスキングポリシー
+#   # Required
+#   - name: test # 一意な名前
+#     policy_name: policy # String
+#     type: MASKING # String (MASKING | ROWACCESS )
+#     database: DEV_LDW # String
+#     schema: test # String
+#     masking_expression: "case when current_role() in ('ACCOUNTADMIN') then val else sha2(val, 512) end" # String
+#     return_data_type: VARCHAR # String
+#     signature: # Block List, Min: 1, Max: 1
+#       - name: val # String
+#         type: VARCHAR # String
+#     # # Optional
+#     # comment: # String
+#     # exempt_other_policies: # Boolean
+#     # if_not_exists: # Boolean
+#     # or_replace: # Boolean
+#   # *********************
+#   # 行アクセスポリシー
+#   # Required
+#   - name: test # 一意な名前
+#     policy_name: policy # String
+#     type: ROWACCESS # String (MASKING | ROWACCESS )
+#     database: # String
+#     schema: # String
+#     row_access_expression: # String
+#     signature:
+#       # column_name: datatype
+#       A: VARCHAR
+#       B: VARCHAR
+#     # Optional
+#     comment: # String  
+#   # *********************
