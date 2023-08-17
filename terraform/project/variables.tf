@@ -1,23 +1,23 @@
-variable "account" {
-  description = "Snowflake account"
-}
+# variable "account" {
+#   description = "Snowflake account"
+# }
 
-variable "username" {
-  description = "Snowflake username"
-}
+# variable "username" {
+#   description = "Snowflake username"
+# }
 
-variable "password" {
-  description = "Snowflake password"
-}
+# variable "password" {
+#   description = "Snowflake password"
+# }
 
-variable "region" {
-  description = "Snowflake region"
-}
+# variable "region" {
+#   description = "Snowflake region"
+# }
 
-variable "role" {
-  description = "Snowflake role"
-}
+# variable "role" {
+#   description = "Snowflake role"
+# }
 
-variable "warehouse" {
-  description = "Snowflake warehouse"
-}
+# variable "warehouse" {
+#   description = "Snowflake warehouse"
+# }
