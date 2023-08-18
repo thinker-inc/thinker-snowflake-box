@@ -1,13 +1,10 @@
 # Roleを作成
 resource "snowflake_role" "roles" {
   for_each = {
-    for role in concat(var.functional_roles, var.access_roles) : role.name => {
-      name    = role.name
-      comment = contains(keys(role), "comment") ? role.comment : ""
-    }
+    for role in concat(var.functional_roles, var.access_roles) : role.name => role
   }
-  name    = upper("${terraform.workspace}_${each.value.name}")
-  comment = each.value.comment
+  name    = each.value.name
+  comment = contains(keys(each.value), "comment") ? each.value.comment : ""
 }
 
 # SYSADMIN にぶら下げる

@@ -165,6 +165,21 @@ locals {
     try(local.stages_env_yml["stages"], [])
   )
 
+  # ----- storage_integration -----
+  storage_integrations_yml = try(
+    yamldecode(file("${path.root}/yaml/common/create_objects/storage_integrations.yml")),
+    {storage_integrations:[]}
+  )
+  storage_integrations_env_yml = try(
+    yamldecode(file("${path.root}/yaml/${terraform.workspace}/create_objects/storage_integrations.yml")),
+    {storage_integrations:[]}
+  )
+
+  storage_integrations = concat(
+    try(local.storage_integrations_yml["storage_integrations"], []),
+    try(local.storage_integrations_env_yml["storage_integrations"], [])
+  )
+
   # ----- stream -----
   streams_yml = try(
     yamldecode(file("${path.root}/yaml/common/create_objects/streams.yml")),
@@ -335,6 +350,21 @@ locals {
     try(local.stage_privileges_env_yml["stage_privileges"], [])
   )
 
+  # ----- storage_integration privileges -----
+  storage_integration_privileges_yml = try(
+    yamldecode(file("${path.root}/yaml/common/privileges_to_role/storage_integration_privileges.yml")),
+    {storage_integration_privileges:[]}
+  )
+  storage_integration_privileges_env_yml = try(
+    yamldecode(file("${path.root}/yaml/${terraform.workspace}/privileges_to_role/storage_integration_privileges.yml")),
+    {storage_integration_privileges:[]}
+  )
+
+  storage_integration_privileges = concat(
+    try(local.storage_integration_privileges_yml["storage_integration_privileges"], []),
+    try(local.storage_integration_privileges_env_yml["storage_integration_privileges"], [])
+  )
+
   # ----- stream privileges -----
   stream_privileges_yml = try(
     yamldecode(file("${path.root}/yaml/common/privileges_to_role/stream_privileges.yml")),
@@ -402,6 +432,7 @@ locals {
     local.fileformat_privileges,
     local.pipe_privileges,
     local.stage_privileges,
+    local.storage_integration_privileges,
     local.stream_privileges,
     local.external_table_privileges,
     local.task_privileges,

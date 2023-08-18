@@ -1,20 +1,20 @@
 # external_tables:
-  # ***********書式**********
-  # - name: external_table # 一意な名前
-  #   # required
-  #   exteranl_table_name: # String
-  #   column:
-  #     - name: id # String
-  #       type: int # e.g. VARIANT
-  #     - name: data
-  #       type: text
-  #   database: db # String
-  #   file_format: # String
-  #   schema: schema # String
-  #   location: # String
-  #   pattern: #String path to file(regx)
-  #   # optional
-  #   auto_refresh: # Boolean
-  #   aws_sns_topic: # String
-  #   comment: # String
-  # *********************
+#   # ***********書式**********
+#   - name: external_table # 一意な名前
+#     # required
+#     exteranl_table_name: # String
+#     column:
+#       - name: id # String
+#         type: int # e.g. VARIANT
+#       - name: data
+#         type: text
+#     database: db # String
+#     file_format: # String
+#     schema: schema # String
+#     location: # String
+#     pattern: #String path to file(regx)
+#     # optional
+#     auto_refresh: # Boolean
+#     aws_sns_topic: # String
+#     comment: # String
+#   # *********************

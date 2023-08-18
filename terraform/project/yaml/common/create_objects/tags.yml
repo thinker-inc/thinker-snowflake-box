@@ -1,0 +1,13 @@
+# tags:
+# #   # ***********書式**********
+#   - name: TAG # String # 一意な名前
+#     # Required
+#     tag_name: TAG # String
+#     database: db # String
+#     schema: schema # String
+#     # # Optional
+#     # allowed_values: # List of String
+#     #   - a
+#     #   - b
+#     # comment: # String
+# #   # *********************

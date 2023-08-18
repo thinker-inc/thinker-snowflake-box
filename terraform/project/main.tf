@@ -16,6 +16,7 @@ module "create_objects" {
   policies                               = local.policies
   tags                                   = local.tags
   stages                                 = local.stages
+  storage_integrations                   = local.storage_integrations
   streams                                = local.streams
   external_tables                        = local.external_tables
   tasks                                  = local.tasks

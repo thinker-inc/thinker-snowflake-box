@@ -1,10 +1,10 @@
 # Access Role 一覧
 # access_roles:
-  # ***********書式**********
+  # # ***********書式**********
   # - name: AROLE_NAME # 一意な名前
   #   # optional
   #   comment: hoge # string
-  # *********************
+  # # *********************
 
   # - name: datamart_rw
 #     comment: create datamart_rw

@@ -1,19 +1,19 @@
 # pipes:
-  # ***********書式**********
-  # - name: PIPE_NAME # 一意な名前
-  #   # Required
-  #   pipe_name: pipename #String
-  #   copy_statement: "" #String (COPY INTO statement)
-  #   database: db #String
-  #   schema: schema #String
-  #   type:  # String # S3 | GCS | Azure
-  #   # Optional
-  #   auto_ingest: #Boolean
-  #   comment: #String
-  #   # Optional Use S3
-  #   aws_sns_topic_arn: "" #String
-  #   # Optional Use GCS or Azure
-  #   integration: #String
-  #   # Optional Use Error notification (pipes.tfの追記も必要)
-  #   error_integration: #String
-  # *********************
+#   # ***********書式**********
+#   - name: PIPE_NAME # 一意な名前
+#     # Required
+#     pipe_name: pipename #String
+#     copy_statement: "" #String (COPY INTO statement)
+#     database: db #String
+#     schema: schema #String
+#     type: S3 # String # S3 | GCS | AZURE
+#     # Optional
+#     # auto_ingest: #Boolean
+#     # comment: #String
+#     # # Optional Use S3
+#     aws_sns_topic_arn: "" #String
+#     # # Optional Use GCS or AZURE
+#     # integration: #String
+#     # # Optional Use Error notification (pipes.tfの追記も必要)
+#     # error_integration: #String
+#   # *********************

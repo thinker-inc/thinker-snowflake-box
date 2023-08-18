@@ -53,6 +53,11 @@ variable "stages" {
   description = "stages リスト"
 }
 
+variable "storage_integrations" {
+  type        = list(any)
+  description = "stages リスト"
+}
+
 variable "streams" {
   type        = list(any)
   description = "streams リスト"

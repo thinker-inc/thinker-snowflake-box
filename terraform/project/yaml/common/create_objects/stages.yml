@@ -1,20 +1,18 @@
 # stages:
 #   # ***********書式**********
-#   - name: DATABASE_NAME # 一意な名前
+#   - name: STAGE_NAME # 一意な名前
 #     # Required
-#     stage_name: # String
-#     database: # String
-#     schema: # String
-#     # Optional
-#     aws_external_id: # String
-#     comment: # String
-#     copy_options: # String
-#     credentials: # String, Sensitive
-#     directory: # String
-#     encryption: # String
-#     file_format: # String
-#     snowflake_iam_user: # String
-#     storage_integration: # String
-#     tag: # Block List, Deprecated
-#     url: # String
+#     type: INTERNAL # String ( INTERNAL | S3 | GCS | AZURE)
+#     stage_name: STAGE_NAME # String
+#     database: db # String
+#     schema: schema # String
+#     # # Optional
+#     # copy_options: # String (CONTINUE | SKIP_FILE | SKIP_FILE_num | 'SKIP_FILE_num%' | ABORT_STATEMENT)
+#     # comment: # String
+#     # encryption: # String
+#     # file_format: # String
+
+#     # # External Stage Params
+#     # storage_integration: # String
+#     # url: "" # String
 #   # *********************
