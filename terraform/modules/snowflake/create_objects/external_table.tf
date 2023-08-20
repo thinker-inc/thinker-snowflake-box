@@ -13,7 +13,7 @@ resource "snowflake_external_table" "external_tables" {
 
 
   auto_refresh       = contains(keys(each.value), "auto_refresh") ? each.value.auto_refresh : true
-  aws_sns_topic      = contains(keys(each.value), "aws_sns_topic") ? each.value.aws_sns_topic : ""
+  aws_sns_topic      = contains(keys(each.value), "aws_sns_topic") ? each.value.aws_sns_topic : null
   comment            = contains(keys(each.value), "comment") ? each.value.comment : ""
 
 
@@ -29,6 +29,7 @@ resource "snowflake_external_table" "external_tables" {
   depends_on = [
     snowflake_database.databases,
     snowflake_schema.schemas,
+    snowflake_stage.stages,
     snowflake_file_format.csv_file_format,
     snowflake_file_format.json_file_format,
     snowflake_file_format.avro_file_format,

@@ -1,27 +1,27 @@
-tasks:
-# #   # ***********書式**********
-  - name: TASK # 一意な名前
-    # Required
-    task_name: TASK # String
-    database: db # String
-    schema: schema # String
-    sql_statement: "" # String
-    # Either timebase OR DAG
-    # schedule: "0 0 1 * *" # String
-    after: # List of String
-      - a
-      - b
-    # Either serveless or warehouse
-    # warehouse: # String
-    # user_task_managed_initial_warehouse_size: XSMALL # String
+# tasks:
+# # #   # ***********書式**********
+#   - name: TASK # 一意な名前
+#     # Required
+#     task_name: TASK # String
+#     database: db # String
+#     schema: schema # String
+#     sql_statement: "" # String
+#     # Either timebase OR DAG
+#     # schedule: "0 0 1 * *" # String
+#     after: # List of String
+#       - a
+#       - b
+#     # Either serveless or warehouse
+#     # warehouse: # String
+#     # user_task_managed_initial_warehouse_size: XSMALL # String
 
-    # # Optional
-    # comment: # String      
-    # allow_overlapping_execution: # Boolean
-    # enabled: # Boolean
-    # user_task_timeout_ms: # Number
-    # warehouse: # String
-    # when: # String
-    # if need notificaations task.tf の変更も必要
-    # error_integration: # String
-# #   # *********************
+#     # # Optional
+#     # comment: # String      
+#     # allow_overlapping_execution: # Boolean
+#     # enabled: # Boolean
+#     # user_task_timeout_ms: # Number
+#     # warehouse: # String
+#     # when: # String
+#     # if need notificaations task.tf の変更も必要
+#     # error_integration: # String
+# # #   # *********************

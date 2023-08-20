@@ -1,10 +1,21 @@
-# # # オブジェクトに対する権限を付与する Access Role 一覧
-# # # 書式：
-# grant_on_object_to_access_role:
-#   # grant database (role に対して 指定したデータベースのprivilegesを付与する)
+# ##################################
+# ### database privileges(role に対して 指定したデータベースのprivilegesを付与する)
+# ##################################
+# database_privileges:
+# ### ***********書式**********
+#   - name: DATABASE_PRIVILEGE # 一意な名前にする
+#     role: role_name # String
+#     class: ACCOUNT OBJECT # String
+#     type: DATABASE # String
+#     parameter: # Object
+#       object_name: database_name # String
+#       privileges: # List(String) (MODIFY | MONITOR | USAGE | REFERENCE_USAGE | IMPORTED PRIVILEGES)
+#         - USAGE
+# ### ************************
+
 #   - name: DATAMART_RW_GRANT_DATABASE_DIESEL_DATAMART_USAGE # 一意な名前にする
 #     role: datamart_rw
-#     type: DATABASE
+#     class: DATABASE
 #     parameter:
 #       database_name: diesel_datamart
 #       privileges:
@@ -12,7 +23,7 @@
 
 #   - name: DATAMART_R_GRANT_DATABASE_DIESEL_DATAMART_USAGE # 一意な名前にする
 #     role: datamart_r
-#     type: DATABASE
+#     class: DATABASE
 #     parameter:
 #       database_name: diesel_datamart
 #       privileges:
@@ -20,7 +31,7 @@
 
 #   - name: DWH_RW_GRANT_DATABASE_DIESEL_DWH_USAGE # 一意な名前にする
 #     role: dwh_rw
-#     type: DATABASE
+#     class: DATABASE
 #     parameter:
 #       database_name: diesel_dwh
 #       privileges:
@@ -28,7 +39,7 @@
 
 #   - name: DWH_R_GRANT_DATABASE_DIESEL_DWH_USAGE # 一意な名前にする
 #     role: dwh_r
-#     type: DATABASE
+#     class: DATABASE
 #     parameter:
 #       database_name: diesel_dwh
 #       privileges:
@@ -36,7 +47,7 @@
 
 #   - name: RAWDATA_RW_GRANT_DATABASE_DIESEL_RAWDATA_USAGE # 一意な名前にする
 #     role: rawdata_rw
-#     type: DATABASE
+#     class: DATABASE
 #     parameter:
 #       database_name: diesel_rawdata
 #       privileges:
@@ -44,346 +55,9 @@
 
 #   - name: RAWDATA_R_GRANT_DATABASE_DIESEL_RAWDATA_USAGE # 一意な名前にする
 #     role: rawdata_r
-#     type: DATABASE
+#     class: DATABASE
 #     parameter:
 #       database_name: diesel_rawdata
 #       privileges:
 #         - USAGE
 
-
-#   # grant schema (role に対して 指定したスキーマのprivilegesを付与する)
-#   - name: DATAMART_RW_GRANT_SCHEMA_DIESEL_DATAMART_SCHEMA_USAGE_AND_CREATE_TABLE # 一意な名前にする
-#     role: datamart_rw
-#     type: SCHEMA
-#     parameter:
-#       database_name: diesel_datamart
-#       schema_name: schema
-#       privileges:
-#         - USAGE
-#         - CREATE TABLE
-#         - CREATE VIEW
-
-#   - name: DATAMART_R_GRANT_SCHEMA_DIESEL_DATAMART_SCHEMA_USAGE # 一意な名前にする
-#     role: datamart_r
-#     type: SCHEMA
-#     parameter:
-#       database_name: diesel_datamart
-#       schema_name: schema
-#       privileges:
-#         - USAGE
-
-#   - name: DWH_RW_GRANT_SCHEMA_DIESEL_DWH_SCHEMA_USAGE_AND_CREATE_TABLE # 一意な名前にする
-#     role: dwh_rw
-#     type: SCHEMA
-#     parameter:
-#       database_name: diesel_dwh
-#       schema_name: schema
-#       privileges:
-#         - USAGE
-#         - CREATE TABLE
-#         - CREATE VIEW
-
-#   - name: DWH_R_GRANT_SCHEMA_DIESEL_DWH_SCHEMA_USAGE # 一意な名前にする
-#     role: dwh_r
-#     type: SCHEMA
-#     parameter:
-#       database_name: diesel_dwh
-#       schema_name: schema
-#       privileges:
-#         - USAGE
-
-#   - name: RAWDATA_RW_GRANT_SCHEMA_DIESEL_RAWDATA_USERBI_USAGE_AND_CREATE_TABLE # 一意な名前にする
-#     role: rawdata_rw
-#     type: SCHEMA
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: user_bi
-#       privileges:
-#         - USAGE
-#         - CREATE TABLE
-#         - CREATE VIEW
-
-#   - name: RAWDATA_R_GRANT_SCHEMA_DIESEL_RAWDATA_USERBI_USAGE # 一意な名前にする
-#     role: rawdata_r
-#     type: SCHEMA
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: user_bi
-#       privileges:
-#         - USAGE
-
-#   - name: RAWDATA_RW_GRANT_SCHEMA_DIESEL_RAWDATA_ACCESSLOG_USAGE_AND_CREATE_TABLE # 一意な名前にする
-#     role: rawdata_rw
-#     type: SCHEMA
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: accesslog
-#       privileges:
-#         - USAGE
-#         - CREATE TABLE
-#         - CREATE VIEW
-
-#   - name: RAWDATA_R_GRANT_SCHEMA_DIESEL_RAWDATA_ACCESSLOG_USAGE # 一意な名前にする
-#     role: rawdata_r
-#     type: SCHEMA
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: accesslog
-#       privileges:
-#         - USAGE
-
-
-#   # grant existing tabels (role に対して 指定したスキーマ内の現在存在するテーブルにprivilegesを付与する)
-#   # - name: DATAMART_RW_GRANT_EXISTING_TABLE_DIESEL_DATAMART_SCHEMA_ # 一意な名前にする
-#   #   role: datamart_rw
-#   #   type: EXISTING_TABLE
-#   #   parameter:
-#   #     database_name: diesel_datamart
-#   #     schema_name: schema
-#   #     privileges:
-#   #       - SELECT
-#   #       - INSERT
-#   #       - UPDATE
-#   #       - TRUNCATE
-#   #       - DELETE
-
-
-#   # grant future tabels (role に対して 指定したスキーマ内のテーブルに将来にわたってprivilegesを付与する)
-#   - name: DATAMART_RW_GRANT_FUTURE_TABLE_DIESEL_DATAMART_SCHEMA_ALL # 一意な名前にする
-#     role: datamart_rw
-#     type: TABLE
-#     parameter:
-#       database_name: diesel_datamart
-#       schema_name: schema
-#       privileges:
-#         - SELECT
-#         - INSERT
-#         - UPDATE
-#         - TRUNCATE
-#         - DELETE
-
-#   - name: DATAMART_R_GRANT_FUTURE_TABLE_DIESEL_DATAMART_SCHEMA_SELECT # 一意な名前にする
-#     role: datamart_r
-#     type: TABLE
-#     parameter:
-#       database_name: diesel_datamart
-#       schema_name: schema
-#       privileges:
-#         - SELECT
-
-#   - name: DWH_RW_GRANT_FUTURE_TABLE_DIESEL_DWH_SCHEMA_ALL # 一意な名前にする
-#     role: dwh_rw
-#     type: TABLE
-#     parameter:
-#       database_name: diesel_dwh
-#       schema_name: schema
-#       privileges:
-#         - SELECT
-#         - INSERT
-#         - UPDATE
-#         - TRUNCATE
-#         - DELETE
-
-#   - name: DWH_R_GRANT_FUTURE_TABLE_DIESEL_DWH_SCHEMA_SELECT # 一意な名前にする
-#     role: dwh_r
-#     type: TABLE
-#     parameter:
-#       database_name: diesel_dwh
-#       schema_name: schema
-#       privileges:
-#         - SELECT
-
-#   - name: RAWDATA_RW_GRANT_FUTURE_TABLE_DIESEL_RAWDATA_USERBI_ALL # 一意な名前にする
-#     role: rawdata_rw
-#     type: TABLE
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: user_bi
-#       privileges:
-#         - SELECT
-#         - INSERT
-#         - UPDATE
-#         - TRUNCATE
-#         - DELETE
-
-#   - name: RAWDATA_R_GRANT_FUTURE_TABLE_DIESEL_RAWDATA_USERBI_SELECT # 一意な名前にする
-#     role: rawdata_r
-#     type: TABLE
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: user_bi
-#       privileges:
-#         - SELECT
-
-#   - name: RAWDATA_RW_GRANT_FUTURE_TABLE_DIESEL_RAWDATA_ACCESSLOG_ALL # 一意な名前にする
-#     role: rawdata_rw
-#     type: TABLE
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: accesslog
-#       privileges:
-#         - SELECT
-#         - INSERT
-#         - UPDATE
-#         - TRUNCATE
-#         - DELETE
-
-#   - name: RAWDATA_R_GRANT_FUTURE_TABLE_DIESEL_RAWDATA_ACCESSLOG_SELECT # 一意な名前にする
-#     role: rawdata_r
-#     type: TABLE
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: accesslog
-#       privileges:
-#         - SELECT
-
-
-#   # grant future views (role に対して 指定したスキーマ内のビューに将来にわたってprivilegesを付与する)
-#   - name: DATAMART_RW_GRANT_FUTURE_VIEW_DIESEL_DATAMART_SCHEMA_ALL # 一意な名前にする
-#     role: datamart_rw
-#     type: VIEW
-#     parameter:
-#       database_name: diesel_datamart
-#       schema_name: schema
-#       privileges:
-#         - SELECT
-#         - INSERT
-#         - UPDATE
-#         - TRUNCATE
-#         - DELETE
-
-#   - name: DATAMART_R_GRANT_FUTURE_VIEW_DIESEL_DATAMART_SCHEMA_SELECT # 一意な名前にする
-#     role: datamart_r
-#     type: VIEW
-#     parameter:
-#       database_name: diesel_datamart
-#       schema_name: schema
-#       privileges:
-#         - SELECT
-
-#   - name: DWH_RW_GRANT_FUTURE_VIEW_DIESEL_DWH_SCHEMA_ALL # 一意な名前にする
-#     role: dwh_rw
-#     type: VIEW
-#     parameter:
-#       database_name: diesel_dwh
-#       schema_name: schema
-#       privileges:
-#         - SELECT
-#         - INSERT
-#         - UPDATE
-#         - TRUNCATE
-#         - DELETE
-
-#   - name: DWH_R_GRANT_FUTURE_VIEW_DIESEL_DWH_SCHEMA_SELECT # 一意な名前にする
-#     role: dwh_r
-#     type: VIEW
-#     parameter:
-#       database_name: diesel_dwh
-#       schema_name: schema
-#       privileges:
-#         - SELECT
-
-#   - name: RAWDATA_RW_GRANT_FUTURE_VIEW_DIESEL_RAWDATA_USERBI_ALL # 一意な名前にする
-#     role: rawdata_rw
-#     type: VIEW
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: user_bi
-#       privileges:
-#         - SELECT
-#         - INSERT
-#         - UPDATE
-#         - TRUNCATE
-#         - DELETE
-
-#   - name: RAWDATA_R_GRANT_FUTURE_VIEW_DIESEL_RAWDATA_USERBI_SELECT # 一意な名前にする
-#     role: rawdata_r
-#     type: VIEW
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: user_bi
-#       privileges:
-#         - SELECT
-
-#   - name: RAWDATA_RW_GRANT_FUTURE_VIEW_DIESEL_RAWDATA_ACCESSLOG_ALL # 一意な名前にする
-#     role: rawdata_rw
-#     type: VIEW
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: accesslog
-#       privileges:
-#         - SELECT
-#         - INSERT
-#         - UPDATE
-#         - TRUNCATE
-#         - DELETE
-
-#   - name: RAWDATA_R_GRANT_FUTURE_VIEW_DIESEL_RAWDATA_ACCESSLOG_SELECT # 一意な名前にする
-#     role: rawdata_r
-#     type: VIEW
-#     parameter:
-#       database_name: diesel_rawdata
-#       schema_name: accesslog
-#       privileges:
-#         - SELECT
-
-#   # grant warehouse(role に対して object_nameで指定したウェアハウスのprivilegesを付与する)
-#   - name: DS_WH_USAGE_GRANT_WAREHOUSE_DS_WH_USAGE # 一意な名前にする
-#     role: ds_wh_usage
-#     type: WAREHOUSE
-#     parameter:
-#       object_name: ds_wh
-#       privileges:
-#         - USAGE
-#         - OPERATE
-#         - MONITOR
-
-#   - name: DA_WH_USAGE_GRANT_WAREHOUSE_DA_WH_USAGE # 一意な名前にする
-#     role: da_wh_usage
-#     type: WAREHOUSE
-#     parameter:
-#       object_name: da_wh
-#       privileges:
-#         - USAGE
-#         - OPERATE
-#         - MONITOR
-
-#   - name: DE_WH_USAGE_GRANT_WAREHOUSE_DE_WH_USAGE # 一意な名前にする
-#     role: de_wh_usage
-#     type: WAREHOUSE
-#     parameter:
-#       object_name: de_wh
-#       privileges:
-#         - USAGE
-#         - OPERATE
-#         - MONITOR
-
-#   - name: BI_WH_USAGE_GRANT_WAREHOUSE_BI_WH_USAGE # 一意な名前にする
-#     role: bi_wh_usage
-#     type: WAREHOUSE
-#     parameter:
-#       object_name: bi_wh
-#       privileges:
-#         - USAGE
-#         - OPERATE
-#         - MONITOR
-
-#   - name: DBT_WH_USAGE_GRANT_WAREHOUSE_DBT_WH_USAGE # 一意な名前にする
-#     role: dbt_wh_usage
-#     type: WAREHOUSE
-#     parameter:
-#       object_name: dbt_wh
-#       privileges:
-#         - USAGE
-#         - OPERATE
-#         - MONITOR
-
-#   - name: ELT_WH_USAGE_GRANT_WAREHOUSE_ELT_WH_USAGE # 一意な名前にする
-#     role: elt_wh_usage
-#     type: WAREHOUSE
-#     parameter:
-#       object_name: elt_wh
-#       privileges:
-#         - USAGE
-#         - OPERATE
-#         - MONITOR

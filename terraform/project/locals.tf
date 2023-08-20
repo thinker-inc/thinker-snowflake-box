@@ -1,5 +1,7 @@
 locals {
-  # ++++++++++ create_objects ++++++++++
+##################################
+### create_objects
+##################################
   # ----- user -----
   users_yml = try(
     yamldecode(file("${path.root}/yaml/common/create_objects/users.yml")),
@@ -226,7 +228,9 @@ locals {
   )
 
 
-  # ++++++++++ grant_roles ++++++++++
+##################################
+### grant_roles
+##################################
   # ----- access roles to functional roles -----
   access_roles_to_functional_roles_yml = try(
     yamldecode(file("${path.root}/yaml/common/grant_roles/access_roles_to_functional_roles.yml")),
@@ -259,7 +263,24 @@ locals {
   )
 
 
-  # ++++++++++ privileges_to_roles ++++++++++
+##################################
+### privileges_to_roles
+##################################
+  # ----- global privileges -----
+  global_privileges_yml = try(
+    yamldecode(file("${path.root}/yaml/common/privileges_to_role/global_privileges.yml")),
+    {global_privileges:[]}
+  )
+  global_privileges_env_yml = try(
+    yamldecode(file("${path.root}/yaml/${terraform.workspace}/privileges_to_role/global_privileges.yml")),
+    {global_privileges:[]}
+  )
+
+  global_privileges = concat(
+    try(local.global_privileges_yml["global_privileges"], []),
+    try(local.global_privileges_env_yml["global_privileges"], [])
+  )
+
   # ----- warehouse privileges -----
   warehouse_privileges_yml = try(
     yamldecode(file("${path.root}/yaml/common/privileges_to_role/warehouse_privileges.yml")),
@@ -425,7 +446,9 @@ locals {
     try(local.future_privileges_env_yml["future_privileges"], [])
   )
 
+  # ----- List concat -----
   grant_on_object_to_access_role = concat(
+    local.global_privileges,
     local.warehouse_privileges,
     local.database_privileges,
     local.schema_privileges,

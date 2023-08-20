@@ -1,0 +1,15 @@
+# ##################################
+# ### global privileges
+# ##################################
+# global_privileges:
+#   # ***********書式**********
+#   - name: GLOBAL_PRIVILEGE # 一意な名前にする
+#     role: role_name # String
+#     class: GLOBAL # String
+#     type: GRANT # String
+#     parameter: # Object
+#       privileges: # List(String)
+#                   # (APPLY MASKING POLICY | APPLY ROW ACCESS POLICY | APPLY PASSWORD POLICY | ATTACH POLICY | AUDIT | CREATE ACCOUNT | CREATE FAILOVER GROUP | CREATE REPLICATION GROUP | MANAGE GRANTS | CREATE DATA EXCHANGE LISTING | CREATE NETWORK POLICY | CREATE SHARE)
+#                   # (MODIFY LOG LEVEL | MODIFY SESSION LOG LEVEL | MODIFY TRACE LEVEL | MODIFY SESSION TRACE LEVEL | MONITOR EXECUTION | MONITOR USAGE | OVERRIDE SHARE RESTRICTIONS | RESOLVE ALL)
+#         - APPLY MASKING POLICY
+#   # ************************

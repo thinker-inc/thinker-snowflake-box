@@ -13,6 +13,6 @@
 #     # file_format: # String
 
 #     # # External Stage Params
-#     # storage_integration: # String
-#     # url: "" # String
+#     storage_integration: "hoge" # String
+#     url: "s3://" # String
 #   # *********************
