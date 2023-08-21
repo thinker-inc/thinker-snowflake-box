@@ -41,15 +41,6 @@ module "privileges_to_role" {
   }
 
   grant_on_object_to_access_role = local.grant_on_object_to_access_role
-  # warehouse_privileges      = local.warehouse_privileges
-  # database_privileges       = local.database_privileges
-  # schema_privileges         = local.schema_privileges
-  # fileformat_privileges     = local.fileformat_privileges
-  # pipe_privileges           = local.pipe_privileges
-  # stage_privileges          = local.stage_privileges
-  # external_table_privileges = local.external_table_privileges
-  # task_privileges           = local.task_privileges
-  # future_privileges         = local.future_privileges
 
   depends_on = [module.create_objects]
 }

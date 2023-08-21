@@ -1,16 +1,20 @@
+# ##################################
+# ### 作成する統合のリスト
+# ##################################
 # storage_integrations:
-#   # ***********書式**********
+# ### ***********書式**********
 #   - name: INTEGRATION_NAME # String # 一意な名前
-#   # Required
+#     # Required
 #     storage_allowed_locations: # List of String
 #       - s3://
 #       - gcs://
 #       - azure://
 #     storage_provider: GCS # String (S3 | GCS | AZURE)
-#   # # Optional
-#     # azure_tenant_id: # String
-#     # comment: # String
-#     # storage_aws_object_acl: # String
-#     # storage_aws_role_arn: # String
-#   # *********************
+#     # Optional
+#     azure_tenant_id: # String
+#     comment: # String
+#     storage_aws_object_acl: # String
+#     storage_aws_role_arn: # String
+#     storage_blocked_locations: # String
+# ### ************************
 

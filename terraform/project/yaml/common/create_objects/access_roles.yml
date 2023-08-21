@@ -1,43 +1,44 @@
-# Access Role 一覧
-# access_roles:
-  # # ***********書式**********
-  # - name: AROLE_NAME # 一意な名前
-  #   # optional
-  #   comment: hoge # string
-  # # *********************
+##################################
+### 作成するアクセスロールのリスト
+##################################
+access_roles:
+# ### ***********書式**********
+#   - name: AROLE_NAME # 一意な名前
+#     # optional
+#     comment: hoge # string
+# ### ************************
+  - name: datamart_rw
+    comment: create datamart_rw
 
-  # - name: datamart_rw
-#     comment: create datamart_rw
+  - name: datamart_r
+    comment: create datamart_r
 
-  # - name: datamart_r
-  #   comment: create datamart_r
+  - name: dwh_rw
+    comment: create dwh_rw
 
-  # - name: dwh_rw
-  #   comment: create dwh_rw
+  - name: dwh_r
+    comment: create dwh_r
 
-  # - name: dwh_r
-  #   comment: create dwh_r
+  - name: rawdata_rw
+    comment: create rawdata_rw
 
-  # - name: rawdata_rw
-  #   comment: create rawdata_rw
+  - name: rawdata_r
+    comment: create rawdata_r
 
-  # - name: rawdata_r
-  #   comment: create rawdata_r
+  - name: ds_wh_usage
+    comment: create ds_wh_usage
 
-  # - name: ds_wh_usage
-  #   comment: create ds_wh_usage
+  - name: da_wh_usage
+    comment: create ds_wh_usage
 
-  # - name: da_wh_usage
-  #   comment: create ds_wh_usage
+  - name: de_wh_usage
+    comment: create ds_wh_usage
 
-  # - name: de_wh_usage
-  #   comment: create ds_wh_usage
+  - name: bi_wh_usage
+    comment: create ds_wh_usage
 
-  # - name: bi_wh_usage
-  #   comment: create ds_wh_usage
+  - name: dbt_wh_usage
+    comment: create ds_wh_usage
 
-  # - name: dbt_wh_usage
-  #   comment: create ds_wh_usage
-
-  # - name: elt_wh_usage
-  #   comment: create ds_wh_usage
+  - name: elt_wh_usage
+    comment: create ds_wh_usage

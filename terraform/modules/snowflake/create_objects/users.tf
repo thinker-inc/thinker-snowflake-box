@@ -1,4 +1,6 @@
-# userを作成
+##################################
+### create user
+##################################
 resource "snowflake_user" "users" {
   for_each = {
     for user in var.users : user.name => user
@@ -10,6 +12,7 @@ resource "snowflake_user" "users" {
   email                   = contains(keys(each.value), "email") ? each.value.email : null
   first_name              = contains(keys(each.value), "first_name") ? each.value.first_name : null
   last_name               = contains(keys(each.value), "last_name") ? each.value.last_name : null
+  login_name              = contains(keys(each.value), "login_name") ? each.value.login_name : null
   must_change_password    = contains(keys(each.value), "must_change_password") ? each.value.must_change_password : true
   password                = contains(keys(each.value), "password") ? each.value.password : null
 }

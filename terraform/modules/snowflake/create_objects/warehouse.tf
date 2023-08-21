@@ -1,4 +1,6 @@
-# Access role を Functional role に grant する
+##################################
+### create warehouse
+##################################
 resource "snowflake_warehouse" "warehouses" {
   for_each = {
     for warehouse in var.warehouses : warehouse.name => warehouse

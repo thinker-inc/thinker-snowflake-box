@@ -1,4 +1,6 @@
-# Functional role を user　に grant する
+##################################
+### Functional role を user　に grant する
+##################################
 resource "snowflake_role_grants" "functional_roles_to_user" {
   for_each = {
     for grant in var.grant_functional_roles_to_user : grant.name => grant

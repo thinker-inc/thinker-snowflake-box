@@ -1,10 +1,12 @@
-# create task
+##################################
+### create task
+##################################
 resource "snowflake_task" "task" {
   for_each = {
     for task in var.tasks : task.name => task
   }
   name          = upper(each.value.task_name)
-  database      = upper(each.value.database)
+  database      = upper("${terraform.workspace}_${each.value.database}")
   schema        = upper("${terraform.workspace}_${each.value.schema}")
   sql_statement = each.value.sql_statement
 

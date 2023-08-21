@@ -1,69 +1,76 @@
-# Access role を付与する Functional role 一覧
-# 書式：
-# grant_access_roles_to_functional_roles:
-#   - name: datamart_rw
-#     access_roles: datamart_rw
-#     functional_roles:
-#       - data_scientist
-  #     - data_engineer
-  #     - dbt
+##################################
+### Access role を Functional role に grant する
+##################################
+grant_access_roles_to_functional_roles:
+# ### ***********書式**********
+#   - name: access_role_to_functional_role # 一意な名前にする
+#     access_role: access_role_name # String
+#     functional_roles: # List(String)
+#       - functional_role_name
+# ### ************************
+  - name: datamart_rw
+    access_role: datamart_rw
+    functional_roles:
+      - data_scientist
+      - data_engineer
+      - dbt
 
-  # - name: datamart_r
-  #   access_roles: datamart_r
-  #   functional_roles:
-  #     - data_analyst
-  #     - bi
+  - name: datamart_r
+    access_role: datamart_r
+    functional_roles:
+      - data_analyst
+      - bi
 
-  # - name: dwh_rw
-  #   access_roles: dwh_rw
-  #   functional_roles:
-  #     - data_scientist
-  #     - data_engineer
-  #     - dbt
+  - name: dwh_rw
+    access_role: dwh_rw
+    functional_roles:
+      - data_scientist
+      - data_engineer
+      - dbt
 
-  # - name: dwh_r
-  #   access_roles: dwh_r
-  #   functional_roles:
-  #     - data_analyst
+  - name: dwh_r
+    access_role: dwh_r
+    functional_roles:
+      - data_analyst
 
-  # - name: rawdata_rw
-  #   access_roles: rawdata_rw
-  #   functional_roles:
-  #     - data_engineer
-  #     - elt
+  - name: rawdata_rw
+    access_role: rawdata_rw
+    functional_roles:
+      - data_engineer
+      - elt
 
-  # - name: rawdata_r
-  #   access_roles: rawdata_r
-  #   functional_roles:
-  #     - data_scientist
-  #     - dbt
+  - name: rawdata_r
+    access_role: rawdata_r
+    functional_roles:
+      - data_scientist
+      - dbt
 
-  # - name: ds_wh_usage
-  #   access_roles: ds_wh_usage
-  #   functional_roles:
-  #     - data_scientist
+  - name: ds_wh_usage
+    access_role: ds_wh_usage
+    functional_roles:
+      - data_scientist
 
-  # - name: da_wh_usage
-  #   access_roles: da_wh_usage
-  #   functional_roles:
-  #     - data_analyst
+  - name: da_wh_usage
+    access_role: da_wh_usage
+    functional_roles:
+      - data_analyst
 
-  # - name: de_wh_usage
-  #   access_roles: de_wh_usage
-  #   functional_roles:
-  #     - data_engineer
+  - name: de_wh_usage
+    access_role: de_wh_usage
+    functional_roles:
+      - data_engineer
 
-  # - name: bi_wh_usage
-  #   access_roles: bi_wh_usage
-  #   functional_roles:
-  #     - bi
+  - name: bi_wh_usage
+    access_role: bi_wh_usage
+    functional_roles:
+      - bi
 
-  # - name: dbt_wh_usage
-  #   access_roles: dbt_wh_usage
-  #   functional_roles:
-  #     - dbt
+  - name: dbt_wh_usage
+    access_role: dbt_wh_usage
+    functional_roles:
+      - dbt
 
-  # - name: elt_wh_usage
-  #   access_roles: elt_wh_usage
-  #   functional_roles:
-  #     - elt
+  - name: elt_wh_usage
+    access_role: elt_wh_usage
+    functional_roles:
+      - elt

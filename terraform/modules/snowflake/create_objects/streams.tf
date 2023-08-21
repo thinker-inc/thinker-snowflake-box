@@ -1,10 +1,12 @@
-# create stream on stage
+##################################
+### create stream on stage
+##################################
 resource "snowflake_stream" "stream_on_stage" {
   for_each = {
     for stream in var.streams : stream.name => stream if contains(keys(stream), "on_stage")
   }
   name      = upper(each.value.stream_name)
-  database  = upper(each.value.database)
+  database  = upper("${terraform.workspace}_${each.value.database}")
   schema    = upper("${terraform.workspace}_${each.value.schema}")
 
   on_stage  = upper(each.value.on_stage)
@@ -17,13 +19,15 @@ resource "snowflake_stream" "stream_on_stage" {
   depends_on = [snowflake_database.databases, snowflake_schema.schemas]
 }
 
-# create stream on table
+##################################
+### create stream on table
+##################################
 resource "snowflake_stream" "stream_on_table" {
   for_each = {
     for stream in var.streams : stream.name => stream if contains(keys(stream), "on_table")
   }
   name      = upper(each.value.stream_name)
-  database  = upper(each.value.database)
+  database  = upper("${terraform.workspace}_${each.value.database}")
   schema    = upper("${terraform.workspace}_${each.value.schema}")
 
   on_table  = upper(each.value.on_table)
@@ -36,13 +40,15 @@ resource "snowflake_stream" "stream_on_table" {
   depends_on = [snowflake_database.databases, snowflake_schema.schemas]
 }
 
-# create stream on view
+##################################
+### create stream on view
+##################################
 resource "snowflake_stream" "stream_on_view" {
   for_each = {
     for stream in var.streams : stream.name => stream if contains(keys(stream), "on_view")
   }
   name      = upper(each.value.stream_name)
-  database  = upper(each.value.database)
+  database  = upper("${terraform.workspace}_${each.value.database}")
   schema    = upper("${terraform.workspace}_${each.value.schema}")
 
   on_view   = upper(each.value.on_view)

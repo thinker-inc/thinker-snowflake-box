@@ -1,20 +1,27 @@
+# ##################################
+# ### 作成するデータベースのリスト
+# ##################################
 # external_tables:
-#   # ***********書式**********
+# ### ***********書式**********
 #   - name: external_table # 一意な名前
 #     # required
-#     exteranl_table_name: # String
+#     exteranl_table_name: external_table # String
 #     column:
 #       - name: id # String
 #         type: int # e.g. VARIANT
 #       - name: data
 #         type: text
 #     database: db # String
-#     file_format: # String
+#     file_format: fileformat_name # String
 #     schema: schema # String
-#     location: # String
-#     pattern: #String path to file(regx)
+#     location: "@hoge/" # String
+#     pattern: "/.*" #String path to file(regx)
 #     # optional
 #     auto_refresh: # Boolean
 #     aws_sns_topic: # String
 #     comment: # String
-#   # *********************
+#     copy_grants: Boolean
+#     partition_by: # List(String)
+#       - id
+#     refresh_on_create: # Boolean
+# ### ************************

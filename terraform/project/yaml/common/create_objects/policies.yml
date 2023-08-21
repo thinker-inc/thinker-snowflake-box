@@ -1,35 +1,38 @@
+# #################################
+# ## 作成するスキーマのリスト
+# #################################
 # policies:
-#   # ***********書式**********
-#   # マスキングポリシー
-#   # Required
-#   - name: test # 一意な名前
-#     policy_name: policy # String
+# ### ***********書式**********
+# ### マスキングポリシー
+#   - name: masking_policy # 一意な名前
+#     # Required
+#     policy_name: masking_policy # String
 #     type: MASKING # String (MASKING | ROWACCESS )
-#     database: DEV_LDW # String
-#     schema: test # String
+#     database: database # String
+#     schema: schema # String
 #     masking_expression: "case when current_role() in ('ACCOUNTADMIN') then val else sha2(val, 512) end" # String
 #     return_data_type: VARCHAR # String
 #     signature: # Block List, Min: 1, Max: 1
-#       - name: val # String
+#       - name: poval # String
 #         type: VARCHAR # String
-#     # # Optional
-#     # comment: # String
-#     # exempt_other_policies: # Boolean
-#     # if_not_exists: # Boolean
-#     # or_replace: # Boolean
-#   # *********************
+#     # Optional
+#     comment: # String
+#     exempt_other_policies: # Boolean
+#     if_not_exists: # Boolean
+#     or_replace: # Boolean
+# ### ************************
 #   # 行アクセスポリシー
-#   # Required
-#   - name: test # 一意な名前
-#     policy_name: policy # String
+#   - name: access_policy # 一意な名前
+#     # Required
+#     policy_name: access_policy # String
 #     type: ROWACCESS # String (MASKING | ROWACCESS )
-#     database: # String
-#     schema: # String
-#     row_access_expression: # String
-#     signature:
+#     database: database # String
+#     schema: schema # String
+#     row_access_expression: "case when current_role() in ('ANALYST') then true else false end" # String
+#     signature: #　Object
 #       # column_name: datatype
 #       A: VARCHAR
 #       B: VARCHAR
 #     # Optional
 #     comment: # String  
-#   # *********************
+# ### ************************

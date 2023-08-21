@@ -1,5 +1,8 @@
+# ##################################
+# ### 作成するストリームのリスト
+# ##################################
 # streams:
-# #   # ***********書式**********
+# ### ***********書式**********
 #   - name: stream # String
 #     # Required
 #     stream_name: stream # String
@@ -7,11 +10,11 @@
 #     schema: schema # String
 #     # Either
 #     # on_stage: # String
-#     on_table: table # String
-#     # on_view: # String
+#     # on_table: table # String
+#     # on_view: "" # String
 #     # # Optional
 #     # comment: # String
 #     # append_only: # Boolean
 #     # insert_only: # Boolean
 #     # show_initial_rows: # Boolean
-# #   # *********************
+# ### ************************
