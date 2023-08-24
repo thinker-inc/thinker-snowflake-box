@@ -4,7 +4,7 @@
 functional_roles_to_users:
 # ### ***********書式**********
 #   - name: functional_role # String # 一意な名前にする
-#     access_role: access_role_name # String
+#     role_name: functional_role_name # String
 #     users: # List(String)
 #       - user1
 # ### ************************
