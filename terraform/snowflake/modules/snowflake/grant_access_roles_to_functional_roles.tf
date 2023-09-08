@@ -7,6 +7,7 @@ resource "snowflake_role_grants" "access_role_to_functional_role_grants" {
   }
   role_name   = upper("${terraform.workspace}_${each.value.access_role}")
   roles       = [for functional_role in each.value.functional_roles : upper("${terraform.workspace}_${functional_role}")]
+  enable_multiple_grants = true
 
   depends_on = [snowflake_role.roles]
 }

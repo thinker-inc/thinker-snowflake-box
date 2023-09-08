@@ -9,7 +9,7 @@ resource "snowflake_grant_privileges_to_role" "on_global_grant" {
   role_name  = upper("${terraform.workspace}_${each.value.role}")
   on_account = true
 
-    depends_on = [snowflake_role.roles]
+  depends_on = [snowflake_role.roles]
 }
 
 ##################################
@@ -88,7 +88,8 @@ resource "snowflake_grant_privileges_to_role" "on_schema_object_grant" {
       in_schema          = upper("${terraform.workspace}_${each.value.parameter.database_name}.${terraform.workspace}_${each.value.parameter.schema_name}")
     }
   }
-
+  
+  
   depends_on = [
     snowflake_role.roles,
     snowflake_database.databases,
