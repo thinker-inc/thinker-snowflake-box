@@ -1,6 +1,6 @@
 # Functional roleとAccess roleを作成
-module "create_objects" {
-  source = "../modules/snowflake"
+module "create_structured" {
+  source = "../modules/structured"
 
   users                                  = local.users
   functional_roles                       = local.functional_roles
