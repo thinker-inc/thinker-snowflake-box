@@ -16,4 +16,6 @@ resource "snowflake_role_grants" "role_grants" {
   for_each = toset([for role in snowflake_role.roles : role.name])
   role_name = each.key
   roles     = ["SYSADMIN"]
+  enable_multiple_grants = true
+
 }
