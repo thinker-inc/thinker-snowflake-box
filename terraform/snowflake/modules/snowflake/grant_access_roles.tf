@@ -8,6 +8,8 @@ resource "snowflake_grant_privileges_to_role" "on_global_grant" {
   privileges = each.value.parameter.privileges
   role_name  = upper("${terraform.workspace}_${each.value.role}")
   on_account = true
+
+    depends_on = [snowflake_role.roles]
 }
 
 ##################################
@@ -23,6 +25,12 @@ resource "snowflake_grant_privileges_to_role" "on_account_object_grant" {
     object_type = each.value.type
     object_name = upper("${terraform.workspace}_${each.value.parameter.object_name}")
   }
+
+  depends_on = [
+    snowflake_role.roles,
+    snowflake_database.databases,
+    snowflake_warehouse.warehouses
+    ]
 }
 
 ##################################
@@ -38,6 +46,12 @@ resource "snowflake_grant_privileges_to_role" "on_schema_grant" {
   on_schema {
     schema_name = upper("${terraform.workspace}_${each.value.parameter.database_name}.${terraform.workspace}_${each.value.parameter.schema_name}")
   }
+
+  depends_on = [
+    snowflake_role.roles,
+    snowflake_database.databases,
+    snowflake_schema.schemas
+    ]
 }
 
 # future schema privileges
@@ -50,6 +64,12 @@ resource "snowflake_grant_privileges_to_role" "future_schema_grant" {
   on_schema {
     future_schemas_in_database = upper("${terraform.workspace}_${each.value.parameter.database_name}")
   }
+
+  depends_on = [
+    snowflake_role.roles,
+    snowflake_database.databases,
+    snowflake_schema.schemas
+    ]
 }
 
 ##################################
@@ -68,6 +88,12 @@ resource "snowflake_grant_privileges_to_role" "on_schema_object_grant" {
       in_schema          = upper("${terraform.workspace}_${each.value.parameter.database_name}.${terraform.workspace}_${each.value.parameter.schema_name}")
     }
   }
+
+  depends_on = [
+    snowflake_role.roles,
+    snowflake_database.databases,
+    snowflake_schema.schemas
+    ]
 }
 
 # future schema object in database privileges
@@ -83,6 +109,12 @@ resource "snowflake_grant_privileges_to_role" "future_schema_object_in_database_
       in_database        = upper("${terraform.workspace}_${each.value.parameter.database_name}")
     }
   }
+
+  depends_on = [
+    snowflake_role.roles,
+    snowflake_database.databases,
+    snowflake_schema.schemas
+    ]
 }
 
 # future schema object in schema privileges
@@ -98,4 +130,10 @@ resource "snowflake_grant_privileges_to_role" "future_schema_object_in_schema_gr
       in_schema          = upper("${terraform.workspace}_${each.value.parameter.database_name}.${terraform.workspace}_${each.value.parameter.schema_name}")
     }
   }
+  
+  depends_on = [
+    snowflake_role.roles,
+    snowflake_database.databases,
+    snowflake_schema.schemas
+    ]
 }
