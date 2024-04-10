@@ -1,0 +1,24 @@
+# アクセスロールリスト
+access_roles:
+  # ### ***********書式**********
+  #   - name: AROLE_NAME # 一意な名前
+  #     # optional
+  #     comment: hoge # string
+  # ### ************************
+
+  # ====================================
+  # WAREROUSE USAGE
+  # ====================================
+  - name: DATA_ANALYST_WH_STANDARD_USAGE
+    comment: 
+    functional_roles:
+      - data_analyst
+    warehouses:
+      - data_analyst_wh
+
+  - name: DATA_ENGINEER_WH_STANDARD_USAGE
+    comment: 
+    functional_roles:
+      - data_engineer
+    warehouses:
+      - data_engineer_wh
