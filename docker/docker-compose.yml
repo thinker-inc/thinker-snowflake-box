@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  snowflake-terraform-standard:
+    platform: linux/x86_64
+    container_name: snowflake-terraform-standard
+    image: snowflake-terraform-standard:latest
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    tty: true
+    env_file:
+      - ../.env.local
+    environment:
+      - ENVTEST=true
+    dns: 1.1.1.1
+    volumes:
+      - ../:/usr/src
+      - ~/.aws/:/root/.aws/
+      - ~/.ssh/:/root/.ssh/

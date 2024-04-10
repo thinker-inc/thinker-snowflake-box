@@ -1,0 +1,28 @@
+# データベースリスト
+databases:
+  # ### ***********書式**********
+  #   - name: DATABASE # 一意な名前
+  #     comment: # optional(string)
+  #     data_retention_time_in_days: # integer
+  #     schemas
+  #       - name: SCHEMA # 一意な名前
+  #         comment: # optional(string)
+  #
+  # ### ************************
+
+  # ====================================
+  # DEV CRF DB
+  # ====================================
+  - name: sample
+    comment: "create sample db"
+    data_retention_time_in_days: 1
+
+    schemas:
+      - name: dl_scm
+        comment: "create datalake schema"
+      
+      - name: dwh_scm
+        comment: "create data ware house schema"
+
+      - name: dm_scm
+        comment: "create data mart schema"

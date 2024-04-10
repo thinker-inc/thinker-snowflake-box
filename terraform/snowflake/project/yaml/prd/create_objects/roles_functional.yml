@@ -1,0 +1,17 @@
+# ファンクショナルロールリスト
+functional_roles:
+  # ### ***********書式**********
+  #   - name: FROLE_NAME # 一意な名前
+  #     # optional
+  #     comment: hoge # string
+  # ### ************************
+
+  - name: data_analyst
+    comment: only role for data analyst
+    users:
+      - RYOTA_HASEGAWA
+
+  - name: data_engineer
+    comment: only role for data engineer
+    users:
+      - RYOTA_HASEGAWA

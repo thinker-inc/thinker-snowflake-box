@@ -1,9 +1,9 @@
-# 基本的に全て環境変数から入れること。github actionsでも良いし、GCP,AWS,Azure,terraform cloud etc...なんでもOK
 provider "snowflake" {
-    account   = "RZ61527"
-    username  = "TERRAFORM_USER"
-    password  = "**********" 
-    region    = "ap-northeast-1.aws"
-    role      = "TERRAFORM"
-    warehouse = "TERRAFORM_WH"
+  #account = var.SNOWFLAKE_ACCOUNT
+  # user     = var.SNOWFLAKE_USERNAME
+  # password = var.SNOWFLAKE_PASSWORD
+  # region    = var.SNOWFLAKE_REGION
+  role = "TERRAFORM"
+  #role = var.SNOWFLAKE_ROLE
+  # warehouse = var.SNOWFLAKE_WAREHOUSE
 }

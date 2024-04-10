@@ -1,0 +1,69 @@
+# アクセスロールリスト
+access_roles:
+  # ### ***********書式**********
+  #   - name: AROLE_NAME # 一意な名前
+  #     # optional
+  #     comment: hoge # string
+  # ### ************************
+
+  # ====================================
+  # DEV CRF
+  # ====================================
+  # Read and Write Role
+  - name: sample_rw
+    comment: create sample_rw
+    functional_roles:
+      - data_analyst
+      - data_engineer
+    grant_account_roles:
+      - database: sample
+        schemas:
+          - name: dl_scm
+            privileges:
+              - USAGE
+              - CREATE TABLE
+              - CREATE VIEW
+              - CREATE STAGE
+            table_privileges:
+              - SELECT
+              - INSERT
+              - UPDATE
+              - DELETE
+              - TRUNCATE
+            view_privileges:
+              - SELECT
+
+          - name: dwh_scm
+            privileges:
+              - USAGE
+              - CREATE TABLE
+              - CREATE VIEW
+              - CREATE STAGE
+            table_privileges:
+              - SELECT
+              - INSERT
+              - UPDATE
+              - DELETE
+              - TRUNCATE
+            view_privileges:
+              - SELECT
+            
+          - name: dm_scm
+            privileges:
+              - USAGE
+              - CREATE TABLE
+              - CREATE VIEW
+              - CREATE STAGE
+            table_privileges:
+              - SELECT
+              - INSERT
+              - UPDATE
+              - DELETE
+              - TRUNCATE
+            view_privileges:
+              - SELECT
+        feature_schema_privileges:
+          - USAGE
+          - CREATE TABLE
+          - CREATE VIEW
+          - CREATE STAGE

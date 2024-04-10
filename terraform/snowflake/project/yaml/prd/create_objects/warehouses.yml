@@ -1,0 +1,31 @@
+# 作成するウェアハウスのリスト
+warehouses:
+  # ### ***********書式**********
+  #   - name: WAREHOUSE_NAME # 一意な名前
+  #     # required
+  #     warehouse_size: SMALL # XSMALL | SMALL | MEDIUM | LARGE | XLARGE | XXLARGE | XXXLARGE | X4LARGE | X5LARGE | X6LARGE
+  #     # optional
+  #     auto_suspend: #Number
+  #     comment: #String
+  #     # Query acceleration
+  #     # multi cluster
+  #     max_cluster_count: #Number
+  #     min_cluster_count: #Number
+  # ### ************************
+
+  - name: data_analyst_wh
+    comment: for data analyst warehouse
+    warehouse_size: xsmall
+    min_cluster_count: 1
+    max_cluster_count: 1
+    auto_suspend: 60
+    warehouse_type: "STANDARD"
+    #warehouse_type: 'SNOWPARK-OPTIMIZED'
+
+  - name: data_engineer_wh
+    comment: for data engineer warehouse
+    warehouse_size: xsmall
+    min_cluster_count: 1
+    max_cluster_count: 1
+    auto_suspend: 60
+    warehouse_type: "STANDARD"
