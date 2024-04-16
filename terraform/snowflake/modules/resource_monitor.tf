@@ -3,7 +3,7 @@
 ##################################
 resource "snowflake_resource_monitor" "standard_monitors" {
   for_each = {
-    for monitor in var.standard_monitors : monitor.name => monitor
+    for monitor in var.standard_monitors : monitor.name => monitor if monitor.name != null
   }
   name                      = upper("${each.value.name}")
   set_for_account           = each.value.set_for_account

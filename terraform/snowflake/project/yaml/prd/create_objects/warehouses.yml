@@ -29,3 +29,19 @@ warehouses:
     max_cluster_count: 1
     auto_suspend: 60
     warehouse_type: "STANDARD"
+
+  - name: data_ml_wh
+    comment: for data ml warehouse
+    warehouse_size: xsmall
+    min_cluster_count: 1
+    max_cluster_count: 1
+    auto_suspend: 60
+    warehouse_type: "STANDARD"
+  
+  - name: data_reader_wh
+    comment: for data reader warehouse
+    warehouse_size: xsmall
+    min_cluster_count: 1
+    max_cluster_count: 1
+    auto_suspend: 60
+    warehouse_type: "STANDARD"

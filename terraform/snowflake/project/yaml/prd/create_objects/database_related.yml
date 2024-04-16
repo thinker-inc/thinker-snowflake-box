@@ -18,6 +18,9 @@ databases:
     data_retention_time_in_days: 1
 
     schemas:
+      - name: workspace
+        comment: "create workspace schema"
+
       - name: dl_scm
         comment: "create datalake schema"
       
