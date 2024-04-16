@@ -76,6 +76,7 @@ access_roles:
               - TRUNCATE
             view_privileges:
               - SELECT
+
         feature_schema_privileges:
           - USAGE
           - CREATE TABLE

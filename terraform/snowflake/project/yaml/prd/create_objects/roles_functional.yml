@@ -17,11 +17,11 @@ functional_roles:
       - RYOTA_HASEGAWA
 
   - name: data_ml
-    comment: only role for data engineer
+    comment: only role for data ML
     users:
       - RYOTA_HASEGAWA
 
   - name: data_reader
-    comment: only role for data engineer
+    comment: only role for data reading
     users:
       - RYOTA_HASEGAWA
