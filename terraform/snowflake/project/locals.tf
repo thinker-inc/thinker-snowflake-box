@@ -163,7 +163,7 @@ locals {
 
   # ----- monitor -----
   standard_monitors_yml = yamldecode(file("${path.root}/yaml/prd/resource_monitors/standard.yml"))
-  standard_monitors     = local.standard_monitors_yml["monitors"]
+  standard_monitors     = local.standard_monitors_yml["monitors"] != null ? local.standard_monitors_yml["monitors"] : []
 
 }
 

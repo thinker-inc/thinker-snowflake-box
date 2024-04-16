@@ -22,3 +22,17 @@ access_roles:
       - data_engineer
     warehouses:
       - data_engineer_wh
+
+  - name: DATA_ML_WH_STANDARD_USAGE
+    comment: 
+    functional_roles:
+      - data_ml
+    warehouses:
+      - data_ml_wh
+
+  - name: DATA_READER_WH_STANDARD_USAGE
+    comment: 
+    functional_roles:
+      - data_reader
+    warehouses:
+      - data_reader_wh

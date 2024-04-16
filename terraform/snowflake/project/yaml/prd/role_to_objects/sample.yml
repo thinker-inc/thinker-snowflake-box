@@ -10,14 +10,28 @@ access_roles:
   # DEV CRF
   # ====================================
   # Read and Write Role
-  - name: sample_rw
-    comment: create sample_rw
+  - name: data_engineer_rw
+    comment: create data_engineer read and write role by terraform
     functional_roles:
-      - data_analyst
       - data_engineer
     grant_account_roles:
       - database: sample
         schemas:
+          - name: workspace
+            privileges:
+              - USAGE
+              - CREATE TABLE
+              - CREATE VIEW
+              - CREATE STAGE
+            table_privileges:
+              - SELECT
+              - INSERT
+              - UPDATE
+              - DELETE
+              - TRUNCATE
+            view_privileges:
+              - SELECT
+
           - name: dl_scm
             privileges:
               - USAGE
@@ -47,7 +61,7 @@ access_roles:
               - TRUNCATE
             view_privileges:
               - SELECT
-            
+
           - name: dm_scm
             privileges:
               - USAGE
@@ -67,3 +81,114 @@ access_roles:
           - CREATE TABLE
           - CREATE VIEW
           - CREATE STAGE
+
+  # Data Analyst, Scientist, ML Role
+  - name: data_analyst_rw
+    comment: create data analyst, scientist, ml role by terraform
+    functional_roles:
+      - data_analyst
+      - data_ml
+    grant_account_roles:
+      - database: sample
+        schemas:
+          - name: dl_scm
+            privileges:
+              - USAGE
+            table_privileges:
+              - SELECT
+            view_privileges:
+              - SELECT
+
+          - name: workspace
+            privileges:
+              - USAGE
+              - CREATE TABLE
+              - CREATE VIEW
+              - CREATE STAGE
+            table_privileges:
+              - SELECT
+              - INSERT
+              - UPDATE
+              - DELETE
+              - TRUNCATE
+            view_privileges:
+              - SELECT
+
+          - name: dwh_scm
+            privileges:
+              - USAGE
+              - CREATE TABLE
+              - CREATE VIEW
+              - CREATE STAGE
+            table_privileges:
+              - SELECT
+              - INSERT
+              - UPDATE
+              - DELETE
+              - TRUNCATE
+            view_privileges:
+              - SELECT
+
+          - name: dm_scm
+            privileges:
+              - USAGE
+              - CREATE TABLE
+              - CREATE VIEW
+              - CREATE STAGE
+            table_privileges:
+              - SELECT
+              - INSERT
+              - UPDATE
+              - DELETE
+              - TRUNCATE
+            view_privileges:
+              - SELECT
+
+        feature_schema_privileges:
+          - USAGE
+          - CREATE TABLE
+          - CREATE VIEW
+          - CREATE STAGE
+
+  # Read Only Role
+  - name: data_reader_only
+    comment: create data read only role by terraform
+    functional_roles:
+      - data_reader
+    grant_account_roles:
+      - database: sample
+        schemas:
+          - name: workspace
+            privileges:
+              - USAGE
+            table_privileges:
+              - SELECT
+            view_privileges:
+              - SELECT
+
+          - name: dl_scm
+            privileges:
+              - USAGE
+            table_privileges:
+              - SELECT
+            view_privileges:
+              - SELECT
+
+          - name: dwh_scm
+            privileges:
+              - USAGE
+            table_privileges:
+              - SELECT
+            view_privileges:
+              - SELECT
+
+          - name: dm_scm
+            privileges:
+              - USAGE
+            table_privileges:
+              - SELECT
+            view_privileges:
+              - SELECT
+
+        feature_schema_privileges:
+          - USAGE
