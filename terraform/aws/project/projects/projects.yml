@@ -1,4 +1,0 @@
-projects:
-  - name: thinker-snowflake-standard
-    github_org: thinker-inc
-    github_repo: terraform-template

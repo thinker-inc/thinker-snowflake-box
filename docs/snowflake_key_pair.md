@@ -29,6 +29,7 @@ sed "s/-----END PUBLIC KEY-----//g" \
 USERNAMEは、Snowflakeのユーザ名に置き換えてください。
 
 ```sql
+-- sample
 ALTER USER {USERNAME} SET RSA_PUBLIC_KEY='{PUBLIC_KEY}';
 ```
 
@@ -37,5 +38,5 @@ ALTER USER {USERNAME} SET RSA_PUBLIC_KEY='{PUBLIC_KEY}';
 - RSA_PUBLIC_KEY
 
 ```sql
-DESC USER DIESEL_TROCCO_USER;
+DESC USER {USERNAME};
 ```
