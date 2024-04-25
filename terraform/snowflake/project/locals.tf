@@ -96,20 +96,6 @@ locals {
   ##################################
   ### privileges_to_roles
   ##################################
-  # warehouse privileges
-  # warehouse_privileges = flatten([
-  #   for _warehouse_role in local._access_roles_wh != null ? local._access_roles_wh : [] : [
-  #     for _warehouse in _warehouse_role.warehouses != null ? _warehouse_role.warehouses : [] : [
-  #       for _role_name in _warehouse_role.functional_roles != null ? _warehouse_role.functional_roles : [] : {
-  #         index      = upper("${_warehouse_role.name}__${_warehouse}__${_role_name}")
-  #         role_name  = _role_name
-  #         type       = "WAREHOUSE"
-  #         warehouse  = _warehouse
-  #         privileges = ["USAGE", "MONITOR", "OPERATE"]
-  #       }
-  #     ]
-  # ]])
-
   warehouse_privileges = flatten([
     for _warehouse_role in local._access_roles_wh != null ? local._access_roles_wh : [] : [
       for _warehouse in _warehouse_role.warehouses != null ? _warehouse_role.warehouses : [] : {
