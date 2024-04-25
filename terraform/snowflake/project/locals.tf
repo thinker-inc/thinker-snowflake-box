@@ -65,6 +65,16 @@ locals {
     ]
   ])
 
+  grant_access_wh_roles_to_functional_roles = flatten([
+    for _role in local.access_roles_wh != null ? local.access_roles_wh : [] : [
+      for _function_role in _role.functional_roles != null ? _role.functional_roles : [] : {
+        index            = upper("${_role.name}_TO_${_function_role}")
+        role_name        = _role.name
+        parent_role_name = _function_role
+      }
+    ]
+  ])
+
   # functional roles to users
   _grant_functional_roles_to_users = [
     for _role in local.functional_roles != null ? local.functional_roles : [] : {
@@ -87,17 +97,28 @@ locals {
   ### privileges_to_roles
   ##################################
   # warehouse privileges
+  # warehouse_privileges = flatten([
+  #   for _warehouse_role in local._access_roles_wh != null ? local._access_roles_wh : [] : [
+  #     for _warehouse in _warehouse_role.warehouses != null ? _warehouse_role.warehouses : [] : [
+  #       for _role_name in _warehouse_role.functional_roles != null ? _warehouse_role.functional_roles : [] : {
+  #         index      = upper("${_warehouse_role.name}__${_warehouse}__${_role_name}")
+  #         role_name  = _role_name
+  #         type       = "WAREHOUSE"
+  #         warehouse  = _warehouse
+  #         privileges = ["USAGE", "MONITOR", "OPERATE"]
+  #       }
+  #     ]
+  # ]])
+
   warehouse_privileges = flatten([
     for _warehouse_role in local._access_roles_wh != null ? local._access_roles_wh : [] : [
-      for _warehouse in _warehouse_role.warehouses != null ? _warehouse_role.warehouses : [] : [
-        for _role_name in _warehouse_role.functional_roles != null ? _warehouse_role.functional_roles : [] : {
-          index      = upper("${_warehouse_role.name}__${_warehouse}__${_role_name}")
-          role_name  = _role_name
-          type       = "WAREHOUSE"
-          warehouse  = _warehouse
-          privileges = ["USAGE", "MONITOR", "OPERATE"]
-        }
-      ]
+      for _warehouse in _warehouse_role.warehouses != null ? _warehouse_role.warehouses : [] : {
+        index      = upper("${_warehouse_role.name}__TO__${_warehouse}")
+        role_name  = _warehouse_role.name
+        type       = "WAREHOUSE"
+        warehouse  = _warehouse
+        privileges = ["USAGE", "MONITOR", "OPERATE"]
+      }
   ]])
 
 

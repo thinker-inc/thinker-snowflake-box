@@ -6,22 +6,27 @@ functional_roles:
   #     comment: hoge # string
   # ### ************************
 
-  - name: data_analyst
+  - name: USER_DATA_ANALYST
     comment: only role for data analyst
     users:
       - RYOTA_HASEGAWA
 
-  - name: data_engineer
+  - name: USER_DATA_ENGINEER
     comment: only role for data engineer
     users:
       - RYOTA_HASEGAWA
 
-  - name: data_ml
-    comment: only role for data ML
+  - name: USER_ML_ENGINEER
+    comment: only role for data ML engineer
     users:
       - RYOTA_HASEGAWA
 
-  - name: data_reader
+  - name: USER_DATA_READER
     comment: only role for data reading
+    users:
+      - RYOTA_HASEGAWA
+
+  - name: USER_ETL_SERVICE
+    comment: only role for ETL service
     users:
       - RYOTA_HASEGAWA
