@@ -139,7 +139,7 @@ locals {
   ])
 
   # future schema privileges
-  future_schemas_privieges = flatten([
+  future_schemas_privileges = flatten([
     for _database_grant_role in local._access_roles != null ? local._access_roles : [] : [
       for _grant_account_role in _database_grant_role.grant_account_roles != null ? _database_grant_role.grant_account_roles : [] : {
         index                     = "${_database_grant_role.name}"
@@ -223,8 +223,8 @@ locals {
 #   value = local.schema_privileges
 # }
 
-# output "future_schemas_privieges" {
-#   value = local.future_schemas_privieges
+# output "future_schemas_privileges" {
+#   value = local.future_schemas_privileges
 # }
 
 # output "_databases" {

@@ -11,7 +11,7 @@ module "module" {
   warehouse_privileges                      = local.warehouse_privileges
   database_privileges                       = local.database_privileges
   schema_privileges                         = local.schema_privileges
-  future_schemas_privieges                  = local.future_schemas_privieges
+  future_schemas_privileges                 = local.future_schemas_privileges
   view_privileges                           = local.view_privileges
   standard_monitors                         = local.standard_monitors
 }

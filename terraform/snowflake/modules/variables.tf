@@ -109,7 +109,7 @@ variable "schema_privileges" {
   description = "grant on ○○ を付与する Access role のリスト。[ {name: <name>, roles: [<role_name>], type: WAREHOUSE, DATABASE parameter: <parameter>},... ]"
 }
 
-variable "future_schemas_privieges" {
+variable "future_schemas_privileges" {
   type = list(object({
     index                     = string
     role_name                 = string

@@ -51,7 +51,7 @@ resource "snowflake_grant_privileges_to_account_role" "on_schema_grant" {
 # future schemas in database
 resource "snowflake_grant_privileges_to_account_role" "future_schema_grant" {
   for_each = {
-    for grant in var.future_schemas_privieges : "${grant.index}_future_schema_grant" => grant if grant.type == "SCHEMA"
+    for grant in var.future_schemas_privileges : "${grant.index}_future_schema_grant" => grant if grant.type == "SCHEMA"
   }
   account_role_name = upper("${each.value.role_name}")
   privileges        = each.value.feature_schema_privileges
