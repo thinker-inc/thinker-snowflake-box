@@ -45,3 +45,11 @@ warehouses:
     max_cluster_count: 1
     auto_suspend: 60
     warehouse_type: "STANDARD"
+
+  - name: ETL_SERVICE_WH
+    comment: for ETL service warehouse
+    warehouse_size: xsmall
+    min_cluster_count: 1
+    max_cluster_count: 1
+    auto_suspend: 60
+    warehouse_type: "STANDARD"

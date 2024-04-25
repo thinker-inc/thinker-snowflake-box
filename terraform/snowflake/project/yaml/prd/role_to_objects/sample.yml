@@ -11,9 +11,10 @@ access_roles:
   # ====================================
   # Read and Write Role
   - name: data_engineer_rw
-    comment: create data_engineer read and write role by terraform
+    comment: create data_engineer and etl service is read and write role by terraform
     functional_roles:
-      - data_engineer
+      - USER_DATA_ENGINEER
+      - USER_ETL_SERVICE
     grant_account_roles:
       - database: sample
         schemas:
@@ -87,8 +88,8 @@ access_roles:
   - name: data_analyst_rw
     comment: create data analyst, scientist, ml role by terraform
     functional_roles:
-      - data_analyst
-      - data_ml
+      - USER_DATA_ANALYST
+      - USER_ML_ENGINEER
     grant_account_roles:
       - database: sample
         schemas:
@@ -155,7 +156,7 @@ access_roles:
   - name: data_reader_only
     comment: create data read only role by terraform
     functional_roles:
-      - data_reader
+      - USER_DATA_READER
     grant_account_roles:
       - database: sample
         schemas:

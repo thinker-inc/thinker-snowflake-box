@@ -46,6 +46,15 @@ variable "access_roles" {
   description = "Snowflake access roles"
 }
 
+variable "grant_access_wh_roles_to_functional_roles" {
+  type = list(object({
+    index            = string
+    role_name        = string
+    parent_role_name = string
+  }))
+  description = "Access role を付与する Functional role のリスト。[ {functional_roles: [<role_a>, <role_b>, ...], access_role: <role_name>},... ]"
+}
+
 variable "grant_access_roles_to_functional_roles" {
   type = list(object({
     index            = string
@@ -100,7 +109,7 @@ variable "schema_privileges" {
   description = "grant on ○○ を付与する Access role のリスト。[ {name: <name>, roles: [<role_name>], type: WAREHOUSE, DATABASE parameter: <parameter>},... ]"
 }
 
-variable "future_schemas_privieges" {
+variable "future_schemas_privileges" {
   type = list(object({
     index                     = string
     role_name                 = string

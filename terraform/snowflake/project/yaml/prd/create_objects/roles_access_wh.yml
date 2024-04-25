@@ -12,27 +12,35 @@ access_roles:
   - name: DATA_ANALYST_WH_STANDARD_USAGE
     comment: 
     functional_roles:
-      - data_analyst
+      - USER_DATA_ANALYST
     warehouses:
-      - data_analyst_wh
+      - DATA_ANALYST_WH
 
   - name: DATA_ENGINEER_WH_STANDARD_USAGE
     comment: 
     functional_roles:
-      - data_engineer
+      - USER_DATA_ENGINEER
     warehouses:
       - data_engineer_wh
 
   - name: DATA_ML_WH_STANDARD_USAGE
     comment: 
     functional_roles:
-      - data_ml
+      - USER_ML_ENGINEER
     warehouses:
       - data_ml_wh
 
   - name: DATA_READER_WH_STANDARD_USAGE
     comment: 
     functional_roles:
-      - data_reader
+      - USER_DATA_READER
     warehouses:
       - data_reader_wh
+
+
+  - name: ETL_SERVICE_WH_STANDARD_USAGE
+    comment: 
+    functional_roles:
+      - USER_ETL_SERVICE
+    warehouses:
+      - ETL_SERVICE_WH
