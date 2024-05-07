@@ -39,7 +39,7 @@ terraform.rc
 
 # Custom .gitignore
 ssh/*
-!ssh/.gitkeep
+!ssh/generate_ssl_key.sh
 *.p8
 *.pub
 .env.local

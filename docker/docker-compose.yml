@@ -1,8 +1,6 @@
-version: "3"
-
 services:
   snowflake-terraform-standard:
-    platform: linux/x86_64
+    platform: linux/amd64
     container_name: snowflake-terraform-standard
     image: snowflake-terraform-standard:latest
     build:
@@ -13,7 +11,6 @@ services:
       - ../.env.local
     environment:
       - ENVTEST=true
-    dns: 1.1.1.1
     volumes:
       - ../:/usr/src
       - ~/.aws/:/root/.aws/

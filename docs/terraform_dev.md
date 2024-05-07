@@ -27,7 +27,11 @@ SNOWFLAKE_AUTHENTICATOR=JWT
 SNOWFLAKE_ACCOUNT=thinker-terraform_template
 SNOWFLAKE_USER=TERRAFORM_USER
 SNOWFLAKE_PRIVATE_KEY=""
+AWS_PROFILE=thinker-snowflake-terraform
 ```
+
+- AWS_PROFILE
+  - `backend.tf`のstateをS3に指定している場合は、AWSのプロファイル名を指定する
 
 ### 1. コンテナにアクセスする
 
@@ -102,7 +106,7 @@ terraform {
 ### 4. Terraform 実行ディレクトリにて terraform init
 
 ```bash
-cd terraform/snowflake/project
+cd terraform/snowflake/accounts/main
 terraform init
 ```
 
@@ -111,7 +115,7 @@ terraform init
 実行計画を確認する
 
 ```bash
-cd terraform/snowflake/project
+#cd terraform/snowflake/accounts/main
 terraform plan
 #TF_LOG_PROVIDER=DEBUG terraform plan
 ```
@@ -121,25 +125,25 @@ terraform plan
 実行完了後、Snowflake に反映されていることを確認
 
 ```bash
-#cd terraform/snowflake/project
+#cd terraform/snowflake/accounts/main
 terraform apply
 # → [ yes ] と入力
 ```
 
 ## テストなどの場合は、共通の state ファイルを使用しないように backend.tf を調整する
 
-`/terraform/snowflake/project/backend.tf`
+`terraform/snowflake/accounts/main/backend.tf`
 
 ```yml
 terraform {
 
   # コメントアウトする
   # backend "s3" {
-  #   bucket  = "thinker-snowflake"
-  #   key     = "terraform/resource"
-  #   encrypt = "true"
-  #   region  = "ap-northeast-1"
-  #   profile = "thinker-snowflake-terraform"
+  #   bucket         = "terraform-state-thinker-snowflake-standard"
+  #   key            = "terraform/resource/snowflake.tfstate"
+  #   encrypt        = "true"
+  #   region         = "ap-northeast-1"
+  #   dynamodb_table = "thinker-snowflake-standard-terraform-state-lock"
   # }
 
   # コメントアウトを解除して、ローカルを使用する
@@ -155,7 +159,7 @@ terraform {
 フォーマットでファイルを整形する
 
 ```bash
-# cd terraform/snowflake/project
+#cd terraform/snowflake/accounts/main
 terraform fmt
 ```
 
