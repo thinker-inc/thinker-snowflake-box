@@ -1,0 +1,16 @@
+########################
+# FORMAT: YAML
+# Description: Snowflake users definition file
+#   - name: USER_NAME # 一意な名前
+#     comment: description was created by terraform # コメント
+########################
+users:
+  # - name: RYOTA_HASEGAWA
+  #   comment: Account owner hasegawa
+  - name: ENGINEER_HASEGAWA
+    comment: Engineer hasegawa was created by terraform
+  - name: ANALYST_HASEGAWA
+    comment: Analyst hasegawa was created by terraform
+  - name: SCIENTIST_HASEGAWA
+    comment: Scientist hasegawa was created by terraform
+  

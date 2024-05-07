@@ -1,32 +1,33 @@
 {
-    "name": "snowflake-terraform-standard",
-    // Dockerfileでイメージ・コンテナを作成
-    "dockerComposeFile": "../docker/docker-compose.yml",
-    // 使用するサービス
-    "service": "snowflake-terraform-standard",
-    // VS Codeのワークスペースフォルダ
-    "workspaceFolder": "/usr/src",
-    "customizations": {
-      // Configure properties specific to VS Code.
-      "vscode": {
-        // Set *default* container specific settings.json values on container create.
-        // "settings": {
-        // 	"lldb.executable": "/usr/bin/lldb",
-        // VS Code don't watch files under ./target
-        // 	"files.watcherExclude": {
-        // 		"**/target/**": true
-        // 	},
-        // 	"rust-analyzer.checkOnSave.command": "clippy"
+  "name": "snowflake-terraform-standard",
+  // Dockerfileでイメージ・コンテナを作成
+  "dockerComposeFile": "../docker/docker-compose.yml",
+  // 使用するサービス
+  "service": "snowflake-terraform-standard",
+  // VS Codeのワークスペースフォルダ
+  "workspaceFolder": "/usr/src",
+  "customizations": {
+    // Configure properties specific to VS Code.
+    "vscode": {
+      // Set *default* container specific settings.json values on container create.
+      "settings": {
+        "extensions.verifySignature": false
+        //"lldb.executable": "/usr/bin/lldb",
+        //VS Code don't watch files under ./target
+        // "files.watcherExclude": {
+        // 	"**/target/**": true
         // },
-        // Add the IDs of extensions you want installed when the container is created.
-        "extensions": [
-          "ms-azuretools.vscode-docker",
-          "GitHub.copilot",
-          "hashicorp.terraform",
-          "yzhang.markdown-all-in-one",
-          "redhat.vscode-yaml"
-        ]
-      }
-    },
-    "shutdownAction": "stopCompose"
-  }
+        // "rust-analyzer.checkOnSave.command": "clippy"
+      },
+      // Add the IDs of extensions you want installed when the container is created.
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "GitHub.copilot",
+        "hashicorp.terraform",
+        "yzhang.markdown-all-in-one",
+        "redhat.vscode-yaml"
+      ]
+    }
+  },
+  "shutdownAction": "stopCompose"
+}

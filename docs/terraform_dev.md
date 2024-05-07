@@ -102,7 +102,7 @@ terraform {
 ### 4. Terraform 実行ディレクトリにて terraform init
 
 ```bash
-cd terraform/snowflake/project
+cd terraform/snowflake/accounts/main
 terraform init
 ```
 
@@ -111,7 +111,7 @@ terraform init
 実行計画を確認する
 
 ```bash
-cd terraform/snowflake/project
+#cd terraform/snowflake/accounts/main
 terraform plan
 #TF_LOG_PROVIDER=DEBUG terraform plan
 ```
@@ -121,14 +121,14 @@ terraform plan
 実行完了後、Snowflake に反映されていることを確認
 
 ```bash
-#cd terraform/snowflake/project
+#cd terraform/snowflake/accounts/main
 terraform apply
 # → [ yes ] と入力
 ```
 
 ## テストなどの場合は、共通の state ファイルを使用しないように backend.tf を調整する
 
-`/terraform/snowflake/project/backend.tf`
+`terraform/snowflake/accounts/main/backend.tf`
 
 ```yml
 terraform {
@@ -155,7 +155,7 @@ terraform {
 フォーマットでファイルを整形する
 
 ```bash
-# cd terraform/snowflake/project
+#cd terraform/snowflake/accounts/main
 terraform fmt
 ```
 
