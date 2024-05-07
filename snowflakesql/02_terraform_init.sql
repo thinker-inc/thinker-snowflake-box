@@ -15,7 +15,7 @@ WITH
 -- create user
 USE ROLE USERADMIN;
 CREATE OR REPLACE USER TERRAFORM_USER
-    RSA_PUBLIC_KEY = '' -- set public key
+    RSA_PUBLIC_KEY = '{RSA key}' -- set public key
     MUST_CHANGE_PASSWORD = FALSE
     COMMENT = 'For terraform user';
 

@@ -27,7 +27,11 @@ SNOWFLAKE_AUTHENTICATOR=JWT
 SNOWFLAKE_ACCOUNT=thinker-terraform_template
 SNOWFLAKE_USER=TERRAFORM_USER
 SNOWFLAKE_PRIVATE_KEY=""
+AWS_PROFILE=thinker-snowflake-terraform
 ```
+
+- AWS_PROFILE
+  - `backend.tf`のstateをS3に指定している場合は、AWSのプロファイル名を指定する
 
 ### 1. コンテナにアクセスする
 
@@ -135,11 +139,11 @@ terraform {
 
   # コメントアウトする
   # backend "s3" {
-  #   bucket  = "thinker-snowflake"
-  #   key     = "terraform/resource"
-  #   encrypt = "true"
-  #   region  = "ap-northeast-1"
-  #   profile = "thinker-snowflake-terraform"
+  #   bucket         = "terraform-state-thinker-snowflake-standard"
+  #   key            = "terraform/resource/snowflake.tfstate"
+  #   encrypt        = "true"
+  #   region         = "ap-northeast-1"
+  #   dynamodb_table = "thinker-snowflake-standard-terraform-state-lock"
   # }
 
   # コメントアウトを解除して、ローカルを使用する
