@@ -33,7 +33,7 @@ jobs:
           AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           AZURE_OPENAI_API_INSTANCE_NAME: ${{ secrets.AZURE_OPENAI_API_INSTANCE_NAME  }}
           AZURE_OPENAI_API_DEPLOYMENT_NAME: ${{ secrets.AZURE_OPENAI_API_DEPLOYMENT_NAME }}
-          AZURE_OPENAI_API_VERSION: 2024-02-15-preview
+          AZURE_OPENAI_API_VERSION: 2024-05-01-preview
         with: # Ref: https://github.com/coderabbitai/ai-pr-reviewer?tab=readme-ov-file#reviewer-features
           debug: true
           review_simple_changes: false
