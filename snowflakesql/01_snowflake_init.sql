@@ -32,3 +32,7 @@ ALTER ACCOUNT SET TIMEZONE = $TIMEZONE;
 -- https://docs.snowflake.com/ja/sql-reference/parameters#data-retention-time-in-days
 -- alter account set data_retention_time_in_days = 3;
 SHOW PARAMETERS like '%DATA_RETENTION_TIME_IN_DAYS%' in account;
+
+-- 識別子優先ログイン
+-- https://docs.snowflake.com/en/user-guide/identifier-first-login
+ALTER ACCOUNT SET ENABLE_IDENTIFIER_FIRST_LOGIN = true;
