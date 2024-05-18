@@ -129,34 +129,19 @@ module "fr_etl_tool_import" {
   comment = "Functional Role for etl tools import in Project {}"
 }
 
-module "fr_etl_tool_export" {
+module "fr_etl_tool_transform" {
   depends_on = [module.users, module.etl_tool_user]
   source     = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
   }
 
-  role_name = "FR_ETL_TOOL_EXPORT"
+  role_name = "FR_ETL_TRANSFORM"
   grant_user_set = [
     "RYOTA_HASEGAWA",
     module.etl_tool_user.name
   ]
-  comment = "Functional Role for etl tools export in Project {}"
-}
-
-module "fr_etl_tool_transition" {
-  depends_on = [module.users, module.etl_tool_user]
-  source     = "../../modules/functional_role"
-  providers = {
-    snowflake = snowflake.security_admin
-  }
-
-  role_name = "FR_ETL_TRANSITION"
-  grant_user_set = [
-    "RYOTA_HASEGAWA",
-    module.etl_tool_user.name
-  ]
-  comment = "Functional Role for etl tools transition in Project {}"
+  comment = "Functional Role for etl tools transform in Project {}"
 }
 
 ########################
@@ -234,305 +219,20 @@ module "etl_tool_import_wh" {
   ]
 }
 
-########################
-# Database
-########################
-# module "data_lake_db" {
-#   source = "../../modules/access_role_and_database"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
+module "etl_tool_transform_wh" {
+  source = "../../modules/access_role_and_warehouse"
+  providers = {
+    snowflake = snowflake.terraform
+  }
 
-#   database_name               = "DATA_LAKE"
-#   comment                     = "Database to store loaded raw data"
-#   data_retention_time_in_days = 1
+  warehouse_name = "ETL_TRANSFORM_WH"
+  warehouse_size = "XSMALL"
+  comment        = "Warehouse for ETL TRANSFORM of {} projects"
 
-#   admin_ar = [
-#     module.fr_data_engineer.name
-#   ]
-
-#   transformer_ar = [
-#     module.fr_data_analyst.name
-#   ]
-
-#   read_only_ar = [
-#     module.fr_analyst.name
-#   ]
-
-#   etl_tool_ar = [
-#     module.fr_etl_tool.name
-#   ]
-# }
-
-
-# module "raw_data_db" {
-#   source = "../../modules/access_role_and_database"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   database_name               = "RAW_DATA"
-#   comment                     = "Database to store loaded raw data"
-#   data_retention_time_in_days = 3
-#   grant_readwrite_ar_to_fr_set = [
-#     module.aaa_developer_fr.name,
-#     module.bbb_developer_fr.name
-#   ]
-# }
-
-# # module "staging_db" {
-# #   source = "../../modules/access_role_and_database"
-# #   providers = {
-# #     snowflake = snowflake.terraform
-# #   }
-
-# #   database_name               = "STAGING"
-# #   comment                     = "Database to store data with minimal transformation from raw data"
-# #   data_retention_time_in_days = 1
-# #   grant_readwrite_ar_to_fr_set = [
-# #     module.aaa_developer_fr.name,
-# #     module.bbb_developer_fr.name
-# #   ]
-# # }
-
-# module "dwh_db" {
-#   source = "../../modules/access_role_and_database"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   database_name               = "DWH"
-#   comment                     = "Database to store data on which various modeling has been done"
-#   data_retention_time_in_days = 1
-#   grant_readonly_ar_to_fr_set = [
-#     module.aaa_analyst_fr.name,
-#     module.bbb_analyst_fr.name
-#   ]
-#   grant_readwrite_ar_to_fr_set = [
-#     module.aaa_developer_fr.name,
-#     module.bbb_developer_fr.name
-#   ]
-# }
-
-# module "mart_db" {
-#   source = "../../modules/access_role_and_database"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   database_name               = "MART"
-#   comment                     = "Database that stores data used for reporting and linkage to another tool"
-#   data_retention_time_in_days = 1
-#   grant_readonly_ar_to_fr_set = [
-#     module.aaa_analyst_fr.name,
-#     module.bbb_analyst_fr.name
-#   ]
-#   grant_readwrite_ar_to_fr_set = [
-#     module.aaa_developer_fr.name,
-#     module.bbb_developer_fr.name
-#   ]
-# }
-
-########################
-# スキーマ
-########################
-# module "raw_data_db_aaa_schema" {
-#   source = "../../modules/access_role_and_schema"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   schema_name         = "AAA"
-#   database_name       = module.raw_data_db.name
-#   comment             = "Schema to store loaded raw data of AAA"
-#   data_retention_days = 3
-#   grant_readwrite_ar_to_fr_set = [
-#     module.aaa_developer_fr.name
-#   ]
-# }
-
-# module "raw_data_db_bbb_schema" {
-#   source = "../../modules/access_role_and_schema"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   schema_name         = "BBB"
-#   database_name       = module.raw_data_db.name
-#   comment             = "Schema to store loaded raw data of BBB"
-#   data_retention_days = 3
-#   grant_readwrite_ar_to_fr_set = [
-#     module.bbb_developer_fr.name
-#   ]
-# }
-
-# module "staging_db_aaa_schema" {
-#   source = "../../modules/access_role_and_schema"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   schema_name         = "AAA"
-#   database_name       = module.staging_db.name
-#   comment             = "Schema to store data with minimal transformation from raw data of AAA"
-#   data_retention_days = 1
-#   grant_readwrite_ar_to_fr_set = [
-#     module.aaa_developer_fr.name
-#   ]
-# }
-
-# module "staging_db_bbb_schema" {
-#   source = "../../modules/access_role_and_schema"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   schema_name         = "BBB"
-#   database_name       = module.staging_db.name
-#   comment             = "Schema to store data with minimal transformation from raw data of BBB"
-#   data_retention_days = 1
-#   grant_readwrite_ar_to_fr_set = [
-#     module.bbb_developer_fr.name
-#   ]
-# }
-
-# module "dwh_db_aaa_schema" {
-#   source = "../../modules/access_role_and_schema"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   schema_name         = "AAA"
-#   database_name       = module.dwh_db.name
-#   comment             = "Schema to store data on which various modeling has been done for AAA"
-#   data_retention_days = 1
-#   grant_readonly_ar_to_fr_set = [
-#     module.aaa_analyst_fr.name
-#   ]
-#   grant_readwrite_ar_to_fr_set = [
-#     module.aaa_developer_fr.name
-#   ]
-# }
-
-# module "dwh_db_bbb_schema" {
-#   source = "../../modules/access_role_and_schema"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   schema_name         = "BBB"
-#   database_name       = module.dwh_db.name
-#   comment             = "Schema to store data on which various modeling has been done for BBB"
-#   data_retention_days = 1
-#   grant_readonly_ar_to_fr_set = [
-#     module.bbb_analyst_fr.name
-#   ]
-#   grant_readwrite_ar_to_fr_set = [
-#     module.bbb_developer_fr.name
-#   ]
-# }
-
-# module "mart_db_aaa_schema" {
-#   source = "../../modules/access_role_and_schema"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   schema_name         = "AAA"
-#   database_name       = module.mart_db.name
-#   comment             = "Schema that stores data used for reporting and linkage to another tool for AAA"
-#   data_retention_days = 1
-#   grant_readonly_ar_to_fr_set = [
-#     module.aaa_analyst_fr.name
-#   ]
-#   grant_readwrite_ar_to_fr_set = [
-#     module.aaa_developer_fr.name
-#   ]
-# }
-
-# module "mart_db_bbb_schema" {
-#   source = "../../modules/access_role_and_schema"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   schema_name         = "BBB"
-#   database_name       = module.mart_db.name
-#   comment             = "Schema that stores data used for reporting and linkage to another tool for BBB"
-#   data_retention_days = 1
-#   grant_readonly_ar_to_fr_set = [
-#     module.bbb_analyst_fr.name
-#   ]
-#   grant_readwrite_ar_to_fr_set = [
-#     module.bbb_developer_fr.name
-#   ]
-# }
-
-# ########################
-# # ウェアハウス
-# ########################
-# module "aaa_analyse_wh" {
-#   source = "../../modules/access_role_and_warehouse"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   warehouse_name = "AAA_ANALYSE_WH"
-#   warehouse_size = "XSMALL"
-#   comment        = "Warehouse for analysis of AAA projects"
-
-#   grant_usage_ar_to_fr_set = [
-#     module.aaa_analyst_fr.name
-#   ]
-#   grant_admin_ar_to_fr_set = [
-#     module.aaa_developer_fr.name
-#   ]
-# }
-
-# module "bbb_analyse_wh" {
-#   source = "../../modules/access_role_and_warehouse"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   warehouse_name = "BBB_ANALYSE_WH"
-#   warehouse_size = "XSMALL"
-#   comment        = "Warehouse for analysis of BBB projects"
-
-#   grant_usage_ar_to_fr_set = [
-#     module.bbb_analyst_fr.name
-#   ]
-#   grant_admin_ar_to_fr_set = [
-#     module.bbb_developer_fr.name
-#   ]
-# }
-
-# module "aaa_develop_wh" {
-#   source = "../../modules/access_role_and_warehouse"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   warehouse_name = "AAA_DEVELOP_WH"
-#   warehouse_size = "XSMALL"
-#   comment        = "Warehouse for develop of AAA projects"
-
-#   grant_admin_ar_to_fr_set = [
-#     module.aaa_developer_fr.name
-#   ]
-# }
-
-# module "bbb_develop_wh" {
-#   source = "../../modules/access_role_and_warehouse"
-#   providers = {
-#     snowflake = snowflake.terraform
-#   }
-
-#   warehouse_name = "BBB_DEVELOP_WH"
-#   warehouse_size = "XSMALL"
-#   comment        = "Warehouse for develop of BBB projects"
-
-#   grant_admin_ar_to_fr_set = [
-#     module.bbb_developer_fr.name
-#   ]
-# }
+  grant_usage_ar_to_fr_set = [
+    module.fr_etl_tool_transform.name
+  ]
+  grant_admin_ar_to_fr_set = [
+    module.fr_manager.name
+  ]
+}
