@@ -1,8 +1,7 @@
-FROM nikolaik/python-nodejs:python3.11-nodejs20
+FROM ubuntu:22.04
 
-#ENV AWS_CLI_VER=2.13.20
-ENV TERRAFORM_VER=1.8.2
-ENV SERVERLESS_VERSION=3.33.0
+#ARG AWS_CLI_VER=2.13.20
+ENV TERRAFORM_VER=1.9.2
 
 # BASE
 RUN apt update
@@ -26,14 +25,6 @@ RUN git clone https://github.com/tfutils/tfenv ~/.tfenv
 RUN ln -s ~/.tfenv/bin/* /usr/local/bin
 RUN tfenv install $TERRAFORM_VER
 RUN tfenv use $TERRAFORM_VER
-
-# Serverless framework
-# RUN npm install -g serverless@$SERVERLESS_VERSION
-# RUN npm install -g serverless-better-credentials
-# RUN npm install -g serverless-python-requirements
-# RUN npm install -g aws-sdk
-# RUN npm install -g serverless-deployment-bucket
-# ENV AWS_SDK_LOAD_CONFIG 1
 
 # SETUP
 ENV SRCDIR /usr/src

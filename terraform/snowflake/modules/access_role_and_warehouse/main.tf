@@ -1,3 +1,8 @@
+########################################
+# Document URL:
+# https://registry.terraform.io/providers/Snowflake-Labs/snowflake/latest/docs/resources/warehouse
+########################################
+
 # ウェアハウスの作成
 resource "snowflake_warehouse" "this" {
   name           = var.warehouse_name
