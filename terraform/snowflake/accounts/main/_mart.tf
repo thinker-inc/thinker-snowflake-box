@@ -38,10 +38,10 @@ module "mart_db_tableau_schema" {
     snowflake = snowflake.terraform
   }
 
-  schema_name         = "TABLEAU_BI"
-  database_name       = module.mart_db.name
-  comment             = "Schema that stores data used for reporting and linkage to another tool for TABLEAU"
-  data_retention_days = 1
+  schema_name                 = "TABLEAU_BI"
+  database_name               = module.mart_db.name
+  comment                     = "Schema that stores data used for reporting and linkage to another tool for TABLEAU"
+  data_retention_time_in_days = 1
 
   manager_ar_to_fr_set = [
     module.fr_manager.name
@@ -67,10 +67,10 @@ module "mart_db_ad_google_schema" {
     snowflake = snowflake.terraform
   }
 
-  schema_name         = "AD_GOOGLE"
-  database_name       = module.mart_db.name
-  comment             = "Schema that stores data used for reporting and linkage to another tool for AD Google"
-  data_retention_days = 1
+  schema_name                 = "AD_GOOGLE"
+  database_name               = module.mart_db.name
+  comment                     = "Schema that stores data used for reporting and linkage to another tool for AD Google"
+  data_retention_time_in_days = 1
 
   manager_ar_to_fr_set = [
     module.fr_manager.name

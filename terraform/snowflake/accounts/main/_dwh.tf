@@ -38,10 +38,10 @@ module "dwh_db_service_AB_schema" {
     snowflake = snowflake.terraform
   }
 
-  schema_name         = "DATAMODEL_AB"
-  database_name       = module.dwh_db.name
-  comment             = "Schema to store data on which various modeling has been done AB model"
-  data_retention_days = 1
+  schema_name                 = "DATAMODEL_AB"
+  database_name               = module.dwh_db.name
+  comment                     = "Schema to store data on which various modeling has been done AB model"
+  data_retention_time_in_days = 1
 
   manager_ar_to_fr_set = [
     module.fr_manager.name

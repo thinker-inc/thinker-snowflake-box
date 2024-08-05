@@ -25,7 +25,7 @@ resource "snowflake_warehouse" "this" {
 }
 
 # 対象のウェアハウスに対するUSAGEのAccess Roleを作成
-resource "snowflake_role" "usage_ar" {
+resource "snowflake_account_role" "usage_ar" {
   name    = "_WAREHOUSE_${snowflake_warehouse.this.name}_USAGE_AR"
   comment = "USAGE role of ${snowflake_warehouse.this.name}"
 
@@ -35,27 +35,27 @@ resource "snowflake_role" "usage_ar" {
 # USAGEのAccess Roleへの権限のgrant
 resource "snowflake_grant_privileges_to_account_role" "grant_usage" {
   privileges        = ["USAGE", "MONITOR"]
-  account_role_name = snowflake_role.usage_ar.name
+  account_role_name = snowflake_account_role.usage_ar.name
   on_account_object {
     object_type = "WAREHOUSE"
     object_name = snowflake_warehouse.this.name
   }
 
-  depends_on = [snowflake_role.usage_ar]
+  depends_on = [snowflake_account_role.usage_ar]
 }
 
 # Functional RoleにUSAGEのAccess Roleをgrant
 resource "snowflake_grant_account_role" "grant_usage_ar_to_fr" {
   for_each = var.grant_usage_ar_to_fr_set
 
-  role_name        = snowflake_role.usage_ar.name
+  role_name        = snowflake_account_role.usage_ar.name
   parent_role_name = each.value
 
-  depends_on = [snowflake_role.usage_ar]
+  depends_on = [snowflake_account_role.usage_ar]
 }
 
 # 対象のウェアハウスに対するADMINのAccess Roleを作成
-resource "snowflake_role" "admin_ar" {
+resource "snowflake_account_role" "admin_ar" {
   name    = "_WAREHOUSE_${snowflake_warehouse.this.name}_ADMIN_AR"
   comment = "ADMIN role of ${snowflake_warehouse.this.name}"
 
@@ -65,30 +65,30 @@ resource "snowflake_role" "admin_ar" {
 # ADMINのAccess Roleへの権限のgrant
 resource "snowflake_grant_privileges_to_account_role" "grant_admin" {
   all_privileges    = true
-  account_role_name = snowflake_role.admin_ar.name
+  account_role_name = snowflake_account_role.admin_ar.name
   on_account_object {
     object_type = "WAREHOUSE"
     object_name = snowflake_warehouse.this.name
   }
 
-  depends_on = [snowflake_role.admin_ar]
+  depends_on = [snowflake_account_role.admin_ar]
 }
 
 # Functional RoleにADMINのAccess Roleをgrant
 resource "snowflake_grant_account_role" "grant_admin_ar_to_fr" {
   for_each = var.grant_admin_ar_to_fr_set
 
-  role_name        = snowflake_role.admin_ar.name
+  role_name        = snowflake_account_role.admin_ar.name
   parent_role_name = each.value
 
-  depends_on = [snowflake_role.admin_ar]
+  depends_on = [snowflake_account_role.admin_ar]
 }
 
 # SYSADMINにAccess Roleをgrant
 resource "snowflake_grant_account_role" "grant_to_sysadmin" {
-  for_each         = toset([snowflake_role.usage_ar.name, snowflake_role.admin_ar.name])
+  for_each         = toset([snowflake_account_role.usage_ar.name, snowflake_account_role.admin_ar.name])
   role_name        = each.value
   parent_role_name = "SYSADMIN"
 
-  depends_on = [snowflake_role.usage_ar, snowflake_role.admin_ar]
+  depends_on = [snowflake_account_role.usage_ar, snowflake_account_role.admin_ar]
 }
