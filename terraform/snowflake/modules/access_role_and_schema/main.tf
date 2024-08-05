@@ -5,13 +5,13 @@
 
 # スキーマの作成
 resource "snowflake_schema" "this" {
-  database            = var.database_name
-  name                = var.schema_name
-  comment             = var.comment
-  data_retention_days = var.data_retention_days
+  database                    = var.database_name
+  name                        = var.schema_name
+  comment                     = var.comment
+  data_retention_time_in_days = var.data_retention_time_in_days
 
-  is_managed   = var.is_managed
-  is_transient = var.is_transient
+  with_managed_access = var.with_managed_access
+  is_transient        = var.is_transient
 }
 
 ########################

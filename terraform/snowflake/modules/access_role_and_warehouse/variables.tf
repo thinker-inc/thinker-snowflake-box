@@ -25,7 +25,7 @@ variable "comment" {
 variable "enable_query_acceleration" {
   description = "Specifies whether to enable the query acceleration service for queries that rely on this warehouse for compute resources."
   type        = bool
-  default     = null
+  default     = false
 }
 
 variable "initially_suspended" {
@@ -67,7 +67,7 @@ variable "resource_monitor" {
 variable "scaling_policy" {
   description = "Specifies the policy for automatically starting and shutting down clusters in a multi-cluster warehouse running in Auto-scale mode."
   type        = string
-  default     = null
+  default     = "STANDARD"
 }
 
 variable "statement_queued_timeout_in_seconds" {
@@ -79,7 +79,7 @@ variable "statement_queued_timeout_in_seconds" {
 variable "statement_timeout_in_seconds" {
   description = "Specifies the time, in seconds, after which a running SQL statement (query, DDL, DML, etc.) is canceled by the system"
   type        = number
-  default     = 3600
+  default     = 1800 # 30min
 }
 
 variable "warehouse_size" {

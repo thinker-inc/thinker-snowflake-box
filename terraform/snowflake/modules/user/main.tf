@@ -1,3 +1,7 @@
+
+# TODO: [Feature]: Support snowflake_user TYPE property
+# https://github.com/Snowflake-Labs/terraform-provider-snowflake/issues/2951
+
 resource "snowflake_user" "this" {
   name         = upper(var.name)
   login_name   = var.login_name

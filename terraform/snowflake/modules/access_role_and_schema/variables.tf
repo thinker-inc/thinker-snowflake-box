@@ -16,13 +16,13 @@ variable "comment" {
   default     = null
 }
 
-variable "data_retention_days" {
+variable "data_retention_time_in_days" {
   description = "Time travelable period to be set for the entire schema."
   type        = number
   default     = null
 }
 
-variable "is_managed" {
+variable "with_managed_access" {
   description = "Specifies a managed schema."
   type        = bool
   default     = false
