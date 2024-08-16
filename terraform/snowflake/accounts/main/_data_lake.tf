@@ -24,8 +24,12 @@ module "data_lake_db" {
     module.fr_analyst.name
   ]
 
-  etl_tool_ar_to_fr_set = [
+  etl_tool_import_ar_to_fr_set = [
     module.fr_etl_tool_import.name
+  ]
+
+  etl_tool_transform_ar_to_fr_set = [
+    module.fr_etl_tool_transform.name
   ]
 }
 
@@ -56,8 +60,12 @@ module "data_lake_db_service_a_schema" {
     module.fr_analyst.name
   ]
 
-  etl_tool_ar_to_fr_set = [
+  etl_tool_import_ar_to_fr_set = [
     module.fr_etl_tool_import.name
+  ]
+
+  etl_tool_transform_ar_to_fr_set = [
+    module.fr_etl_tool_transform.name
   ]
 }
 
@@ -85,7 +93,11 @@ module "data_lake_db_service_b_schema" {
     module.fr_scientist.name
   ]
 
-  etl_tool_ar_to_fr_set = [
+  etl_tool_import_ar_to_fr_set = [
     module.fr_etl_tool_import.name
+  ]
+
+  etl_tool_transform_ar_to_fr_set = [
+    module.fr_etl_tool_transform.name
   ]
 }

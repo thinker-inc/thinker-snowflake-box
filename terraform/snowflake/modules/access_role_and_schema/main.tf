@@ -211,35 +211,35 @@ resource "snowflake_grant_database_role" "grant_readonly_ar_to_fr" {
 }
 
 ########################
-# ETL Tools Role Group
+# ETL Tools Import Role Group
 ########################
 
 # 対象のデータベースに対するRead/WriteのAccess Roleを作成
-resource "snowflake_database_role" "etl_tool_ar" {
+resource "snowflake_database_role" "etl_tool_import_ar" {
   database = snowflake_schema.this.database
-  name     = "_SCM_${snowflake_schema.this.name}_ETL_TOOL_AR"
-  comment  = "Etl tools role of ${snowflake_schema.this.name} schema"
+  name     = "_SCM_${snowflake_schema.this.name}_ETL_TOOL_IMPORT_AR"
+  comment  = "Etl tools import role of ${snowflake_schema.this.name} schema"
 
   depends_on = [snowflake_schema.this]
 }
 
 # Read WriteのAccess Roleへのスキーマ権限のgrant
-resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_schema" {
+resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_schema" {
   privileges = [
-    "USAGE", "CREATE STAGE", "CREATE TABLE", "CREATE VIEW"
+    "USAGE", "CREATE STAGE", "CREATE TABLE"
   ]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_ar.name}\""
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
   on_schema {
     schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
   }
 
-  depends_on = [snowflake_database_role.etl_tool_ar]
+  depends_on = [snowflake_database_role.etl_tool_import_ar]
 }
 
 # Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
-resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_all_tables" {
-  privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_ar.name}\""
+resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_all_tables" {
+  privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
   on_schema_object {
     all {
       object_type_plural = "TABLES"
@@ -247,13 +247,13 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_all_table
     }
   }
 
-  depends_on = [snowflake_database_role.etl_tool_ar]
+  depends_on = [snowflake_database_role.etl_tool_import_ar]
 }
 
 # Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
-resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_future_tables" {
-  privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_ar.name}\""
+resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_future_tables" {
+  privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
   on_schema_object {
     future {
       object_type_plural = "TABLES"
@@ -261,19 +261,82 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_future_ta
     }
   }
 
-  depends_on = [snowflake_database_role.etl_tool_ar]
+  depends_on = [snowflake_database_role.etl_tool_import_ar]
 }
 
 # Functional RoleにRead/WriteのAccess Roleをgrant
-resource "snowflake_grant_database_role" "grant_etl_tool_ar_to_fr" {
-  for_each = var.etl_tool_ar_to_fr_set
+resource "snowflake_grant_database_role" "grant_etl_tool_import_ar_to_fr" {
+  for_each = var.etl_tool_import_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_ar.name}\""
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
   parent_role_name   = each.value
 
-  depends_on = [snowflake_database_role.etl_tool_ar]
+  depends_on = [snowflake_database_role.etl_tool_import_ar]
 }
 
+########################
+# ETL Tools Transform Role Group
+########################
+
+# 対象のデータベースに対するRead/WriteのAccess Roleを作成
+resource "snowflake_database_role" "etl_tool_transform_ar" {
+  database = snowflake_schema.this.database
+  name     = "_SCM_${snowflake_schema.this.name}_ETL_TOOL_TRANSFORM_AR"
+  comment  = "Etl tools transform role of ${snowflake_schema.this.name} schema"
+
+  depends_on = [snowflake_schema.this]
+}
+
+# Read WriteのAccess Roleへのスキーマ権限のgrant
+resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform_schema" {
+  privileges = [
+    "USAGE", "CREATE TABLE", "CREATE VIEW"
+  ]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
+  on_schema {
+    schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+  }
+
+  depends_on = [snowflake_database_role.etl_tool_transform_ar]
+}
+
+# Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
+resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform_all_tables" {
+  privileges         = ["SELECT", "INSERT", "UPDATE", "DELETE", "REFERENCES"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
+  on_schema_object {
+    all {
+      object_type_plural = "TABLES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.etl_tool_transform_ar]
+}
+
+# Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform_future_tables" {
+  privileges         = ["SELECT", "INSERT", "UPDATE", "DELETE", "REFERENCES"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "TABLES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.etl_tool_transform_ar]
+}
+
+# Functional RoleにRead/WriteのAccess Roleをgrant
+resource "snowflake_grant_database_role" "grant_etl_tool_transform_ar_to_fr" {
+  for_each = var.etl_tool_transform_ar_to_fr_set
+
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
+  parent_role_name   = each.value
+
+  depends_on = [snowflake_database_role.etl_tool_transform_ar]
+}
 
 ########################
 # SYSADMINにAccess Roleをgrant
@@ -283,7 +346,8 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
     snowflake_database_role.manager_ar.name,
     snowflake_database_role.transformer_ar.name,
     snowflake_database_role.read_only_ar.name,
-    snowflake_database_role.etl_tool_ar.name
+    snowflake_database_role.etl_tool_import_ar.name,
+    snowflake_database_role.etl_tool_transform_ar.name
   ])
   database_role_name = "\"${snowflake_schema.this.database}\".\"${each.value}\""
   parent_role_name   = "SYSADMIN"
@@ -292,6 +356,7 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
     snowflake_database_role.manager_ar,
     snowflake_database_role.transformer_ar,
     snowflake_database_role.read_only_ar,
-    snowflake_database_role.etl_tool_ar
+    snowflake_database_role.etl_tool_import_ar,
+    snowflake_database_role.etl_tool_transform_ar
   ]
 }

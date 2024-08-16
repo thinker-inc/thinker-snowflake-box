@@ -24,8 +24,12 @@ module "mart_db" {
     module.fr_analyst.name
   ]
 
-  etl_tool_ar_to_fr_set = [
+  etl_tool_import_ar_to_fr_set = [
     module.fr_etl_tool_import.name
+  ]
+
+  etl_tool_transform_ar_to_fr_set = [
+    module.fr_etl_tool_transform.name
   ]
 }
 
@@ -56,8 +60,12 @@ module "mart_db_tableau_schema" {
     module.fr_analyst.name
   ]
 
-  etl_tool_ar_to_fr_set = [
+  etl_tool_import_ar_to_fr_set = [
     module.fr_etl_tool_import.name
+  ]
+
+  etl_tool_transform_ar_to_fr_set = [
+    module.fr_etl_tool_transform.name
   ]
 }
 
@@ -85,7 +93,11 @@ module "mart_db_ad_google_schema" {
     module.fr_analyst.name
   ]
 
-  etl_tool_ar_to_fr_set = [
+  etl_tool_import_ar_to_fr_set = [
     module.fr_etl_tool_import.name
+  ]
+
+  etl_tool_transform_ar_to_fr_set = [
+    module.fr_etl_tool_transform.name
   ]
 }
