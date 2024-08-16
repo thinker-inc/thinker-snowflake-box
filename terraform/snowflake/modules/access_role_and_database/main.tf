@@ -148,7 +148,7 @@ resource "snowflake_database_role" "etl_tool_transform_ar" {
 
 # Etl tools transformのAccess Roleへの権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform" {
-  privileges         = ["USAGE", "MONITOR", "CREATE SCHEMA"]
+  privileges         = ["USAGE", "MONITOR"]
   database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
   on_database        = snowflake_database.this.name
 
