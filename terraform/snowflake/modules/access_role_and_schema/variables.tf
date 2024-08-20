@@ -46,7 +46,13 @@ variable "transformer_ar_to_fr_set" {
   default     = []
 }
 
-variable "etl_tool_ar_to_fr_set" {
+variable "etl_tool_import_ar_to_fr_set" {
+  description = "Set of functional role for grant read/write access role"
+  type        = set(string)
+  default     = []
+}
+
+variable "etl_tool_transform_ar_to_fr_set" {
   description = "Set of functional role for grant read/write access role"
   type        = set(string)
   default     = []

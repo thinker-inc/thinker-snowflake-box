@@ -104,34 +104,65 @@ resource "snowflake_grant_database_role" "grant_readonly_ar_to_fr" {
 
 
 ########################
-# ETL Tools Access Role
+# ETL Tools Import Access Role
 ########################
 # 対象のデータベースに対するETL TOOLのAccess Roleを作成
-resource "snowflake_database_role" "etl_tool_ar" {
+resource "snowflake_database_role" "etl_tool_import_ar" {
   database = snowflake_database.this.name
-  name     = "_DATABASE_${snowflake_database.this.name}_ETL_TOOL_AR"
-  comment  = "Etl tools role of ${snowflake_database.this.name}"
+  name     = "_DATABASE_${snowflake_database.this.name}_ETL_TOOL_IMPORT_AR"
+  comment  = "Etl tools import role of ${snowflake_database.this.name}"
 
   depends_on = [snowflake_database.this]
 }
 
-# Etl toolsのAccess Roleへの権限のgrant
-resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool" {
+# Etl tools importのAccess Roleへの権限のgrant
+resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import" {
   privileges         = ["USAGE", "MONITOR", "CREATE SCHEMA"]
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.etl_tool_ar.name}\""
+  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
   on_database        = snowflake_database.this.name
 
-  depends_on = [snowflake_database_role.etl_tool_ar]
+  depends_on = [snowflake_database_role.etl_tool_import_ar]
 }
 
 # Functional RoleにRead/WriteのAccess Roleをgrant
-resource "snowflake_grant_database_role" "grant_etl_tool_ar_to_fr" {
-  for_each = var.etl_tool_ar_to_fr_set
+resource "snowflake_grant_database_role" "grant_etl_tool_import_ar_to_fr" {
+  for_each = var.etl_tool_import_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.etl_tool_ar.name}\""
+  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
   parent_role_name   = each.value
 
-  depends_on = [snowflake_database_role.etl_tool_ar]
+  depends_on = [snowflake_database_role.etl_tool_import_ar]
+}
+
+########################
+# ETL Tools Transform Access Role
+########################
+# 対象のデータベースに対するETL TOOLのAccess Roleを作成
+resource "snowflake_database_role" "etl_tool_transform_ar" {
+  database = snowflake_database.this.name
+  name     = "_DATABASE_${snowflake_database.this.name}_ETL_TOOL_TRANSFORM_AR"
+  comment  = "Etl tools transform role of ${snowflake_database.this.name}"
+
+  depends_on = [snowflake_database.this]
+}
+
+# Etl tools transformのAccess Roleへの権限のgrant
+resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform" {
+  privileges         = ["USAGE", "MONITOR"]
+  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
+  on_database        = snowflake_database.this.name
+
+  depends_on = [snowflake_database_role.etl_tool_transform_ar]
+}
+
+# Functional RoleにRead/WriteのAccess Roleをgrant
+resource "snowflake_grant_database_role" "grant_etl_tool_transform_ar_to_fr" {
+  for_each = var.etl_tool_transform_ar_to_fr_set
+
+  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
+  parent_role_name   = each.value
+
+  depends_on = [snowflake_database_role.etl_tool_transform_ar]
 }
 
 ########################
@@ -142,7 +173,8 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
     snowflake_database_role.manager_ar.name,
     snowflake_database_role.transformer_ar.name,
     snowflake_database_role.read_only_ar.name,
-    snowflake_database_role.etl_tool_ar.name
+    snowflake_database_role.etl_tool_import_ar.name,
+    snowflake_database_role.etl_tool_transform_ar.name
   ])
   database_role_name = "\"${snowflake_database.this.name}\".\"${each.value}\""
   parent_role_name   = "SYSADMIN"
@@ -151,6 +183,7 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
     snowflake_database_role.manager_ar,
     snowflake_database_role.transformer_ar,
     snowflake_database_role.read_only_ar,
-    snowflake_database_role.etl_tool_ar
+    snowflake_database_role.etl_tool_import_ar,
+    snowflake_database_role.etl_tool_transform_ar
   ]
 }
