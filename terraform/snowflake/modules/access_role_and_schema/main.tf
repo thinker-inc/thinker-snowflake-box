@@ -302,7 +302,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform
 
 # Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform_all_tables" {
-  privileges         = ["SELECT", "INSERT", "UPDATE", "DELETE", "REFERENCES"]
+  privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
   database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
   on_schema_object {
     all {
@@ -316,7 +316,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform
 
 # Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
 resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform_future_tables" {
-  privileges         = ["SELECT", "INSERT", "UPDATE", "DELETE", "REFERENCES"]
+  privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
   database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
   on_schema_object {
     future {
