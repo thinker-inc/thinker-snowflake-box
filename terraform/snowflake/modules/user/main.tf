@@ -13,9 +13,9 @@ resource "snowflake_user" "this" {
   first_name   = var.first_name
   last_name    = var.last_name
 
-  default_warehouse       = var.default_warehouse
-  default_secondary_roles = var.default_secondary_roles
-  default_role            = var.default_role
+  default_warehouse              = var.default_warehouse
+  default_secondary_roles_option = var.default_secondary_roles_option
+  default_role                   = var.default_role
 
   rsa_public_key   = var.rsa_public_key
   rsa_public_key_2 = var.rsa_public_key_2

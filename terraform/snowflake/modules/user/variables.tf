@@ -59,9 +59,9 @@ variable "default_warehouse" {
   default     = null
 }
 
-variable "default_secondary_roles" {
+variable "default_secondary_roles_option" {
   description = "Specifies the set of secondary roles that are active for the user's session upon login. Currently only [ALL] value is supported"
-  type        = set(string)
+  type        = string
   default     = null
 }
 
