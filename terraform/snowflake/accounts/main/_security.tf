@@ -19,7 +19,7 @@ module "security_db" {
 ########################
 # Schema
 ########################
-module "security_db_service_a_schema" {
+module "security_db_network_schema" {
   source = "../../modules/access_role_and_schema"
   providers = {
     snowflake = snowflake.terraform
