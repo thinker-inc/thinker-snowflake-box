@@ -10,7 +10,7 @@ terraform {
 # 事前にSYSADMINとSECURITYADMINをGRANTしたロール。
 provider "snowflake" {
   alias = "terraform"
-  role  = "TERRAFORM"
+  role  = "TERRAFORM_SR"
 }
 
 provider "snowflake" {
@@ -21,4 +21,9 @@ provider "snowflake" {
 provider "snowflake" {
   alias = "security_admin"
   role  = "SECURITYADMIN"
+}
+
+provider "snowflake" {
+  alias = "fr_manager"
+  role  = "FR_MANAGER"
 }

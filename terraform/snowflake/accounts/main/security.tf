@@ -1,3 +1,26 @@
+locals {
+  # THINKERのユーザー
+  attachment_thinker_users = [
+    "RYOTA_HASEGAWA",
+    "HUNAG",
+    "ANALYST_HASEGAWA",
+    "ENGINEER_HASEGAWA"
+  ]
+}
+
+########################
+# grant on account
+########################
+module "grant_on_account" {
+  source = "../../modules/grant_on_account"
+  providers = {
+    snowflake = snowflake.terraform
+  }
+
+  apply_authentication_policy_role_name = module.fr_manager.name
+  create_network_policy_role_name       = module.fr_manager.name
+}
+
 ########################
 # Network Rule
 # Network Ruleは、ネットワークアクセスを制御するためのルールです。
@@ -5,7 +28,7 @@
 module "network_rule_thinker" {
   source = "../../modules/network_rule"
   providers = {
-    snowflake = snowflake.terraform
+    snowflake = snowflake.fr_manager
   }
 
   rule_name = "NETWORK_RULE_THINKER"
@@ -15,7 +38,8 @@ module "network_rule_thinker" {
   type      = "IPV4"
   mode      = "INGRESS"
   value_list = [
-    "133.242.237.194"
+    "133.242.237.194", #interlink
+    "35.73.194.191"    #cloudflare
   ]
 }
 
@@ -23,12 +47,12 @@ module "network_rule_thinker" {
 # Network Policy
 ########################
 locals {
-  attachment_users = ["THINKER_HUANG"]
+  attachment_users = ["HUNAG"]
 }
 module "network_policy_thinker" {
   source = "../../modules/network_policy"
   providers = {
-    snowflake = snowflake.terraform
+    snowflake = snowflake.fr_manager
   }
 
   policy_name = "NETWORK_POLICY_THINKER"
@@ -40,7 +64,8 @@ module "network_policy_thinker" {
 
   blocked_network_rule_list = []
 
-  set_for_account = false
-  users           = local.attachment_users
+  set_for_account = true
+  #users           = local.attachment_thinker_users
 
+  depends_on = [module.grant_on_account]
 }
