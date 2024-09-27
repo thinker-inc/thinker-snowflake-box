@@ -54,6 +54,20 @@ module "fr_manager" {
   comment = "Functional Role for Admin in Project all"
 }
 
+module "fr_security_manager" {
+  depends_on = [module.users]
+  source     = "../../modules/functional_role"
+  providers = {
+    snowflake = snowflake.security_admin
+  }
+
+  role_name = "FR_SECURITY_MANAGER"
+  grant_user_set = [
+    "RYOTA_HASEGAWA"
+  ]
+  comment = "Functional Role for Security Manager in Project all"
+}
+
 module "fr_data_engineer" {
   depends_on = [module.users]
   source     = "../../modules/functional_role"
@@ -231,6 +245,24 @@ module "etl_tool_transform_wh" {
 
   grant_usage_ar_to_fr_set = [
     module.fr_etl_tool_transform.name
+  ]
+  grant_admin_ar_to_fr_set = [
+    module.fr_manager.name
+  ]
+}
+
+module "security_manager_wh" {
+  source = "../../modules/access_role_and_warehouse"
+  providers = {
+    snowflake = snowflake.terraform
+  }
+
+  warehouse_name = "SECURITY_MANAGER_WH"
+  warehouse_size = "XSMALL"
+  comment        = "Warehouse for Security Manager"
+
+  grant_usage_ar_to_fr_set = [
+    module.fr_security_manager.name
   ]
   grant_admin_ar_to_fr_set = [
     module.fr_manager.name
