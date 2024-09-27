@@ -24,6 +24,6 @@ provider "snowflake" {
 }
 
 provider "snowflake" {
-  alias = "fr_manager"
-  role  = "FR_MANAGER"
+  alias = "fr_security_manager"
+  role  = "FR_SECURITY_MANAGER"
 }

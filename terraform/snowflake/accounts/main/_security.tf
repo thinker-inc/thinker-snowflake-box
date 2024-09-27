@@ -12,7 +12,8 @@ module "security_db" {
   data_retention_time_in_days = 30
 
   manager_ar_to_fr_set = [
-    module.fr_manager.name
+    module.fr_manager.name,
+    module.fr_security_manager.name
   ]
 }
 
@@ -27,10 +28,28 @@ module "security_db_network_schema" {
 
   schema_name                 = "NETWORK"
   database_name               = module.security_db.name
-  comment                     = "セキュリティルール"
+  comment                     = "for NETWORK POLICY"
   data_retention_time_in_days = 30
 
   manager_ar_to_fr_set = [
-    module.fr_manager.name
+    module.fr_manager.name,
+    module.fr_security_manager.name
+  ]
+}
+
+module "security_db_authentication_schema" {
+  source = "../../modules/access_role_and_schema"
+  providers = {
+    snowflake = snowflake.terraform
+  }
+
+  schema_name                 = "AUTHENTICATION"
+  database_name               = module.security_db.name
+  comment                     = "for AUTHENTICATION POLICY"
+  data_retention_time_in_days = 30
+
+  manager_ar_to_fr_set = [
+    module.fr_manager.name,
+    module.fr_security_manager.name
   ]
 }
