@@ -11,6 +11,22 @@ module "grant_on_account" {
 }
 
 
+########################
+# Password Policy
+# Doc: https://docs.snowflake.com/en/sql-reference/sql/create-password-policy
+########################
+module "password_policy" {
+  source = "../../modules/password_policy"
+  providers = {
+    snowflake = snowflake.fr_security_manager
+  }
+
+  password_policy_name = "PASSWORD_POLICY_DEFAULT"
+  databse              = module.security_db.name
+  schema               = module.security_db_authentication_schema.name
+  comment              = "デフォルトのパスワードポリシー"
+  min_length           = 14
+}
 
 ########################
 # Network Rule
@@ -42,7 +58,7 @@ module "network_rule_thinker" {
   rule_name = "NETWORK_RULE_THINKER"
   databse   = module.security_db.name
   schema    = module.security_db_network_schema.name
-  comment   = "株式会社シンカー グローバルIP"
+  comment   = "株式会社シンカー グローバルIP 許可リスト"
   type      = "IPV4"
   mode      = "INGRESS"
   value_list = [
@@ -60,7 +76,7 @@ module "network_rule_trocco" {
   rule_name = "NETWORK_RULE_TROCCO"
   databse   = module.security_db.name
   schema    = module.security_db_network_schema.name
-  comment   = "TROCCO グローバルIP"
+  comment   = "TROCCO グローバルIP 許可リスト"
   type      = "IPV4"
   mode      = "INGRESS"
   value_list = [
