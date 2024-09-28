@@ -36,12 +36,12 @@ jobs:
           OPENAI_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           # `https://{AZURE_OPENAI_API_INSTANCE_NAME}.openai.azure.com/openai/deployments/{AZURE_OPENAI_API_DEPLOYMENT_NAME}/chat/completions?api-version={AZURE_OPENAI_API_VERSION}`;
           OPENAI.API_TYPE: "azure"
-          OPENAI.API_BASE: "https://${{ secrets.AZURE_OPENAI_API_INSTANCE_NAME }}.openai.azure.com"
-          OPENAI.DEPLOYMENT_ID: ${{ secrets.AZURE_OPENAI_API_DEPLOYMENT_ID }}
-          OPENAI.API_VERSION: ${{ secrets.AZURE_OPENAI_API_VERSION }}
+          OPENAI.API_BASE: 'https://${{ secrets.AZURE_OPENAI_API_INSTANCE_NAME }}.openai.azure.com'
+          OPENAI.DEPLOYMENT_ID: '${{ secrets.AZURE_OPENAI_API_DEPLOYMENT_ID }}'
+          OPENAI.API_VERSION: '${{ secrets.AZURE_OPENAI_API_VERSION }}'
           AZURE_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-          AZURE_API_BASE: "https://${{ secrets.AZURE_OPENAI_API_INSTANCE_NAME }}.openai.azure.com"
-          AZURE_API_VERSION: ${{ secrets.AZURE_OPENAI_API_VERSION }}
+          AZURE_API_BASE: 'https://${{ secrets.AZURE_OPENAI_API_INSTANCE_NAME }}.openai.azure.com'
+          AZURE_API_VERSION: '${{ secrets.AZURE_OPENAI_API_VERSION }}'
 
           # pr_description
           github_action_config.auto_review: "false"
