@@ -4,14 +4,8 @@
 [config]
 #ignore_pr_labels = ['']
 
-[ignore]
-glob = [
-    # Ignore files and directories matching these glob patterns.
-    # See https://docs.python.org/3/library/glob.html
-    'vendor/**',
-]
-
 [pr_description]
+publish_labels = false
 generate_ai_title = false
 final_update_message = true
 extra_instructions="""\
@@ -39,3 +33,12 @@ extra_instructions="""\
 Emphasize the following:
 - Please use Japanese for everything.
 """
+
+[ignore]
+glob = [
+    # Ignore files and directories matching these glob patterns.
+    # See https://docs.python.org/3/library/glob.html
+    'vendor/**',
+    '**/package-lock.json', 
+    'package-lock.json'
+]
