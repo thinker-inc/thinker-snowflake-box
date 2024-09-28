@@ -44,11 +44,9 @@ jobs:
           AZURE_API_TYPE: 'azure'
           AZURE_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
           AZURE_API_BASE: 'https://${{ secrets.AZURE_OPENAI_API_INSTANCE_NAME }}.openai.azure.com'
-
-          #OPENAI.API_VERSION: '2024-06-01'
-          OPENAI_API_VERSION: '2024-06-01'
-          AZURE_API_VERSION: '2024-06-01'
-
+          OPENAI_API_VERSION: '${{ secrets.AZURE_OPENAI_API_VERSION }}'
+          AZURE_API_VERSION: '${{ secrets.AZURE_OPENAI_API_VERSION }}'
+          
           # pr_description
           github_action_config.auto_review: "false"
           github_action_config.auto_describe: "false"
