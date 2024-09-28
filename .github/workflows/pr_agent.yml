@@ -1,0 +1,61 @@
+name: "PR-AI_AGENT by Codium AI"
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  pr_agent_job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      issues: write
+      pull-requests: write
+      contents: write
+    if: github.event_name == 'issue_comment' &&
+      contains(github.event.comment.html_url, '/pull/') &&
+      (startsWith(github.event.comment.body, '/describe') ||
+      startsWith(github.event.comment.body, '/review') ||
+      startsWith(github.event.comment.body, '/improve') ||
+      startsWith(github.event.comment.body, '/ask') ||
+      startsWith(github.event.comment.body, '/update_changelog') ||
+      startsWith(github.event.comment.body, '/help'))
+    name: Run pr agent on respond to user comments
+    env:
+      COMMON_INSTRUCTIONS: |
+        - answer in Japanese
+    steps:
+      - name: PR Agent action start
+        run: |
+          echo "start PR agent (${{ github.event.comment.body }})"
+      - name: PR Agent action step
+        id: pragent
+        uses: Codium-ai/pr-agent@main
+        env:
+          #OPENAI_KEY: ${{ secrets.OPENAI_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENAI_API_TYPE: "azure"
+          OPENAI.API_TYPE: "azure"
+          AZURE_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
+          AZURE_API_BASE: "https://${{ secrets.AZURE_OPENAI_API_INSTANCE_NAME }}.openai.azure.com"
+          AZURE_API_VERSION: ${{ secrets.AZURE_OPENAI_API_VERSION }}
+
+          # pr_description
+          github_action_config.auto_review: "false"
+          github_action_config.auto_describe: "false"
+          github_action_config.auto_improve: "false"
+
+          # # pr_description
+          # PR_DESCRIPTION.EXTRA_INSTRUCTIONS: ${{ env.COMMON_INSTRUCTIONS }}
+
+          # # pr_reviewer
+          # pr_reviewer.num_code_suggestions : 3
+          # pr_reviewer.inline_code_comments: "true"
+          # pr_reviewer.require_score_review : "false"
+          # pr_reviewer.require_tests_review : "false"
+          # pr_reviewer.require_can_be_split_review : "true"
+          # PR_REVIEWER.EXTRA_INSTRUCTIONS: ${{ env.COMMON_INSTRUCTIONS }}
+
+          # # pr_code_suggestions
+          # pr_code_suggestions.num_code_suggestions : 3
+          # PR_CODE_SUGGESTIONS.EXTRA_INSTRUCTIONS: ${{ env.COMMON_INSTRUCTIONS }}

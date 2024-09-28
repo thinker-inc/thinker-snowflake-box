@@ -1,0 +1,41 @@
+# https://pr-agent-docs.codium.ai/
+# https://github.com/Codium-ai/pr-agent/blob/main/pr_agent/settings/configuration.toml
+
+[config]
+#ignore_pr_labels = ['']
+
+[ignore]
+glob = [
+    # Ignore files and directories matching these glob patterns.
+    # See https://docs.python.org/3/library/glob.html
+    'vendor/**',
+]
+
+[pr_description]
+generate_ai_title = false
+final_update_message = true
+extra_instructions="""\
+Emphasize the following:
+- Please use Japanese for everything.
+- Titles should have a prefix following the commitlint pattern, such as feat:, chore:, test:, fix:, docs:, style:, refactor:, perf:, etc.
+"""
+
+[pr_reviewer]
+require_tests_review = false
+require_score_review = false
+require_can_be_split_review	= true
+num_code_suggestions = 3
+inline_code_comments = true
+extra_instructions="""\
+Emphasize the following:
+- Please use Japanese for everything.
+"""
+
+[pr_code_suggestions]
+num_code_suggestions = 3
+#rank_suggestions = true
+#commitable_code_suggestions = true
+extra_instructions="""\
+Emphasize the following:
+- Please use Japanese for everything.
+"""
