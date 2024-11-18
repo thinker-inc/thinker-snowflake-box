@@ -18,23 +18,23 @@ module "users" {
 }
 
 module "etl_tool_user" {
-  source = "../../modules/user"
+  source = "../../modules/service_user"
   providers = {
     snowflake = snowflake.security_admin
   }
 
   name    = "ETL_USER"
-  comment = "ETL tool user was created by terraform"
+  comment = "ETL tool service user was created by terraform"
 }
 
 module "bi_tool_user" {
-  source = "../../modules/user"
+  source = "../../modules/service_user"
   providers = {
     snowflake = snowflake.security_admin
   }
 
   name    = "BI_USER"
-  comment = "BI tool user was created by terraform"
+  comment = "BI tool service user was created by terraform"
 }
 
 ########################
