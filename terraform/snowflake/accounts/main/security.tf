@@ -62,8 +62,6 @@ module "network_rule_thinker" {
   type      = "IPV4"
   mode      = "INGRESS"
   value_list = [
-    "133.242.237.194", # interlink
-    "35.73.194.191",   # cloudflare
     "150.195.218.240", # cato networks - Tokyo
     "150.195.212.98"   # cato networks - Osaka 
   ]
