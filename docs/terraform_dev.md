@@ -23,8 +23,9 @@ AWS S3とDynamoDBを利用したTerraformのState管理を行う
   - 各項目の設定値については、管理者に問い合わせてください。
 
 ```ini
-SNOWFLAKE_AUTHENTICATOR=JWT
-SNOWFLAKE_ACCOUNT=thinker-terraform_template
+SNOWFLAKE_AUTHENTICATOR=SNOWFLAKE_JWT
+SNOWFLAKE_ORGANIZATION_NAME=thinker
+SNOWFLAKE_ACCOUNT_NAME=terraform_template
 SNOWFLAKE_USER=TERRAFORM_USER
 SNOWFLAKE_PRIVATE_KEY=""
 AWS_PROFILE=thinker-snowflake-terraform
