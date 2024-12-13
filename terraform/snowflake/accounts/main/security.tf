@@ -1,14 +1,14 @@
-########################
-# grant on account
-########################
-module "grant_on_account" {
-  source = "../../modules/grant_on_account"
-  providers = {
-    snowflake = snowflake.security_admin
-  }
-
-  security_admin_policy_role_name = module.fr_security_manager.name
-}
+# ########################
+# # grant on account
+# ########################
+# module "grant_on_account" {
+#   source = "../../modules/grant_on_account"
+#   providers = {
+#     snowflake = snowflake.security_admin
+#   }
+# 
+#   security_admin_policy_role_name = module.fr_security_manager.name
+# }
 
 
 ########################

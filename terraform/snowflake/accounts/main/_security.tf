@@ -13,7 +13,7 @@ module "security_db" {
 
   manager_ar_to_fr_set = [
     module.fr_manager.name,
-    module.fr_security_manager.name
+    local.security_role_name
   ]
 }
 
@@ -33,7 +33,7 @@ module "security_db_network_schema" {
 
   manager_ar_to_fr_set = [
     module.fr_manager.name,
-    module.fr_security_manager.name
+    local.security_role_name
   ]
 }
 
@@ -50,6 +50,6 @@ module "security_db_authentication_schema" {
 
   manager_ar_to_fr_set = [
     module.fr_manager.name,
-    module.fr_security_manager.name
+    local.security_role_name
   ]
 }

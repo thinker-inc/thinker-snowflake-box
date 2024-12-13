@@ -49,23 +49,10 @@ module "fr_manager" {
 
   role_name = "FR_MANAGER"
   grant_user_set = [
-    "RYOTA_HASEGAWA"
+    "RYOTA_HASEGAWA",
+    "HUNAG"
   ]
   comment = "Functional Role for Admin in Project all"
-}
-
-module "fr_security_manager" {
-  depends_on = [module.users]
-  source     = "../../modules/functional_role"
-  providers = {
-    snowflake = snowflake.security_admin
-  }
-
-  role_name = "FR_SECURITY_MANAGER"
-  grant_user_set = [
-    "RYOTA_HASEGAWA"
-  ]
-  comment = "Functional Role for Security Manager in Project all"
 }
 
 module "fr_data_engineer" {
@@ -79,6 +66,7 @@ module "fr_data_engineer" {
   grant_user_set = [
     "RYOTA_HASEGAWA",
     "ENGINEER_HASEGAWA",
+    "HUNAG"
   ]
   comment = "Functional Role for Data Engineer in Project all"
 }
@@ -94,6 +82,7 @@ module "fr_scientist" {
   grant_user_set = [
     "RYOTA_HASEGAWA",
     "SCIENTIST_HASEGAWA",
+    "HUNAG"
   ]
   comment = "Functional Role for data scientist in Project {}"
 }
@@ -109,6 +98,7 @@ module "fr_analyst" {
   grant_user_set = [
     "RYOTA_HASEGAWA",
     "ANALYST_HASEGAWA",
+    "HUNAG"
   ]
   comment = "Functional Role for analysis in Project {}"
 }
@@ -123,7 +113,8 @@ module "fr_bi_tool" {
   role_name = "FR_BI_TOOL"
   grant_user_set = [
     "RYOTA_HASEGAWA",
-    module.bi_tool_user.name
+    module.bi_tool_user.name,
+    "HUNAG"
   ]
   comment = "Functional Role for business intelligence in Project {}"
 }
@@ -138,7 +129,8 @@ module "fr_etl_tool_import" {
   role_name = "FR_ETL_TOOL_IMPORT"
   grant_user_set = [
     "RYOTA_HASEGAWA",
-    module.etl_tool_user.name
+    module.etl_tool_user.name,
+    "HUNAG"
   ]
   comment = "Functional Role for etl tools import in Project {}"
 }
@@ -153,7 +145,8 @@ module "fr_etl_tool_transform" {
   role_name = "FR_ETL_TRANSFORM"
   grant_user_set = [
     "RYOTA_HASEGAWA",
-    module.etl_tool_user.name
+    module.etl_tool_user.name,
+    "HUNAG"
   ]
   comment = "Functional Role for etl tools transform in Project {}"
 }
@@ -262,7 +255,7 @@ module "security_manager_wh" {
   comment        = "Warehouse for Security Manager"
 
   grant_usage_ar_to_fr_set = [
-    module.fr_security_manager.name
+    local.security_role_name
   ]
   grant_admin_ar_to_fr_set = [
     module.fr_manager.name
