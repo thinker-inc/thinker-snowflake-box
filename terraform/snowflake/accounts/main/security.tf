@@ -11,31 +11,14 @@ module "password_policy" {
   password_policy_name = "PASSWORD_POLICY_DEFAULT"
   databse              = module.security_db.name
   schema               = module.security_db_authentication_schema.name
-  comment              = "デフォルトのパスワードポリシー"
-  min_length           = 14
+  # comment              = "デフォルトのパスワードポリシー"
+  min_length = 14
 }
 
 ########################
 # Network Rule
 # Network Ruleは、ネットワークアクセスを制御するためのルールです。
 ########################
-module "network_rule_block_public_access" {
-  source = "../../modules/network_rule"
-  providers = {
-    snowflake = snowflake.fr_security_manager
-  }
-
-  rule_name = "NETWORK_RULE_BLOCK_PUBLIC_ACCESS"
-  databse   = module.security_db.name
-  schema    = module.security_db_network_schema.name
-  comment   = "全てのパブリックアクセスをブロック"
-  type      = "IPV4"
-  mode      = "INGRESS"
-  value_list = [
-    "0.0.0.0/0"
-  ]
-}
-
 module "network_rule_thinker" {
   source = "../../modules/network_rule"
   providers = {
@@ -73,6 +56,25 @@ module "network_rule_trocco" {
   ]
 }
 
+module "network_rule_tableau_cloud" {
+  source = "../../modules/network_rule"
+  providers = {
+    snowflake = snowflake.fr_security_manager
+  }
+
+  rule_name = "NETWORK_RULE_TABLEAU_CLOUD"
+  databse   = module.security_db.name
+  schema    = module.security_db_network_schema.name
+  comment   = "TABLEAU CLOUD 許可リスト"
+  type      = "IPV4"
+  mode      = "INGRESS"
+  value_list = [
+    "155.226.128.0/21", # Tableau Cloud IP Range
+    "34.214.85.34",     # Hyperforce への移行前 IP Address
+    "34.214.85.244"     # Hyperforce への移行前 IP Address
+  ]
+}
+
 ########################
 # Network Policy
 ########################
@@ -85,43 +87,25 @@ module "network_policy_default" {
   policy_name = "NETWORK_POLICY_DEFAULT"
   comment     = "Snowflake デフォルト ネットワークポリシー"
 
-  allowed_network_rule_list = []
+  allowed_network_rule_list = [
+    module.network_rule_thinker.fully_qualified_name
+  ]
 
   blocked_network_rule_list = [
-    module.network_rule_block_public_access.fully_qualified_name
   ]
 
   set_for_account = true
   users           = []
 }
 
-module "network_policy_thinker" {
+module "network_policy_trocco_user" {
   source = "../../modules/network_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
 
-  policy_name = "NETWORK_POLICY_THINKER"
-  comment     = "株式会社シンカー ネットワークポリシー"
-
-  allowed_network_rule_list = [
-    module.network_rule_thinker.fully_qualified_name
-  ]
-
-  blocked_network_rule_list = []
-
-  set_for_account = false
-  users           = local.attachment_thinker_users
-}
-
-module "network_policy_trocco" {
-  source = "../../modules/network_policy"
-  providers = {
-    snowflake = snowflake.fr_security_manager
-  }
-
-  policy_name = "NETWORK_POLICY_TROCCO"
-  comment     = "TROCCO ネットワークポリシー"
+  policy_name = "NETWORK_POLICY_TROCCO_USER"
+  comment     = "TROCCO USER ネットワークポリシー"
 
   allowed_network_rule_list = [
     module.network_rule_trocco.fully_qualified_name
@@ -130,5 +114,28 @@ module "network_policy_trocco" {
   blocked_network_rule_list = []
 
   set_for_account = false
-  users           = []
+  users = [
+    "TROCCO_USER",
+  ]
+}
+
+module "network_policy_tableau_user" {
+  source = "../../modules/network_policy"
+  providers = {
+    snowflake = snowflake.fr_security_manager
+  }
+
+  policy_name = "NETWORK_POLICY_TABLEAU_USER"
+  comment     = "TABLEAU USER ネットワークポリシー"
+
+  allowed_network_rule_list = [
+    module.network_rule_tableau_cloud.fully_qualified_name
+  ]
+
+  blocked_network_rule_list = []
+
+  set_for_account = false
+  users = [
+    "TABLEAU_USER"
+  ]
 }
