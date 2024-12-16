@@ -1,17 +1,4 @@
 ########################
-# grant on account
-########################
-module "grant_on_account" {
-  source = "../../modules/grant_on_account"
-  providers = {
-    snowflake = snowflake.security_admin
-  }
-
-  security_admin_policy_role_name = module.fr_security_manager.name
-}
-
-
-########################
 # Password Policy
 # Doc: https://docs.snowflake.com/en/sql-reference/sql/create-password-policy
 ########################

@@ -54,20 +54,6 @@ module "fr_manager" {
   comment = "Functional Role for Admin in Project all"
 }
 
-module "fr_security_manager" {
-  depends_on = [module.users]
-  source     = "../../modules/functional_role"
-  providers = {
-    snowflake = snowflake.security_admin
-  }
-
-  role_name = "FR_SECURITY_MANAGER"
-  grant_user_set = [
-    "RYOTA_HASEGAWA"
-  ]
-  comment = "Functional Role for Security Manager in Project all"
-}
-
 module "fr_data_engineer" {
   depends_on = [module.users]
   source     = "../../modules/functional_role"
@@ -262,7 +248,7 @@ module "security_manager_wh" {
   comment        = "Warehouse for Security Manager"
 
   grant_usage_ar_to_fr_set = [
-    module.fr_security_manager.name
+    local.security_role_name
   ]
   grant_admin_ar_to_fr_set = [
     module.fr_manager.name
