@@ -26,7 +26,7 @@ module "security_db_network_schema" {
     snowflake = snowflake.terraform
   }
 
-  schema_name                 = "NETWORK"
+  schema_name                 = "_NETWORK"
   database_name               = module.security_db.name
   comment                     = "for NETWORK POLICY"
   data_retention_time_in_days = 30
@@ -43,7 +43,7 @@ module "security_db_authentication_schema" {
     snowflake = snowflake.terraform
   }
 
-  schema_name                 = "AUTHENTICATION"
+  schema_name                 = "_AUTHENTICATION"
   database_name               = module.security_db.name
   comment                     = "for AUTHENTICATION POLICY"
   data_retention_time_in_days = 30
