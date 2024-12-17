@@ -24,7 +24,15 @@ provider "snowflake" {
 }
 
 provider "snowflake" {
-  alias                    = "fr_security_manager"
-  role                     = "FR_SECURITY_MANAGER"
-  preview_features_enabled = ["snowflake_network_rule_resource", "snowflake_network_policy_attachment_resource", "snowflake_password_policy_resource", "snowflake_account_password_policy_attachment_resource"]
+  alias = "fr_security_manager"
+  role  = "FR_SECURITY_MANAGER"
+  preview_features_enabled = [
+    "snowflake_network_rule_resource",
+    "snowflake_network_policy_attachment_resource",
+    "snowflake_password_policy_resource",
+    "snowflake_account_password_policy_attachment_resource",
+    "snowflake_authentication_policy_resource",
+    "snowflake_account_authentication_policy_attachment_resource",
+    "snowflake_user_authentication_policy_attachment_resource",
+  ]
 }
