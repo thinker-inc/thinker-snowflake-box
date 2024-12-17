@@ -3,7 +3,7 @@ variable "rule_name" {
   type        = string
 }
 
-variable "databse" {
+variable "database" {
   description = "The database in which to create the network rule"
   type        = string
 }

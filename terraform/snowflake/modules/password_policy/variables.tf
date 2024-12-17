@@ -3,7 +3,7 @@ variable "password_policy_name" {
   type        = string
 }
 
-variable "databse" {
+variable "database" {
   description = "The database in which to create the password policy"
   type        = string
 }

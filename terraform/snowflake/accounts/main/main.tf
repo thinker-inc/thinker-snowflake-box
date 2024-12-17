@@ -17,24 +17,24 @@ module "users" {
   password = local.initial_user_password
 }
 
-module "etl_tool_user" {
+module "trocco_user" {
   source = "../../modules/service_user"
   providers = {
     snowflake = snowflake.security_admin
   }
 
-  name    = "ETL_USER"
-  comment = "ETL tool service user was created by terraform"
+  name    = "TROCCO_USER"
+  comment = "trocco service user was created by terraform"
 }
 
-module "bi_tool_user" {
+module "tableau_user" {
   source = "../../modules/service_user"
   providers = {
     snowflake = snowflake.security_admin
   }
 
-  name    = "BI_USER"
-  comment = "BI tool service user was created by terraform"
+  name    = "TABLEAU_USER"
+  comment = "tableau service user was created by terraform"
 }
 
 ########################
@@ -99,23 +99,23 @@ module "fr_analyst" {
   comment = "Functional Role for analysis in Project {}"
 }
 
-module "fr_bi_tool" {
-  depends_on = [module.users, module.bi_tool_user]
+module "fr_tableau" {
+  depends_on = [module.users, module.tableau_user]
   source     = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
   }
 
-  role_name = "FR_BI_TOOL"
+  role_name = "FR_TABLEAU"
   grant_user_set = [
     "RYOTA_HASEGAWA",
-    module.bi_tool_user.name
+    module.tableau_user.name
   ]
   comment = "Functional Role for business intelligence in Project {}"
 }
 
 module "fr_etl_tool_import" {
-  depends_on = [module.users, module.etl_tool_user]
+  depends_on = [module.users, module.trocco_user]
   source     = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
@@ -124,13 +124,13 @@ module "fr_etl_tool_import" {
   role_name = "FR_ETL_TOOL_IMPORT"
   grant_user_set = [
     "RYOTA_HASEGAWA",
-    module.etl_tool_user.name
+    module.trocco_user.name
   ]
   comment = "Functional Role for etl tools import in Project {}"
 }
 
 module "fr_etl_tool_transform" {
-  depends_on = [module.users, module.etl_tool_user]
+  depends_on = [module.users, module.trocco_user]
   source     = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
@@ -139,7 +139,7 @@ module "fr_etl_tool_transform" {
   role_name = "FR_ETL_TRANSFORM"
   grant_user_set = [
     "RYOTA_HASEGAWA",
-    module.etl_tool_user.name
+    module.trocco_user.name
   ]
   comment = "Functional Role for etl tools transform in Project {}"
 }
