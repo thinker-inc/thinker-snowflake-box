@@ -26,7 +26,7 @@ module "network_rule_thinker" {
   }
 
   rule_name = "NETWORK_RULE_THINKER"
-  databse   = module.security_db.name
+  database  = module.security_db.name
   schema    = module.security_db_network_schema.name
   comment   = "株式会社シンカー グローバルIP 許可リスト"
   type      = "IPV4"
@@ -44,7 +44,7 @@ module "network_rule_trocco" {
   }
 
   rule_name = "NETWORK_RULE_TROCCO"
-  databse   = module.security_db.name
+  database  = module.security_db.name
   schema    = module.security_db_network_schema.name
   comment   = "TROCCO グローバルIP 許可リスト"
   type      = "IPV4"
@@ -56,14 +56,16 @@ module "network_rule_trocco" {
   ]
 }
 
-module "network_rule_tableau_cloud" {
+# Tableau cloud IP address list
+# Doc: https://help.tableau.com/current/pro/desktop/en-us/publish_tableau_online_ip_authorization.htm
+module "network_rule_tableau_cloud_us_west_oregon" {
   source = "../../modules/network_rule"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
 
-  rule_name = "NETWORK_RULE_TABLEAU_CLOUD"
-  databse   = module.security_db.name
+  rule_name = "NETWORK_RULE_TABLEAU_CLOUD_US_WEST_OREGON"
+  database  = module.security_db.name
   schema    = module.security_db_network_schema.name
   comment   = "TABLEAU CLOUD 許可リスト"
   type      = "IPV4"
@@ -129,7 +131,7 @@ module "network_policy_tableau_user" {
   comment     = "TABLEAU USER ネットワークポリシー"
 
   allowed_network_rule_list = [
-    module.network_rule_tableau_cloud.fully_qualified_name
+    module.network_rule_tableau_cloud_us_west_oregon.fully_qualified_name
   ]
 
   blocked_network_rule_list = []

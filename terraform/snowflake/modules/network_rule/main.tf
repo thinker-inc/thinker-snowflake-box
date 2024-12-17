@@ -2,7 +2,7 @@
 # snowflake_network_rule
 resource "snowflake_network_rule" "this" {
   name       = var.rule_name
-  database   = var.databse
+  database   = var.database
   schema     = var.schema
   comment    = var.comment
   type       = var.type
