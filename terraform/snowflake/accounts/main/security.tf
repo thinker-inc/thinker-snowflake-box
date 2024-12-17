@@ -71,9 +71,9 @@ module "network_rule_tableau_cloud_us_west_2" {
   type      = "IPV4"
   mode      = "INGRESS"
   value_list = [
-    "155.226.128.0/21", # Tableau Cloud IP Range
-    "34.214.85.34",     # Hyperforce への移行前 IP Address
-    "34.214.85.244"     # Hyperforce への移行前 IP Address
+    "155.226.128.0/21", # us-west-2 Tableau Cloud IP Range
+    "34.214.85.34",     # us-west-2 Hyperforce への移行前 IP Address
+    "34.214.85.244"     # us-west-2 Hyperforce への移行前 IP Address
   ]
 }
 
