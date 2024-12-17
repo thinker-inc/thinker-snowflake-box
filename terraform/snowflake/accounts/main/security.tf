@@ -9,7 +9,7 @@ module "password_policy" {
   }
 
   password_policy_name = "PASSWORD_POLICY_DEFAULT"
-  databse              = module.security_db.name
+  database             = module.security_db.name
   schema               = module.security_db_authentication_schema.name
   # comment              = "デフォルトのパスワードポリシー"
   min_length = 14
@@ -58,13 +58,13 @@ module "network_rule_trocco" {
 
 # Tableau cloud IP address list
 # Doc: https://help.tableau.com/current/pro/desktop/en-us/publish_tableau_online_ip_authorization.htm
-module "network_rule_tableau_cloud_us_west_oregon" {
+module "network_rule_tableau_cloud_us_west_2" {
   source = "../../modules/network_rule"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
 
-  rule_name = "NETWORK_RULE_TABLEAU_CLOUD_US_WEST_OREGON"
+  rule_name = "NETWORK_RULE_TABLEAU_CLOUD_US_WEST_2"
   database  = module.security_db.name
   schema    = module.security_db_network_schema.name
   comment   = "TABLEAU CLOUD 許可リスト"
@@ -131,7 +131,7 @@ module "network_policy_tableau_user" {
   comment     = "TABLEAU USER ネットワークポリシー"
 
   allowed_network_rule_list = [
-    module.network_rule_tableau_cloud_us_west_oregon.fully_qualified_name
+    module.network_rule_tableau_cloud_us_west_2.fully_qualified_name
   ]
 
   blocked_network_rule_list = []

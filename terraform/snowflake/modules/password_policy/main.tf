@@ -2,7 +2,7 @@
 # password policy
 resource "snowflake_password_policy" "default" {
   name     = var.password_policy_name
-  database = var.databse
+  database = var.database
   schema   = var.schema
   comment  = var.comment
 
