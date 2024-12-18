@@ -1,5 +1,7 @@
 # ########################
 # # Authentication Policy
+# https://docs.snowflake.com/en/user-guide/authentication-policies#label-authentication-policy-hardening-authentication
+# https://docs.snowflake.com/ja/sql-reference/functions/policy_references
 # ########################
 # Snowflake Account全体
 module "account_authentication_policy" {

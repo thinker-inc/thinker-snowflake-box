@@ -1,0 +1,9 @@
+-- service userはterraformで管理する
+-- create users
+USE ROLE USERADMIN;
+
+CREATE USER {USER_NAME}
+    PASSWORD = '9bVk3YE.CWL$Y3(ZyW+N'
+    EMAIL = {USER_EMAIL}
+    MUST_CHANGE_PASSWORD = TRUE
+    TYPE = PERSON;

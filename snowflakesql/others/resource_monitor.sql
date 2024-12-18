@@ -1,3 +1,5 @@
+-- terraform で構築する予定
+
 -- TODO: 最新のテンプレートに合わせて修正を行う
 -- USE ROLE ACCOUNTADMIN;
 
