@@ -3,7 +3,8 @@
 # ########################
 # Snowflake Account全体
 module "account_authentication_policy" {
-  source = "../../modules/authentication_policy"
+  depends_on = [module.developer_authentication_policy]
+  source     = "../../modules/authentication_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
@@ -21,14 +22,15 @@ module "account_authentication_policy" {
 
 # 開発者用ポリシー
 module "developer_authentication_policy" {
-  source = "../../modules/authentication_policy"
+  depends_on = [module.security_db_authentication_schema]
+  source     = "../../modules/authentication_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
 
   database = module.security_db.name
   schema   = module.security_db_authentication_schema.name
-  name     = "developer_authentication_user_policy"
+  name     = "DEVELOPER_AUTHENTICATION_USER_POLICY"
 
   authentication_methods     = ["ALL"]
   client_types               = ["ALL"]
@@ -42,7 +44,8 @@ module "developer_authentication_policy" {
 
 # トロッコ用ポリシー
 module "trocco_authentication_policy" {
-  source = "../../modules/authentication_policy"
+  depends_on = [module.security_db_authentication_schema]
+  source     = "../../modules/authentication_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
   }

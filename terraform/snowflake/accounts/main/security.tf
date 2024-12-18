@@ -3,7 +3,8 @@
 # Doc: https://docs.snowflake.com/en/sql-reference/sql/create-password-policy
 ########################
 module "password_policy" {
-  source = "../../modules/password_policy"
+  depends_on = [module.security_db_authentication_schema]
+  source     = "../../modules/password_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
@@ -20,7 +21,8 @@ module "password_policy" {
 # Network Ruleは、ネットワークアクセスを制御するためのルールです。
 ########################
 module "network_rule_thinker" {
-  source = "../../modules/network_rule"
+  depends_on = [module.security_db_network_schema]
+  source     = "../../modules/network_rule"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
@@ -38,7 +40,8 @@ module "network_rule_thinker" {
 }
 
 module "network_rule_trocco" {
-  source = "../../modules/network_rule"
+  depends_on = [module.security_db_network_schema]
+  source     = "../../modules/network_rule"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
@@ -59,7 +62,8 @@ module "network_rule_trocco" {
 # Tableau cloud IP address list
 # Doc: https://help.tableau.com/current/pro/desktop/en-us/publish_tableau_online_ip_authorization.htm
 module "network_rule_tableau_cloud_us_west_2" {
-  source = "../../modules/network_rule"
+  depends_on = [module.security_db_network_schema]
+  source     = "../../modules/network_rule"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
@@ -81,7 +85,8 @@ module "network_rule_tableau_cloud_us_west_2" {
 # Network Policy
 ########################
 module "network_policy_default" {
-  source = "../../modules/network_policy"
+  depends_on = [module.network_rule_thinker]
+  source     = "../../modules/network_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
@@ -101,7 +106,8 @@ module "network_policy_default" {
 }
 
 module "network_policy_trocco_user" {
-  source = "../../modules/network_policy"
+  depends_on = [module.network_rule_trocco]
+  source     = "../../modules/network_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
@@ -122,7 +128,8 @@ module "network_policy_trocco_user" {
 }
 
 module "network_policy_tableau_user" {
-  source = "../../modules/network_policy"
+  depends_on = [module.network_rule_tableau_cloud_us_west_2]
+  source     = "../../modules/network_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
