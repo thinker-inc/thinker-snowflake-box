@@ -47,11 +47,9 @@ module "fr_manager" {
     snowflake = snowflake.security_admin
   }
 
-  role_name = "FR_MANAGER"
-  grant_user_set = [
-    "RYOTA_HASEGAWA"
-  ]
-  comment = "Functional Role for Admin in Project all"
+  role_name      = "FR_MANAGER"
+  grant_user_set = local.manager
+  comment        = "Functional Role for Admin in Project all"
 }
 
 module "fr_data_engineer" {
@@ -61,12 +59,9 @@ module "fr_data_engineer" {
     snowflake = snowflake.security_admin
   }
 
-  role_name = "FR_DATA_ENGINEER"
-  grant_user_set = [
-    "RYOTA_HASEGAWA",
-    "ENGINEER_HASEGAWA",
-  ]
-  comment = "Functional Role for Data Engineer in Project all"
+  role_name      = "FR_DATA_ENGINEER"
+  grant_user_set = local.data_engineer
+  comment        = "Functional Role for Data Engineer in Project all"
 }
 
 module "fr_scientist" {
@@ -76,12 +71,9 @@ module "fr_scientist" {
     snowflake = snowflake.security_admin
   }
 
-  role_name = "FR_SCIENTIST"
-  grant_user_set = [
-    "RYOTA_HASEGAWA",
-    "SCIENTIST_HASEGAWA",
-  ]
-  comment = "Functional Role for data scientist in Project {}"
+  role_name      = "FR_SCIENTIST"
+  grant_user_set = local.data_scientist
+  comment        = "Functional Role for data scientist in Project {}"
 }
 
 module "fr_analyst" {
@@ -91,22 +83,19 @@ module "fr_analyst" {
     snowflake = snowflake.security_admin
   }
 
-  role_name = "FR_ANALYST"
-  grant_user_set = [
-    "RYOTA_HASEGAWA",
-    "ANALYST_HASEGAWA",
-  ]
-  comment = "Functional Role for analysis in Project {}"
+  role_name      = "FR_ANALYST"
+  grant_user_set = local.data_analyst
+  comment        = "Functional Role for analysis in Project {}"
 }
 
-module "fr_tableau" {
+module "sr_tableau" {
   depends_on = [module.users, module.tableau_user]
   source     = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
   }
 
-  role_name = "FR_TABLEAU"
+  role_name = "SR_TABLEAU"
   grant_user_set = [
     "RYOTA_HASEGAWA",
     module.tableau_user.name
@@ -114,34 +103,29 @@ module "fr_tableau" {
   comment = "Functional Role for business intelligence in Project {}"
 }
 
-module "fr_etl_tool_import" {
+module "sr_trocco_import" {
   depends_on = [module.users, module.trocco_user]
   source     = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
   }
 
-  role_name = "FR_ETL_TOOL_IMPORT"
-  grant_user_set = [
-    "RYOTA_HASEGAWA",
-    module.trocco_user.name
-  ]
-  comment = "Functional Role for etl tools import in Project {}"
+  role_name = "SR_TROCCO_IMPORT"
+
+  grant_user_set = local.service_trocco
+  comment        = "Functional Role for trocco import in Project {}"
 }
 
-module "fr_etl_tool_transform" {
+module "sr_trocco_transform" {
   depends_on = [module.users, module.trocco_user]
   source     = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
   }
 
-  role_name = "FR_ETL_TRANSFORM"
-  grant_user_set = [
-    "RYOTA_HASEGAWA",
-    module.trocco_user.name
-  ]
-  comment = "Functional Role for etl tools transform in Project {}"
+  role_name      = "SR_TROCCO_TRANSFORM"
+  grant_user_set = local.service_trocco
+  comment        = "Functional Role for trocco transform in Project {}"
 }
 
 ########################
@@ -201,36 +185,36 @@ module "read_only_wh" {
   ]
 }
 
-module "etl_tool_import_wh" {
+module "sr_trocco_import_wh" {
   source = "../../modules/access_role_and_warehouse"
   providers = {
     snowflake = snowflake.terraform
   }
 
-  warehouse_name = "ETL_IMPORT_WH"
+  warehouse_name = "SR_TROCCO_IMPORT_WH"
   warehouse_size = "XSMALL"
-  comment        = "Warehouse for ETL IMPORT of {} projects"
+  comment        = "Warehouse for TROCCO IMPORT of {} projects"
 
   grant_usage_ar_to_fr_set = [
-    module.fr_etl_tool_import.name
+    module.sr_trocco_import.name
   ]
   grant_admin_ar_to_fr_set = [
     module.fr_manager.name
   ]
 }
 
-module "etl_tool_transform_wh" {
+module "sr_trocco_transform_wh" {
   source = "../../modules/access_role_and_warehouse"
   providers = {
     snowflake = snowflake.terraform
   }
 
-  warehouse_name = "ETL_TRANSFORM_WH"
+  warehouse_name = "SR_TROCCO_TRANSFORM_WH"
   warehouse_size = "XSMALL"
-  comment        = "Warehouse for ETL TRANSFORM of {} projects"
+  comment        = "Warehouse for TROCCO TRANSFORM of {} projects"
 
   grant_usage_ar_to_fr_set = [
-    module.fr_etl_tool_transform.name
+    module.sr_trocco_transform.name
   ]
   grant_admin_ar_to_fr_set = [
     module.fr_manager.name
@@ -249,6 +233,24 @@ module "security_manager_wh" {
 
   grant_usage_ar_to_fr_set = [
     local.security_role_name
+  ]
+  grant_admin_ar_to_fr_set = [
+    module.fr_manager.name
+  ]
+}
+
+module "sr_tableau_wh" {
+  source = "../../modules/access_role_and_warehouse"
+  providers = {
+    snowflake = snowflake.terraform
+  }
+  warehouse_name    = "SR_TABLEAU_WH"
+  warehouse_size    = "XSMALL"
+  comment           = "Warehouse for TABLEAU"
+  max_cluster_count = 1
+
+  grant_usage_ar_to_fr_set = [
+    module.sr_tableau.name
   ]
   grant_admin_ar_to_fr_set = [
     module.fr_manager.name

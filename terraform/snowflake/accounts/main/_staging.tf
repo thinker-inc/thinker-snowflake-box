@@ -25,11 +25,11 @@ module "staging_db" {
   ]
 
   etl_tool_import_ar_to_fr_set = [
-    module.fr_etl_tool_import.name
+    module.sr_trocco_import.name
   ]
 
   etl_tool_transform_ar_to_fr_set = [
-    module.fr_etl_tool_transform.name
+    module.sr_trocco_transform.name
   ]
 }
 
@@ -61,11 +61,11 @@ module "staging_db_service_a_schema" {
   ]
 
   etl_tool_import_ar_to_fr_set = [
-    module.fr_etl_tool_import.name
+    module.sr_trocco_import.name
   ]
 
   etl_tool_transform_ar_to_fr_set = [
-    module.fr_etl_tool_transform.name
+    module.sr_trocco_transform.name
   ]
 }
 
@@ -94,10 +94,10 @@ module "staging_db_service_b_schema" {
   ]
 
   etl_tool_import_ar_to_fr_set = [
-    module.fr_etl_tool_import.name
+    module.sr_trocco_import.name
   ]
 
   etl_tool_transform_ar_to_fr_set = [
-    module.fr_etl_tool_transform.name
+    module.sr_trocco_transform.name
   ]
 }
