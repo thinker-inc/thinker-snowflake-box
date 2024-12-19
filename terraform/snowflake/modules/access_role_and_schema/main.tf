@@ -311,7 +311,7 @@ resource "snowflake_grant_database_role" "grant_readonly_ar_to_fr" {
 # 対象のデータベースに対するRead/WriteのAccess Roleを作成
 resource "snowflake_database_role" "sr_trocco_import_ar" {
   database = snowflake_schema.this.database
-  name     = "_SCM_${snowflake_schema.this.name}_sr_trocco_IMPORT_AR"
+  name     = "_SCM_${snowflake_schema.this.name}_SR_TROCCO_IMPORT_AR"
   comment  = "Etl tools import role of ${snowflake_schema.this.name} schema"
 
   depends_on = [snowflake_schema.this]
@@ -406,7 +406,7 @@ resource "snowflake_grant_database_role" "grant_sr_trocco_import_ar_to_fr" {
 # 対象のデータベースに対するRead/WriteのAccess Roleを作成
 resource "snowflake_database_role" "sr_trocco_transform_ar" {
   database = snowflake_schema.this.database
-  name     = "_SCM_${snowflake_schema.this.name}_sr_trocco_TRANSFORM_AR"
+  name     = "_SCM_${snowflake_schema.this.name}_SR_TROCCO_TRANSFORM_AR"
   comment  = "Etl tools transform role of ${snowflake_schema.this.name} schema"
 
   depends_on = [snowflake_schema.this]

@@ -109,7 +109,7 @@ resource "snowflake_grant_database_role" "grant_readonly_ar_to_fr" {
 # 対象のデータベースに対するETL TOOLのAccess Roleを作成
 resource "snowflake_database_role" "sr_trocco_import_ar" {
   database = snowflake_database.this.name
-  name     = "_DATABASE_${snowflake_database.this.name}_sr_trocco_IMPORT_AR"
+  name     = "_DATABASE_${snowflake_database.this.name}_SR_TROCCO_IMPORT_AR"
   comment  = "Etl tools import role of ${snowflake_database.this.name}"
 
   depends_on = [snowflake_database.this]
@@ -140,7 +140,7 @@ resource "snowflake_grant_database_role" "grant_sr_trocco_import_ar_to_fr" {
 # 対象のデータベースに対するETL TOOLのAccess Roleを作成
 resource "snowflake_database_role" "sr_trocco_transform_ar" {
   database = snowflake_database.this.name
-  name     = "_DATABASE_${snowflake_database.this.name}_sr_trocco_TRANSFORM_AR"
+  name     = "_DATABASE_${snowflake_database.this.name}_SR_TROCCO_TRANSFORM_AR"
   comment  = "Etl tools transform role of ${snowflake_database.this.name}"
 
   depends_on = [snowflake_database.this]
