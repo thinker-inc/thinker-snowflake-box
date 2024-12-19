@@ -53,4 +53,6 @@ locals {
       "TROCCO_USER"
     ]
   )
+  # Remove double quotes from fully qualified name
+  parquet_file_format_fullqualified_name = replace(module.parquet_file_format.fully_qualified_name, "\"", "")
 }

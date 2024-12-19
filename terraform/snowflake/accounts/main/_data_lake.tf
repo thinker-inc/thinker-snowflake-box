@@ -69,6 +69,47 @@ module "data_lake_db_service_a_schema" {
   ]
 }
 
+# # create Parquet File Format
+# module "parquet_file_format" {
+#   source = "../../modules/file_format"
+#   providers = {
+#     snowflake = snowflake.terraform
+#   }
+# 
+#   name        = "PARQUET_FILE_FORMAT"
+#   database    = module._data_lake.name
+#   schema      = module.data_lake_db_service_a_schema.name
+#   format_type = "PARQUET"
+#   comment     = "file format for parquet file"
+# 
+#   file_format_roles_ar_to_fr_set = [
+#     module.fr_manager.name,
+#     module.fr_data_engineer.name
+#   ]
+# }
+# 
+# # Create External Stage
+# module "external_stage" {
+#   source = "../../modules/stage"
+#   providers = {
+#     snowflake = snowflake.terraform
+#   }
+# 
+#   name                = "EXTERNAL_STAGE"
+#   url                 = "{s3_url}"
+#   database            = module._data_lake.name
+#   schema              = module.data_lake_db_service_a_schema.name
+#   file_format         = "FORMAT_NAME = ${local.parquet_file_format_fullqualified_name}"
+#   storage_integration = module.s3_storage_integration.name
+#   comment             = "external stage for loading data from s3"
+#   directory           = "ENABLE = true"
+# 
+#   stage_roles_ar_to_fr_set = [
+#     module.fr_manager.name,
+#     module.fr_data_engineer.name
+#   ]
+# }
+
 module "data_lake_db_service_b_schema" {
   source = "../../modules/access_role_and_schema"
   providers = {
