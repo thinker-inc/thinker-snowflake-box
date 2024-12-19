@@ -24,11 +24,11 @@ module "staging_db" {
     module.fr_analyst.name
   ]
 
-  etl_tool_import_ar_to_fr_set = [
+  sr_trocco_import_ar_to_fr_set = [
     module.sr_trocco_import.name
   ]
 
-  etl_tool_transform_ar_to_fr_set = [
+  sr_trocco_transform_ar_to_fr_set = [
     module.sr_trocco_transform.name
   ]
 }
@@ -60,11 +60,11 @@ module "staging_db_service_a_schema" {
     module.fr_analyst.name
   ]
 
-  etl_tool_import_ar_to_fr_set = [
+  sr_trocco_import_ar_to_fr_set = [
     module.sr_trocco_import.name
   ]
 
-  etl_tool_transform_ar_to_fr_set = [
+  sr_trocco_transform_ar_to_fr_set = [
     module.sr_trocco_transform.name
   ]
 }
@@ -93,11 +93,11 @@ module "staging_db_service_b_schema" {
     module.fr_analyst.name
   ]
 
-  etl_tool_import_ar_to_fr_set = [
+  sr_trocco_import_ar_to_fr_set = [
     module.sr_trocco_import.name
   ]
 
-  etl_tool_transform_ar_to_fr_set = [
+  sr_trocco_transform_ar_to_fr_set = [
     module.sr_trocco_transform.name
   ]
 }
