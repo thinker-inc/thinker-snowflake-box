@@ -309,31 +309,31 @@ resource "snowflake_grant_database_role" "grant_readonly_ar_to_fr" {
 ########################
 
 # 対象のデータベースに対するRead/WriteのAccess Roleを作成
-resource "snowflake_database_role" "etl_tool_import_ar" {
+resource "snowflake_database_role" "sr_trocco_import_ar" {
   database = snowflake_schema.this.database
-  name     = "_SCM_${snowflake_schema.this.name}_ETL_TOOL_IMPORT_AR"
+  name     = "_SCM_${snowflake_schema.this.name}_sr_trocco_IMPORT_AR"
   comment  = "Etl tools import role of ${snowflake_schema.this.name} schema"
 
   depends_on = [snowflake_schema.this]
 }
 
 # TROCCO IMPORTのAccess Roleへのスキーマ権限のgrant
-resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_schema" {
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_schema" {
   privileges = [
     "USAGE", "CREATE STAGE", "CREATE TABLE"
   ]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
   on_schema {
     schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
   }
 
-  depends_on = [snowflake_database_role.etl_tool_import_ar]
+  depends_on = [snowflake_database_role.sr_trocco_import_ar]
 }
 
 # TROCCO IMPORTのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
-resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_all_tables" {
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_all_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
   on_schema_object {
     all {
       object_type_plural = "TABLES"
@@ -341,13 +341,13 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_al
     }
   }
 
-  depends_on = [snowflake_database_role.etl_tool_import_ar]
+  depends_on = [snowflake_database_role.sr_trocco_import_ar]
 }
 
 # TROCCO IMPORTのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
-resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_future_tables" {
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_future_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
   on_schema_object {
     future {
       object_type_plural = "TABLES"
@@ -355,7 +355,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_fu
     }
   }
 
-  depends_on = [snowflake_database_role.etl_tool_import_ar]
+  depends_on = [snowflake_database_role.sr_trocco_import_ar]
 }
 
 # TROCCO IMPORTのAccess Roleへのスキーマ内すべてのエクスターナルテーブル権限のfuture grant
@@ -390,13 +390,13 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_f
 }
 
 # Functional RoleにTROCCO IMPORTのAccess Roleをgrant
-resource "snowflake_grant_database_role" "grant_etl_tool_import_ar_to_fr" {
-  for_each = var.etl_tool_import_ar_to_fr_set
+resource "snowflake_grant_database_role" "grant_sr_trocco_import_ar_to_fr" {
+  for_each = var.sr_trocco_import_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
   parent_role_name   = each.value
 
-  depends_on = [snowflake_database_role.etl_tool_import_ar]
+  depends_on = [snowflake_database_role.sr_trocco_import_ar]
 }
 
 ########################
@@ -404,31 +404,31 @@ resource "snowflake_grant_database_role" "grant_etl_tool_import_ar_to_fr" {
 ########################
 
 # 対象のデータベースに対するRead/WriteのAccess Roleを作成
-resource "snowflake_database_role" "etl_tool_transform_ar" {
+resource "snowflake_database_role" "sr_trocco_transform_ar" {
   database = snowflake_schema.this.database
-  name     = "_SCM_${snowflake_schema.this.name}_ETL_TOOL_TRANSFORM_AR"
+  name     = "_SCM_${snowflake_schema.this.name}_sr_trocco_TRANSFORM_AR"
   comment  = "Etl tools transform role of ${snowflake_schema.this.name} schema"
 
   depends_on = [snowflake_schema.this]
 }
 
 # TROCCO TRANSFORMのAccess Roleへのスキーマ権限のgrant
-resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform_schema" {
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transform_schema" {
   privileges = [
     "USAGE", "CREATE TABLE", "CREATE VIEW"
   ]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
   on_schema {
     schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
   }
 
-  depends_on = [snowflake_database_role.etl_tool_transform_ar]
+  depends_on = [snowflake_database_role.sr_trocco_transform_ar]
 }
 
 # TROCCO TRANSFORMのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
-resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform_all_tables" {
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transform_all_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
   on_schema_object {
     all {
       object_type_plural = "TABLES"
@@ -436,13 +436,13 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform
     }
   }
 
-  depends_on = [snowflake_database_role.etl_tool_transform_ar]
+  depends_on = [snowflake_database_role.sr_trocco_transform_ar]
 }
 
 # TROCCO TRANSFORMのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
-resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform_future_tables" {
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transform_future_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
   on_schema_object {
     future {
       object_type_plural = "TABLES"
@@ -450,7 +450,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform
     }
   }
 
-  depends_on = [snowflake_database_role.etl_tool_transform_ar]
+  depends_on = [snowflake_database_role.sr_trocco_transform_ar]
 }
 
 # TROCCO TRANSFORMのAccess Roleへのスキーマ内すべてのエクスターナルテーブル権限のfuture grant
@@ -485,13 +485,13 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
 }
 
 # Functional RoleにTROCCO TRANSFORMのAccess Roleをgrant
-resource "snowflake_grant_database_role" "grant_etl_tool_transform_ar_to_fr" {
-  for_each = var.etl_tool_transform_ar_to_fr_set
+resource "snowflake_grant_database_role" "grant_sr_trocco_transform_ar_to_fr" {
+  for_each = var.sr_trocco_transform_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
   parent_role_name   = each.value
 
-  depends_on = [snowflake_database_role.etl_tool_transform_ar]
+  depends_on = [snowflake_database_role.sr_trocco_transform_ar]
 }
 
 ########################
@@ -502,8 +502,8 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
     snowflake_database_role.manager_ar.name,
     snowflake_database_role.transformer_ar.name,
     snowflake_database_role.read_only_ar.name,
-    snowflake_database_role.etl_tool_import_ar.name,
-    snowflake_database_role.etl_tool_transform_ar.name
+    snowflake_database_role.sr_trocco_import_ar.name,
+    snowflake_database_role.sr_trocco_transform_ar.name
   ])
   database_role_name = "\"${snowflake_schema.this.database}\".\"${each.value}\""
   parent_role_name   = "SYSADMIN"
@@ -512,7 +512,7 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
     snowflake_database_role.manager_ar,
     snowflake_database_role.transformer_ar,
     snowflake_database_role.read_only_ar,
-    snowflake_database_role.etl_tool_import_ar,
-    snowflake_database_role.etl_tool_transform_ar
+    snowflake_database_role.sr_trocco_import_ar,
+    snowflake_database_role.sr_trocco_transform_ar
   ]
 }

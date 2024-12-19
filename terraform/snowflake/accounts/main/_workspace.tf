@@ -26,7 +26,7 @@ module "workspace_db" {
     module.fr_analyst.name
   ]
 
-  etl_tool_import_ar_to_fr_set = [
+  sr_trocco_import_ar_to_fr_set = [
     module.sr_trocco_transform.name
   ]
 }
@@ -61,7 +61,7 @@ module "workspace_db_service_a_schema" {
     module.fr_analyst.name
   ]
 
-  etl_tool_import_ar_to_fr_set = [
+  sr_trocco_import_ar_to_fr_set = [
     module.sr_trocco_transform.name
   ]
 }
