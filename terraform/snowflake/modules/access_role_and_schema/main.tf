@@ -53,13 +53,44 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_all_tables
   depends_on = [snowflake_database_role.manager_ar]
 }
 
-# Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
+# ManagerのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
 resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_tables" {
   all_privileges     = true
   database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.manager_ar.name}\""
   on_schema_object {
     future {
       object_type_plural = "TABLES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.manager_ar]
+}
+
+# ManagerのAccess Roleへのスキーマ内すべてのエクスターナルテーブル権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_external_tables" {
+  count = var.grant_feature_external_table ? 1 : 0 # 条件に応じてリソース作成
+
+  privileges         = ["SELECT"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.manager_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "EXTERNAL TABLES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.manager_ar]
+}
+
+# ManagerのAccess Roleへのスキーマ内すべてのストアプロシージャ権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_stored_procedure" {
+  count              = var.grant_feature_stored_procedure ? 1 : 0 # 条件に応じてリソース作成
+  privileges         = ["USAGE"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.manager_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "PROCEDURES"
       in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
@@ -138,6 +169,38 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future
   depends_on = [snowflake_database_role.transformer_ar]
 }
 
+# Read WriteのAccess Roleへのスキーマ内すべてのエクスターナルテーブル権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future_external_tables" {
+  count = var.grant_feature_external_table ? 1 : 0 # 条件に応じてリソース作成
+
+  privileges         = ["SELECT"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.transformer_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "EXTERNAL TABLES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.transformer_ar]
+}
+
+
+# Read WriteのAccess Roleへのスキーマ内すべてのストアプロシージャ権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future_stored_procedure" {
+  count              = var.grant_feature_stored_procedure ? 1 : 0 # 条件に応じてリソース作成
+  privileges         = ["USAGE"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.transformer_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "PROCEDURES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.transformer_ar]
+}
+
 # Functional RoleにRead/WriteのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_transformer_ar_to_fr" {
   for_each = var.transformer_ar_to_fr_set
@@ -200,6 +263,36 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_t
   depends_on = [snowflake_database_role.read_only_ar]
 }
 
+# Read OnlyのAccess Roleへのスキーマ内すべてのエクスターナルテーブル権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_external_tables" {
+  count = var.grant_feature_external_table ? 1 : 0 # 条件に応じてリソース作成
+
+  privileges         = ["SELECT"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.read_only_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "EXTERNAL TABLES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.read_only_ar]
+}
+
+# Read OnlyのAccess Roleへのスキーマ内すべてのストアプロシージャ権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_stored_procedure" {
+  count              = var.grant_feature_stored_procedure ? 1 : 0 # 条件に応じてリソース作成
+  privileges         = ["USAGE"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.read_only_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "PROCEDURES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.read_only_ar]
+}
 
 # Functional RoleにRead OnlyのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_readonly_ar_to_fr" {
@@ -224,7 +317,7 @@ resource "snowflake_database_role" "etl_tool_import_ar" {
   depends_on = [snowflake_schema.this]
 }
 
-# Read WriteのAccess Roleへのスキーマ権限のgrant
+# TROCCO IMPORTのAccess Roleへのスキーマ権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_schema" {
   privileges = [
     "USAGE", "CREATE STAGE", "CREATE TABLE"
@@ -237,7 +330,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_sc
   depends_on = [snowflake_database_role.etl_tool_import_ar]
 }
 
-# Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
+# TROCCO IMPORTのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_all_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE"]
   database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
@@ -251,7 +344,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_al
   depends_on = [snowflake_database_role.etl_tool_import_ar]
 }
 
-# Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
+# TROCCO IMPORTのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
 resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_future_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE"]
   database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_import_ar.name}\""
@@ -265,7 +358,38 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_import_fu
   depends_on = [snowflake_database_role.etl_tool_import_ar]
 }
 
-# Functional RoleにRead/WriteのAccess Roleをgrant
+# TROCCO IMPORTのAccess Roleへのスキーマ内すべてのエクスターナルテーブル権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_future_external_tables" {
+  count = var.grant_feature_external_table ? 1 : 0 # 条件に応じてリソース作成
+
+  privileges         = ["SELECT"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "EXTERNAL TABLES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.sr_trocco_import_ar]
+}
+
+# TROCCO IMPORTのAccess Roleへのスキーマ内すべてのストアプロシージャ権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_future_stored_procedure" {
+  count              = var.grant_feature_stored_procedure ? 1 : 0 # 条件に応じてリソース作成
+  privileges         = ["USAGE"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "PROCEDURES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.sr_trocco_import_ar]
+}
+
+# Functional RoleにTROCCO IMPORTのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_etl_tool_import_ar_to_fr" {
   for_each = var.etl_tool_import_ar_to_fr_set
 
@@ -288,7 +412,7 @@ resource "snowflake_database_role" "etl_tool_transform_ar" {
   depends_on = [snowflake_schema.this]
 }
 
-# Read WriteのAccess Roleへのスキーマ権限のgrant
+# TROCCO TRANSFORMのAccess Roleへのスキーマ権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform_schema" {
   privileges = [
     "USAGE", "CREATE TABLE", "CREATE VIEW"
@@ -301,7 +425,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform
   depends_on = [snowflake_database_role.etl_tool_transform_ar]
 }
 
-# Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
+# TROCCO TRANSFORMのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform_all_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
   database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
@@ -315,7 +439,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform
   depends_on = [snowflake_database_role.etl_tool_transform_ar]
 }
 
-# Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
+# TROCCO TRANSFORMのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
 resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform_future_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
   database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.etl_tool_transform_ar.name}\""
@@ -329,7 +453,38 @@ resource "snowflake_grant_privileges_to_database_role" "grant_etl_tool_transform
   depends_on = [snowflake_database_role.etl_tool_transform_ar]
 }
 
-# Functional RoleにRead/WriteのAccess Roleをgrant
+# TROCCO TRANSFORMのAccess Roleへのスキーマ内すべてのエクスターナルテーブル権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transform_future_external_tables" {
+  count = var.grant_feature_external_table ? 1 : 0 # 条件に応じてリソース作成
+
+  privileges         = ["SELECT"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "EXTERNAL TABLES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.sr_trocco_transform_ar]
+}
+
+# TROCCO TRANSFORMのAccess Roleへのスキーマ内すべてのストアプロシージャ権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transform_future_stored_procedure" {
+  count              = var.grant_feature_stored_procedure ? 1 : 0 # 条件に応じてリソース作成
+  privileges         = ["USAGE"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "PROCEDURES"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.sr_trocco_transform_ar]
+}
+
+# Functional RoleにTROCCO TRANSFORMのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_etl_tool_transform_ar_to_fr" {
   for_each = var.etl_tool_transform_ar_to_fr_set
 

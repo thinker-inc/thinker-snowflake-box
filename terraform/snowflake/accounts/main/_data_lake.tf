@@ -42,10 +42,12 @@ module "data_lake_db_service_a_schema" {
     snowflake = snowflake.terraform
   }
 
-  schema_name                 = "SERVICE_A"
-  database_name               = module.data_lake_db.name
-  comment                     = "Schema to store loaded raw data of service A"
-  data_retention_time_in_days = 1
+  schema_name                    = "SERVICE_A"
+  database_name                  = module.data_lake_db.name
+  comment                        = "Schema to store loaded raw data of service A"
+  data_retention_time_in_days    = 1
+  grant_feature_external_table   = true
+  grant_feature_stored_procedure = true
 
   manager_ar_to_fr_set = [
     module.fr_manager.name
@@ -116,10 +118,12 @@ module "data_lake_db_service_b_schema" {
     snowflake = snowflake.terraform
   }
 
-  schema_name                 = "SERVICE_B"
-  database_name               = module.data_lake_db.name
-  comment                     = "Schema to store loaded raw data of service B"
-  data_retention_time_in_days = 1
+  schema_name                    = "SERVICE_B"
+  database_name                  = module.data_lake_db.name
+  comment                        = "Schema to store loaded raw data of service B"
+  data_retention_time_in_days    = 1
+  grant_feature_external_table   = true
+  grant_feature_stored_procedure = true
 
   manager_ar_to_fr_set = [
     module.fr_manager.name

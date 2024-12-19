@@ -63,3 +63,14 @@ variable "read_only_ar_to_fr_set" {
   type        = set(string)
   default     = []
 }
+
+variable "grant_feature_external_table" {
+  type    = bool
+  default = false # trueにすればリソースが作成され、falseなら作成されない
+}
+
+variable "grant_feature_stored_procedure" {
+  type    = bool
+  default = false # trueにすればリソースが作成され、falseなら作成されない
+
+}
