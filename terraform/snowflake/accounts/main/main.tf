@@ -1,21 +1,6 @@
 ########################
-# USER
+# SERVICE USER
 ########################
-# ./definitions/users.tf
-module "users" {
-  source = "../../modules/user"
-  providers = {
-    snowflake = snowflake.security_admin
-  }
-
-  for_each = {
-    for key, user in local.users : user.name => user
-  }
-
-  name     = each.value.name
-  comment  = each.value.comment
-  password = local.initial_user_password
-}
 
 module "trocco_user" {
   source = "../../modules/service_user"
@@ -41,8 +26,7 @@ module "tableau_user" {
 # Functional Role
 ########################
 module "fr_manager" {
-  depends_on = [module.users]
-  source     = "../../modules/functional_role"
+  source = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
   }
@@ -53,8 +37,7 @@ module "fr_manager" {
 }
 
 module "fr_data_engineer" {
-  depends_on = [module.users]
-  source     = "../../modules/functional_role"
+  source = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
   }
@@ -65,8 +48,7 @@ module "fr_data_engineer" {
 }
 
 module "fr_scientist" {
-  depends_on = [module.users]
-  source     = "../../modules/functional_role"
+  source = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
   }
@@ -77,8 +59,7 @@ module "fr_scientist" {
 }
 
 module "fr_analyst" {
-  depends_on = [module.users]
-  source     = "../../modules/functional_role"
+  source = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
   }
@@ -89,7 +70,7 @@ module "fr_analyst" {
 }
 
 module "sr_tableau" {
-  depends_on = [module.users, module.tableau_user]
+  depends_on = [module.tableau_user]
   source     = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
@@ -104,7 +85,7 @@ module "sr_tableau" {
 }
 
 module "sr_trocco_import" {
-  depends_on = [module.users, module.trocco_user]
+  depends_on = [module.trocco_user]
   source     = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
@@ -117,7 +98,7 @@ module "sr_trocco_import" {
 }
 
 module "sr_trocco_transform" {
-  depends_on = [module.users, module.trocco_user]
+  depends_on = [module.trocco_user]
   source     = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
