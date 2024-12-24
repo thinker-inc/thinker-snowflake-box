@@ -9,22 +9,29 @@ Snowflakeのアカウントを複数定義することが可能です。下記�
 
 ## ディレクトリ構成
 
+各modulesフォルダの配下には、同一のファイル構成が存在しています。
+
+- main.tf
+- outputs.tf
+- variables.tf
+- versions.tf
+
+### 構成図
+
 ```text
 .
 └── terraform/
     ├── snowflake
     └── accounts/
         ├── main/
-        │   ├── definitions/
-        │   │   └── users.yml
-        │   ├── _data_lake
-        │   ├── _dwh
-        │   ├── _mart
-        │   ├── _security
-        │   ├── _satging
+        │   ├── _db_data_lake
+        │   ├── _db_dwh
+        │   ├── _db_mart
+        │   ├── _db_security
+        │   ├── _db_satging
+        │   ├── _db_workspace
+        │   ├── _db_authentication_policy
         │   ├── _storage_integration
-        │   ├── _workspace
-        │   ├── authentication_policy
         │   ├── backend
         │   ├── locals
         │   ├── main
@@ -34,74 +41,17 @@ Snowflakeのアカウントを複数定義することが可能です。下記�
         │   └── versions
         └── modules/
             ├── access_role_and_database/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             ├── access_role_and_schema/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             ├── access_role_and_database/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             ├── access_role_and_warehouse/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             ├── authencation_policy/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             ├── file_format/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             ├── functional_role/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
-            ├── grant_on_account/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             ├── network_policy/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             ├── network_rule/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             ├── password_policy/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             ├── service_user/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             ├── stage/
-            │   ├── main.tf
-            │   ├── outputs.tf
-            │   ├── variables.tf
-            │   └── versions.tf
             └── storage_integration/
-                ├── main.tf
-                ├── outputs.tf
-                ├── variables.tf
-                └── versions.tf
             
 ```
