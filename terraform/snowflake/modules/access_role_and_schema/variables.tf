@@ -46,13 +46,13 @@ variable "transformer_ar_to_fr_set" {
   default     = []
 }
 
-variable "sr_trocco_import_ar_to_fr_set" {
+variable "sr_import_ar_to_fr_set" {
   description = "Set of functional role for grant read/write access role"
   type        = set(string)
   default     = []
 }
 
-variable "sr_trocco_transform_ar_to_fr_set" {
+variable "sr_transform_ar_to_fr_set" {
   description = "Set of functional role for grant read/write access role"
   type        = set(string)
   default     = []

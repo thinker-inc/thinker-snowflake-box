@@ -391,7 +391,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_f
 
 # Functional RoleにTROCCO IMPORTのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_sr_trocco_import_ar_to_fr" {
-  for_each = var.sr_trocco_import_ar_to_fr_set
+  for_each = var.sr_import_ar_to_fr_set
 
   database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
   parent_role_name   = each.value
@@ -486,7 +486,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
 
 # Functional RoleにTROCCO TRANSFORMのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_sr_trocco_transform_ar_to_fr" {
-  for_each = var.sr_trocco_transform_ar_to_fr_set
+  for_each = var.sr_transform_ar_to_fr_set
 
   database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
   parent_role_name   = each.value
