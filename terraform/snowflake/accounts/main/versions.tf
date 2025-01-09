@@ -34,5 +34,8 @@ provider "snowflake" {
     "snowflake_authentication_policy_resource",
     "snowflake_account_authentication_policy_attachment_resource",
     "snowflake_user_authentication_policy_attachment_resource",
+    "snowflake_file_format_resource",
+    "snowflake_storage_integration_resource",
+    "snowflake_stage_resource",
   ]
 }
