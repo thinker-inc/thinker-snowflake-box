@@ -24,11 +24,11 @@ module "data_lake_db" {
     module.fr_analyst.name
   ]
 
-  sr_trocco_import_ar_to_fr_set = [
+  sr_import_ar_to_fr_set = [
     module.sr_trocco_import.name
   ]
 
-  sr_trocco_transform_ar_to_fr_set = [
+  sr_transform_ar_to_fr_set = [
     module.sr_trocco_transform.name
   ]
 }
@@ -62,11 +62,11 @@ module "data_lake_db_service_a_schema" {
     module.fr_analyst.name
   ]
 
-  sr_trocco_import_ar_to_fr_set = [
+  sr_import_ar_to_fr_set = [
     module.sr_trocco_import.name
   ]
 
-  sr_trocco_transform_ar_to_fr_set = [
+  sr_transform_ar_to_fr_set = [
     module.sr_trocco_transform.name
   ]
 }
@@ -138,11 +138,11 @@ module "data_lake_db_service_b_schema" {
     module.fr_scientist.name
   ]
 
-  sr_trocco_import_ar_to_fr_set = [
+  sr_import_ar_to_fr_set = [
     module.sr_trocco_import.name
   ]
 
-  sr_trocco_transform_ar_to_fr_set = [
+  sr_transform_ar_to_fr_set = [
     module.sr_trocco_transform.name
   ]
 }

@@ -76,12 +76,9 @@ module "sr_tableau" {
     snowflake = snowflake.security_admin
   }
 
-  role_name = "SR_TABLEAU"
-  grant_user_set = [
-    "RYOTA_HASEGAWA",
-    module.tableau_user.name
-  ]
-  comment = "Functional Role for business intelligence in Project {}"
+  role_name      = "SR_TABLEAU"
+  grant_user_set = local.service_tableau
+  comment        = "Functional Role for business intelligence in Project {}"
 }
 
 module "sr_trocco_import" {
