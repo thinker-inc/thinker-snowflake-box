@@ -62,3 +62,22 @@ module "trocco_authentication_policy" {
     "TROCCO_USER"
   ]
 }
+
+# タブロー用ポリシー
+module "tableau_authentication_policy" {
+  depends_on = [module.security_db_authentication_schema]
+  source     = "../../modules/authentication_policy"
+  providers = {
+    snowflake = snowflake.fr_security_manager
+  }
+
+  database = module.security_db.name
+  schema   = module.security_db_authentication_schema.name
+  name     = "tableau_authentication_user_policy"
+
+  authentication_methods = ["KEYPAIR"]
+  client_types           = ["DRIVERS"]
+  users = [
+    "TABLEAU_USER"
+  ]
+}

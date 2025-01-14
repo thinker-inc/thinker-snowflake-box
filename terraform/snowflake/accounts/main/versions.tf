@@ -11,16 +11,27 @@ terraform {
 provider "snowflake" {
   alias = "terraform"
   role  = "TERRAFORM_SR"
+  preview_features_enabled = [
+    "snowflake_file_format_resource",
+    "snowflake_storage_integration_resource",
+    "snowflake_stage_resource",
+  ]
 }
 
 provider "snowflake" {
   alias = "sys_admin"
   role  = "SYSADMIN"
+  preview_features_enabled = [
+
+  ]
 }
 
 provider "snowflake" {
   alias = "security_admin"
   role  = "SECURITYADMIN"
+  preview_features_enabled = [
+
+  ]
 }
 
 provider "snowflake" {
