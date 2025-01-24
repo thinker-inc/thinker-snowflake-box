@@ -521,17 +521,21 @@ resource "snowflake_grant_database_role" "grant_sr_trocco_transform_ar_to_fr" {
 ########################
 # SYSADMINにAccess Roleをgrant
 ########################
+
+locals {
+  schema_fully_qualified_names = {
+    "_SCM_${snowflake_schema.this.name}_MANAGER_AR"             = snowflake_database_role.manager_ar.fully_qualified_name
+    "_SCM_${snowflake_schema.this.name}_TRANSFORMER_AR"         = snowflake_database_role.transformer_ar.fully_qualified_name
+    "_SCM_${snowflake_schema.this.name}_READ_ONLY_AR"           = snowflake_database_role.read_only_ar.fully_qualified_name
+    "_SCM_${snowflake_schema.this.name}_SR_TROCCO_IMPORT_AR"    = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
+    "_SCM_${snowflake_schema.this.name}_SR_TROCCO_TRANSFORM_AR" = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
+  }
+}
+
 resource "snowflake_grant_database_role" "grant_to_sysadmin" {
-  for_each = toset([
-    snowflake_database_role.manager_ar.name,
-    snowflake_database_role.transformer_ar.name,
-    snowflake_database_role.read_only_ar.name,
-    snowflake_database_role.sr_trocco_import_ar.name,
-    snowflake_database_role.sr_trocco_transform_ar.name
-  ])
-  # 下記のコードを使用したら、for_eachによってcycle dependencyエラーが発生します。
-  # database_role_name = snowflake_grant_database_role.grant_to_sysadmin["${each.value}"].fully_qualified_name
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${each.value}\""
+  for_each = local.schema_fully_qualified_names
+
+  database_role_name = each.value
   parent_role_name   = "SYSADMIN"
 
   depends_on = [
@@ -542,3 +546,25 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
     snowflake_database_role.sr_trocco_transform_ar
   ]
 }
+
+# resource "snowflake_grant_database_role" "grant_to_sysadmin" {
+#   for_each = toset([
+#     snowflake_database_role.manager_ar.name,
+#     snowflake_database_role.transformer_ar.name,
+#     snowflake_database_role.read_only_ar.name,
+#     snowflake_database_role.sr_trocco_import_ar.name,
+#     snowflake_database_role.sr_trocco_transform_ar.name
+#   ])
+#   # 下記のコードを使用したら、for_eachによってcycle dependencyエラーが発生します。
+#   # database_role_name = snowflake_grant_database_role.grant_to_sysadmin["${each.value}"].fully_qualified_name
+#   database_role_name = "\"${snowflake_schema.this.database}\".\"${each.value}\""
+#   parent_role_name   = "SYSADMIN"
+# 
+#   depends_on = [
+#     snowflake_database_role.manager_ar,
+#     snowflake_database_role.transformer_ar,
+#     snowflake_database_role.read_only_ar,
+#     snowflake_database_role.sr_trocco_import_ar,
+#     snowflake_database_role.sr_trocco_transform_ar
+#   ]
+# }
