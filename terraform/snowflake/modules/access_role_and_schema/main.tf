@@ -103,6 +103,21 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_sto
   depends_on = [snowflake_database_role.manager_ar]
 }
 
+# ManagerのAccess Roleへのスキーマ内すべてのビュー権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_views" {
+  privileges         = ["SELECT", "REFERENCES"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.manager_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "VIEWS"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.manager_ar]
+}
+
+
 # Functional RoleにRead/WriteのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_manager_ar_to_fr" {
   for_each = var.manager_ar_to_fr_set
@@ -210,6 +225,20 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future
   depends_on = [snowflake_database_role.transformer_ar]
 }
 
+# Read WriteのAccess Roleへのスキーマ内すべてのビュー権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future_views" {
+  privileges         = ["SELECT", "REFERENCES"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.transformer_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "VIEWS"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.transformer_ar]
+}
+
 # Functional RoleにRead/WriteのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_transformer_ar_to_fr" {
   for_each = var.transformer_ar_to_fr_set
@@ -302,6 +331,20 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_s
       object_type_plural = "PROCEDURES"
       in_schema          = snowflake_schema.this.fully_qualified_name
       # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.read_only_ar]
+}
+
+# Read OnlyのAccess Roleへのスキーマ内すべてのビュー権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_views" {
+  privileges         = ["SELECT"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.read_only_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "VIEWS"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -408,6 +451,20 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_f
   depends_on = [snowflake_database_role.sr_trocco_import_ar]
 }
 
+# TROCCO IMPORTのAccess Roleへのスキーマ内すべてのビュー権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_future_views" {
+  privileges         = ["SELECT"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "VIEWS"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.sr_trocco_import_ar]
+}
+
 # Functional RoleにTROCCO IMPORTのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_sr_trocco_import_ar_to_fr" {
   for_each = var.sr_import_ar_to_fr_set
@@ -502,6 +559,21 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
       object_type_plural = "PROCEDURES"
       in_schema          = snowflake_schema.this.fully_qualified_name
       # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    }
+  }
+
+  depends_on = [snowflake_database_role.sr_trocco_transform_ar]
+}
+
+# TROCCO TRANSFORMのAccess Roleへのスキーマ内すべてのビュー権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transform_future_views" {
+
+  privileges         = ["SELECT"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "VIEWS"
+      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
