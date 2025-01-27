@@ -34,7 +34,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_schema" {
   database_role_name = snowflake_database_role.manager_ar.fully_qualified_name
   on_schema {
     schema_name = snowflake_schema.this.fully_qualified_name
-    #   schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
   }
 
   depends_on = [snowflake_database_role.manager_ar]
@@ -48,7 +47,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_all_tables
     all {
       object_type_plural = "TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      #   in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -63,7 +61,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_tab
     future {
       object_type_plural = "TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -80,7 +77,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_ext
     future {
       object_type_plural = "EXTERNAL TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -96,7 +92,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_sto
     future {
       object_type_plural = "PROCEDURES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -110,7 +105,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_vie
   on_schema_object {
     future {
       object_type_plural = "VIEWS"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -156,7 +151,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_schema
   database_role_name = snowflake_database_role.transformer_ar.fully_qualified_name
   on_schema {
     schema_name = snowflake_schema.this.fully_qualified_name
-    # schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
   }
 
   depends_on = [snowflake_database_role.transformer_ar]
@@ -184,7 +178,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future
     future {
       object_type_plural = "TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -201,7 +194,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future
     future {
       object_type_plural = "EXTERNAL TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -218,7 +210,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future
     future {
       object_type_plural = "PROCEDURES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -232,7 +223,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future
   on_schema_object {
     future {
       object_type_plural = "VIEWS"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -268,7 +259,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_schema" 
   database_role_name = snowflake_database_role.read_only_ar.fully_qualified_name
   on_schema {
     schema_name = snowflake_schema.this.fully_qualified_name
-    # schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
   }
 
   depends_on = [snowflake_database_role.read_only_ar]
@@ -282,7 +272,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_all_tabl
     all {
       object_type_plural = "TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -297,7 +286,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_t
     future {
       object_type_plural = "TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -314,7 +302,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_e
     future {
       object_type_plural = "EXTERNAL TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -330,7 +317,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_s
     future {
       object_type_plural = "PROCEDURES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -344,7 +330,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_v
   on_schema_object {
     future {
       object_type_plural = "VIEWS"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -382,7 +368,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_s
   database_role_name = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
   on_schema {
     schema_name = snowflake_schema.this.fully_qualified_name
-    # schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
   }
 
   depends_on = [snowflake_database_role.sr_trocco_import_ar]
@@ -396,7 +381,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_a
     all {
       object_type_plural = "TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -411,7 +395,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_f
     future {
       object_type_plural = "TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -428,7 +411,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_f
     future {
       object_type_plural = "EXTERNAL TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -444,7 +426,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_f
     future {
       object_type_plural = "PROCEDURES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -458,7 +439,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_f
   on_schema_object {
     future {
       object_type_plural = "VIEWS"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -496,7 +477,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
   database_role_name = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
   on_schema {
     schema_name = snowflake_schema.this.fully_qualified_name
-    # schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
   }
 
   depends_on = [snowflake_database_role.sr_trocco_transform_ar]
@@ -510,7 +490,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
     all {
       object_type_plural = "TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -525,7 +504,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
     future {
       object_type_plural = "TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -542,7 +520,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
     future {
       object_type_plural = "EXTERNAL TABLES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -558,7 +535,6 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
     future {
       object_type_plural = "PROCEDURES"
       in_schema          = snowflake_schema.this.fully_qualified_name
-      # in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
 
@@ -594,20 +570,16 @@ resource "snowflake_grant_database_role" "grant_sr_trocco_transform_ar_to_fr" {
 # SYSADMINにAccess Roleをgrant
 ########################
 
-locals {
-  schema_fully_qualified_names = {
-    "_SCM_${snowflake_schema.this.name}_MANAGER_AR"             = snowflake_database_role.manager_ar.fully_qualified_name
-    "_SCM_${snowflake_schema.this.name}_TRANSFORMER_AR"         = snowflake_database_role.transformer_ar.fully_qualified_name
-    "_SCM_${snowflake_schema.this.name}_READ_ONLY_AR"           = snowflake_database_role.read_only_ar.fully_qualified_name
-    "_SCM_${snowflake_schema.this.name}_SR_TROCCO_IMPORT_AR"    = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
-    "_SCM_${snowflake_schema.this.name}_SR_TROCCO_TRANSFORM_AR" = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
-  }
-}
-
 resource "snowflake_grant_database_role" "grant_to_sysadmin" {
-  for_each = local.schema_fully_qualified_names
+  for_each = toset([
+    snowflake_database_role.manager_ar.name,
+    snowflake_database_role.transformer_ar.name,
+    snowflake_database_role.read_only_ar.name,
+    snowflake_database_role.sr_trocco_import_ar.name,
+    snowflake_database_role.sr_trocco_transform_ar.name
+  ])
 
-  database_role_name = each.value
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${each.value}\""
   parent_role_name   = "SYSADMIN"
 
   depends_on = [
@@ -618,25 +590,3 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
     snowflake_database_role.sr_trocco_transform_ar
   ]
 }
-
-# resource "snowflake_grant_database_role" "grant_to_sysadmin" {
-#   for_each = toset([
-#     snowflake_database_role.manager_ar.name,
-#     snowflake_database_role.transformer_ar.name,
-#     snowflake_database_role.read_only_ar.name,
-#     snowflake_database_role.sr_trocco_import_ar.name,
-#     snowflake_database_role.sr_trocco_transform_ar.name
-#   ])
-#   # 下記のコードを使用したら、for_eachによってcycle dependencyエラーが発生します。
-#   # database_role_name = snowflake_grant_database_role.grant_to_sysadmin["${each.value}"].fully_qualified_name
-#   database_role_name = "\"${snowflake_schema.this.database}\".\"${each.value}\""
-#   parent_role_name   = "SYSADMIN"
-# 
-#   depends_on = [
-#     snowflake_database_role.manager_ar,
-#     snowflake_database_role.transformer_ar,
-#     snowflake_database_role.read_only_ar,
-#     snowflake_database_role.sr_trocco_import_ar,
-#     snowflake_database_role.sr_trocco_transform_ar
-#   ]
-# }
