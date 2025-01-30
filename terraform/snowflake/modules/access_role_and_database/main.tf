@@ -23,7 +23,7 @@ resource "snowflake_database_role" "manager_ar" {
 # ManagerのAccess Roleへの権限のgrant - 全ての権限を付与[ALL PRIVILEGES]
 resource "snowflake_grant_privileges_to_database_role" "grant_manager" {
   all_privileges     = true
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.manager_ar.name}\""
+  database_role_name = snowflake_database_role.manager_ar.fully_qualified_name
   on_database        = snowflake_database.this.name
 
   depends_on = [snowflake_database_role.manager_ar]
@@ -31,9 +31,8 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager" {
 
 # Functional RoleにManagerのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_manager_ar_to_fr" {
-  for_each = var.manager_ar_to_fr_set
-
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.manager_ar.name}\""
+  for_each           = var.manager_ar_to_fr_set
+  database_role_name = snowflake_database_role.manager_ar.fully_qualified_name
   parent_role_name   = each.value
 
   depends_on = [snowflake_database_role.manager_ar]
@@ -55,7 +54,7 @@ resource "snowflake_database_role" "transformer_ar" {
 # TransformerのAccess Roleへの権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_transformer" {
   privileges         = ["USAGE", "MONITOR", "CREATE SCHEMA"]
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.transformer_ar.name}\""
+  database_role_name = snowflake_database_role.transformer_ar.fully_qualified_name
   on_database        = snowflake_database.this.name
 
   depends_on = [snowflake_database_role.transformer_ar]
@@ -65,7 +64,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer" {
 resource "snowflake_grant_database_role" "grant_transformer_ar_to_fr" {
   for_each = var.transformer_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.transformer_ar.name}\""
+  database_role_name = snowflake_database_role.transformer_ar.fully_qualified_name
   parent_role_name   = each.value
 
   depends_on = [snowflake_database_role.transformer_ar]
@@ -86,7 +85,7 @@ resource "snowflake_database_role" "read_only_ar" {
 # Read OnlyのAccess Roleへの権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_read_only" {
   privileges         = ["USAGE", "MONITOR"]
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.read_only_ar.name}\""
+  database_role_name = snowflake_database_role.read_only_ar.fully_qualified_name
   on_database        = snowflake_database.this.name
 
   depends_on = [snowflake_database_role.read_only_ar]
@@ -96,7 +95,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only" {
 resource "snowflake_grant_database_role" "grant_readonly_ar_to_fr" {
   for_each = var.read_only_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.read_only_ar.name}\""
+  database_role_name = snowflake_database_role.read_only_ar.fully_qualified_name
   parent_role_name   = each.value
 
   depends_on = [snowflake_database_role.read_only_ar]
@@ -118,7 +117,7 @@ resource "snowflake_database_role" "sr_trocco_import_ar" {
 # Etl tools importのAccess Roleへの権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import" {
   privileges         = ["USAGE", "MONITOR", "CREATE SCHEMA"]
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
   on_database        = snowflake_database.this.name
 
   depends_on = [snowflake_database_role.sr_trocco_import_ar]
@@ -128,7 +127,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import" 
 resource "snowflake_grant_database_role" "grant_sr_trocco_import_ar_to_fr" {
   for_each = var.sr_import_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
   parent_role_name   = each.value
 
   depends_on = [snowflake_database_role.sr_trocco_import_ar]
@@ -149,7 +148,7 @@ resource "snowflake_database_role" "sr_trocco_transform_ar" {
 # Etl tools transformのAccess Roleへの権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transform" {
   privileges         = ["USAGE", "MONITOR"]
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
   on_database        = snowflake_database.this.name
 
   depends_on = [snowflake_database_role.sr_trocco_transform_ar]
@@ -159,7 +158,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
 resource "snowflake_grant_database_role" "grant_sr_trocco_transform_ar_to_fr" {
   for_each = var.sr_transform_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_database.this.name}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
   parent_role_name   = each.value
 
   depends_on = [snowflake_database_role.sr_trocco_transform_ar]
@@ -168,6 +167,7 @@ resource "snowflake_grant_database_role" "grant_sr_trocco_transform_ar_to_fr" {
 ########################
 # SYSADMINにAccess Roleをgrant
 ########################
+
 resource "snowflake_grant_database_role" "grant_to_sysadmin" {
   for_each = toset([
     snowflake_database_role.manager_ar.name,
@@ -176,6 +176,7 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
     snowflake_database_role.sr_trocco_import_ar.name,
     snowflake_database_role.sr_trocco_transform_ar.name
   ])
+
   database_role_name = "\"${snowflake_database.this.name}\".\"${each.value}\""
   parent_role_name   = "SYSADMIN"
 
@@ -187,3 +188,4 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
     snowflake_database_role.sr_trocco_transform_ar
   ]
 }
+
