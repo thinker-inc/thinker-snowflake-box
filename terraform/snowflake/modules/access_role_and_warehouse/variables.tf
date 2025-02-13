@@ -65,7 +65,7 @@ variable "resource_monitor" {
 }
 
 variable "scaling_policy" {
-  description = "Specifies the policy for automatically starting and shutting down clusters in a multi-cluster warehouse running in Auto-scale mode."
+  description = "Specifies the policy for automatically starting and shutting down clusters in a multi-cluster warehouse running in Auto-scale mode. { STANDARD | ECONOMY }"
   type        = string
   default     = "STANDARD"
 }
@@ -83,13 +83,13 @@ variable "statement_timeout_in_seconds" {
 }
 
 variable "warehouse_size" {
-  description = "Specifies the size of the virtual warehouse. "
+  description = "Specifies the size of the virtual warehouse. Valid values are (case-insensitive): { XSMALL | SMALL | MEDIUM | LARGE | XLARGE | XXLARGE | XXXLARGE | X4LARGE | X5LARGE | X6LARGE }"
   type        = string
   default     = "XSMALL"
 }
 
 variable "warehouse_type" {
-  description = "Specifies a STANDARD or SNOWPARK-OPTIMIZED warehouse"
+  description = "Specifies warehouse type. Valid values are (case-insensitive) { STANDARD | SNOWPARK-OPTIMIZED }"
   type        = string
   default     = "STANDARD"
 }
