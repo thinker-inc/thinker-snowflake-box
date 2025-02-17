@@ -43,7 +43,7 @@ module "fr_data_engineer" {
   }
 
   role_name      = "FR_DATA_ENGINEER"
-  grant_user_set = local.data_engineer
+  grant_user_set = concat(local.manager, ["ENGINEER_HASEGAWA"])
   comment        = "Functional Role for Data Engineer in Project all"
 }
 
@@ -54,7 +54,7 @@ module "fr_scientist" {
   }
 
   role_name      = "FR_SCIENTIST"
-  grant_user_set = local.data_scientist
+  grant_user_set = concat(local.manager, ["SCIENTIST_HASEGAWA"])
   comment        = "Functional Role for data scientist in Project {}"
 }
 
@@ -65,7 +65,7 @@ module "fr_analyst" {
   }
 
   role_name      = "FR_ANALYST"
-  grant_user_set = local.data_analyst
+  grant_user_set = concat(local.manager, ["ANALYST_HASEGAWA"])
   comment        = "Functional Role for analysis in Project {}"
 }
 
@@ -76,12 +76,9 @@ module "sr_tableau" {
     snowflake = snowflake.security_admin
   }
 
-  role_name = "SR_TABLEAU"
-  grant_user_set = [
-    "RYOTA_HASEGAWA",
-    module.tableau_user.name
-  ]
-  comment = "Functional Role for business intelligence in Project {}"
+  role_name      = "SR_TABLEAU"
+  grant_user_set = concat(local.manager, ["TABLEAU_USER"])
+  comment        = "Functional Role for business intelligence in Project {}"
 }
 
 module "sr_trocco_import" {
@@ -93,7 +90,7 @@ module "sr_trocco_import" {
 
   role_name = "SR_TROCCO_IMPORT"
 
-  grant_user_set = local.service_trocco
+  grant_user_set = concat(local.manager, ["TROCCO_USER"])
   comment        = "Functional Role for trocco import in Project {}"
 }
 
@@ -105,7 +102,7 @@ module "sr_trocco_transform" {
   }
 
   role_name      = "SR_TROCCO_TRANSFORM"
-  grant_user_set = local.service_trocco
+  grant_user_set = concat(local.manager, ["TROCCO_USER"])
   comment        = "Functional Role for trocco transform in Project {}"
 }
 

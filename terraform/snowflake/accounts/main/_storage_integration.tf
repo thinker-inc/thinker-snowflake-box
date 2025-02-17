@@ -5,7 +5,7 @@
 # module "s3_storage_integration" {
 #   source = "../../modules/storage_integration"
 #   providers = {
-#     snowflake = snowflake.fr_security_manager
+#     snowflake = snowflake.terraform
 #   }
 # 
 #   storage_integration_name  = "S3_INTEGRATION"

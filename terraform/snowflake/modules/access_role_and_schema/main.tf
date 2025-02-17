@@ -31,9 +31,9 @@ resource "snowflake_database_role" "manager_ar" {
 # ManagerのAccess Roleへのスキーマ権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_manager_schema" {
   all_privileges     = true
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.manager_ar.name}\""
+  database_role_name = snowflake_database_role.manager_ar.fully_qualified_name
   on_schema {
-    schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    schema_name = snowflake_schema.this.fully_qualified_name
   }
 
   depends_on = [snowflake_database_role.manager_ar]
@@ -42,11 +42,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_schema" {
 # ManagerのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_manager_all_tables" {
   all_privileges     = true
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.manager_ar.name}\""
+  database_role_name = snowflake_database_role.manager_ar.fully_qualified_name
   on_schema_object {
     all {
       object_type_plural = "TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -56,11 +56,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_all_tables
 # ManagerのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
 resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_tables" {
   all_privileges     = true
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.manager_ar.name}\""
+  database_role_name = snowflake_database_role.manager_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -72,11 +72,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_ext
   count = var.grant_feature_external_table ? 1 : 0 # 条件に応じてリソース作成
 
   privileges         = ["SELECT"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.manager_ar.name}\""
+  database_role_name = snowflake_database_role.manager_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "EXTERNAL TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -87,22 +87,37 @@ resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_ext
 resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_stored_procedure" {
   count              = var.grant_feature_stored_procedure ? 1 : 0 # 条件に応じてリソース作成
   privileges         = ["USAGE"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.manager_ar.name}\""
+  database_role_name = snowflake_database_role.manager_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "PROCEDURES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
   depends_on = [snowflake_database_role.manager_ar]
 }
 
+# ManagerのAccess Roleへのスキーマ内すべてのビュー権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_manager_future_views" {
+  privileges         = ["SELECT", "REFERENCES"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.manager_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "VIEWS"
+      in_schema          = snowflake_schema.this.fully_qualified_name
+    }
+  }
+
+  depends_on = [snowflake_database_role.manager_ar]
+}
+
+
 # Functional RoleにRead/WriteのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_manager_ar_to_fr" {
   for_each = var.manager_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.manager_ar.name}\""
+  database_role_name = snowflake_database_role.manager_ar.fully_qualified_name
   parent_role_name   = each.value
 
   depends_on = [snowflake_database_role.manager_ar]
@@ -133,9 +148,9 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_schema
     //"CREATE MODEL", "CREATE SNOWFLAKE.ML.FORECAST", "CREATE SNOWFLAKE.ML.ANOMALY_DETECTION"
     //"CREATE HYBRID TABLE"
   ]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.transformer_ar.name}\""
+  database_role_name = snowflake_database_role.transformer_ar.fully_qualified_name
   on_schema {
-    schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    schema_name = snowflake_schema.this.fully_qualified_name
   }
 
   depends_on = [snowflake_database_role.transformer_ar]
@@ -144,11 +159,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_schema
 # Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_transformer_all_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.transformer_ar.name}\""
+  database_role_name = snowflake_database_role.transformer_ar.fully_qualified_name
   on_schema_object {
     all {
       object_type_plural = "TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -158,11 +173,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_all_ta
 # Read WriteのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
 resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.transformer_ar.name}\""
+  database_role_name = snowflake_database_role.transformer_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -174,11 +189,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future
   count = var.grant_feature_external_table ? 1 : 0 # 条件に応じてリソース作成
 
   privileges         = ["SELECT"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.transformer_ar.name}\""
+  database_role_name = snowflake_database_role.transformer_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "EXTERNAL TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -190,11 +205,25 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future
 resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future_stored_procedure" {
   count              = var.grant_feature_stored_procedure ? 1 : 0 # 条件に応じてリソース作成
   privileges         = ["USAGE"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.transformer_ar.name}\""
+  database_role_name = snowflake_database_role.transformer_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "PROCEDURES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
+    }
+  }
+
+  depends_on = [snowflake_database_role.transformer_ar]
+}
+
+# Read WriteのAccess Roleへのスキーマ内すべてのビュー権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future_views" {
+  privileges         = ["SELECT", "REFERENCES"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.transformer_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "VIEWS"
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -205,7 +234,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_transformer_future
 resource "snowflake_grant_database_role" "grant_transformer_ar_to_fr" {
   for_each = var.transformer_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.transformer_ar.name}\""
+  database_role_name = snowflake_database_role.transformer_ar.fully_qualified_name
   parent_role_name   = each.value
 
   depends_on = [snowflake_database_role.transformer_ar]
@@ -227,9 +256,9 @@ resource "snowflake_database_role" "read_only_ar" {
 # Read OnlyのAccess Roleへのスキーマ権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_read_only_schema" {
   privileges         = ["USAGE", "MONITOR"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.read_only_ar.name}\""
+  database_role_name = snowflake_database_role.read_only_ar.fully_qualified_name
   on_schema {
-    schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    schema_name = snowflake_schema.this.fully_qualified_name
   }
 
   depends_on = [snowflake_database_role.read_only_ar]
@@ -238,11 +267,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_schema" 
 # Read OnlyのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_read_only_all_tables" {
   privileges         = ["SELECT"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.read_only_ar.name}\""
+  database_role_name = snowflake_database_role.read_only_ar.fully_qualified_name
   on_schema_object {
     all {
       object_type_plural = "TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -252,11 +281,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_all_tabl
 # Read OnlyのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
 resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_tables" {
   privileges         = ["SELECT"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.read_only_ar.name}\""
+  database_role_name = snowflake_database_role.read_only_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -268,11 +297,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_e
   count = var.grant_feature_external_table ? 1 : 0 # 条件に応じてリソース作成
 
   privileges         = ["SELECT"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.read_only_ar.name}\""
+  database_role_name = snowflake_database_role.read_only_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "EXTERNAL TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -283,11 +312,25 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_e
 resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_stored_procedure" {
   count              = var.grant_feature_stored_procedure ? 1 : 0 # 条件に応じてリソース作成
   privileges         = ["USAGE"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.read_only_ar.name}\""
+  database_role_name = snowflake_database_role.read_only_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "PROCEDURES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
+    }
+  }
+
+  depends_on = [snowflake_database_role.read_only_ar]
+}
+
+# Read OnlyのAccess Roleへのスキーマ内すべてのビュー権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_views" {
+  privileges         = ["SELECT"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.read_only_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "VIEWS"
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -298,7 +341,7 @@ resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_s
 resource "snowflake_grant_database_role" "grant_readonly_ar_to_fr" {
   for_each = var.read_only_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.read_only_ar.name}\""
+  database_role_name = snowflake_database_role.read_only_ar.fully_qualified_name
   parent_role_name   = each.value
 
   depends_on = [snowflake_database_role.read_only_ar]
@@ -322,9 +365,9 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_s
   privileges = [
     "USAGE", "CREATE STAGE", "CREATE TABLE"
   ]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
   on_schema {
-    schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    schema_name = snowflake_schema.this.fully_qualified_name
   }
 
   depends_on = [snowflake_database_role.sr_trocco_import_ar]
@@ -333,11 +376,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_s
 # TROCCO IMPORTのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_all_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
   on_schema_object {
     all {
       object_type_plural = "TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -347,11 +390,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_a
 # TROCCO IMPORTのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
 resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_future_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -363,11 +406,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_f
   count = var.grant_feature_external_table ? 1 : 0 # 条件に応じてリソース作成
 
   privileges         = ["SELECT"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "EXTERNAL TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -378,11 +421,25 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_f
 resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_future_stored_procedure" {
   count              = var.grant_feature_stored_procedure ? 1 : 0 # 条件に応じてリソース作成
   privileges         = ["USAGE"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "PROCEDURES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
+    }
+  }
+
+  depends_on = [snowflake_database_role.sr_trocco_import_ar]
+}
+
+# TROCCO IMPORTのAccess Roleへのスキーマ内すべてのビュー権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_future_views" {
+  privileges         = ["SELECT"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "VIEWS"
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -391,9 +448,9 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_import_f
 
 # Functional RoleにTROCCO IMPORTのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_sr_trocco_import_ar_to_fr" {
-  for_each = var.sr_trocco_import_ar_to_fr_set
+  for_each = var.sr_import_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_import_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
   parent_role_name   = each.value
 
   depends_on = [snowflake_database_role.sr_trocco_import_ar]
@@ -417,9 +474,9 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
   privileges = [
     "USAGE", "CREATE TABLE", "CREATE VIEW"
   ]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
   on_schema {
-    schema_name = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+    schema_name = snowflake_schema.this.fully_qualified_name
   }
 
   depends_on = [snowflake_database_role.sr_trocco_transform_ar]
@@ -428,11 +485,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
 # TROCCO TRANSFORMのAccess Roleへのスキーマ内すべてのテーブル権限のgrant
 resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transform_all_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
   on_schema_object {
     all {
       object_type_plural = "TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -442,11 +499,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
 # TROCCO TRANSFORMのAccess Roleへのスキーマ内すべてのテーブル権限のfuture grant
 resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transform_future_tables" {
   privileges         = ["SELECT", "INSERT", "UPDATE", "TRUNCATE", "DELETE", "REFERENCES"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -458,11 +515,11 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
   count = var.grant_feature_external_table ? 1 : 0 # 条件に応じてリソース作成
 
   privileges         = ["SELECT"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "EXTERNAL TABLES"
-      in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
+      in_schema          = snowflake_schema.this.fully_qualified_name
     }
   }
 
@@ -473,10 +530,25 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
 resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transform_future_stored_procedure" {
   count              = var.grant_feature_stored_procedure ? 1 : 0 # 条件に応じてリソース作成
   privileges         = ["USAGE"]
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
   on_schema_object {
     future {
       object_type_plural = "PROCEDURES"
+      in_schema          = snowflake_schema.this.fully_qualified_name
+    }
+  }
+
+  depends_on = [snowflake_database_role.sr_trocco_transform_ar]
+}
+
+# TROCCO TRANSFORMのAccess Roleへのスキーマ内すべてのビュー権限のfuture grant
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transform_future_views" {
+
+  privileges         = ["SELECT"]
+  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  on_schema_object {
+    future {
+      object_type_plural = "VIEWS"
       in_schema          = "\"${snowflake_schema.this.database}\".\"${snowflake_schema.this.name}\""
     }
   }
@@ -486,9 +558,9 @@ resource "snowflake_grant_privileges_to_database_role" "grant_sr_trocco_transfor
 
 # Functional RoleにTROCCO TRANSFORMのAccess Roleをgrant
 resource "snowflake_grant_database_role" "grant_sr_trocco_transform_ar_to_fr" {
-  for_each = var.sr_trocco_transform_ar_to_fr_set
+  for_each = var.sr_transform_ar_to_fr_set
 
-  database_role_name = "\"${snowflake_schema.this.database}\".\"${snowflake_database_role.sr_trocco_transform_ar.name}\""
+  database_role_name = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
   parent_role_name   = each.value
 
   depends_on = [snowflake_database_role.sr_trocco_transform_ar]
@@ -497,6 +569,7 @@ resource "snowflake_grant_database_role" "grant_sr_trocco_transform_ar_to_fr" {
 ########################
 # SYSADMINにAccess Roleをgrant
 ########################
+
 resource "snowflake_grant_database_role" "grant_to_sysadmin" {
   for_each = toset([
     snowflake_database_role.manager_ar.name,
@@ -505,6 +578,7 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
     snowflake_database_role.sr_trocco_import_ar.name,
     snowflake_database_role.sr_trocco_transform_ar.name
   ])
+
   database_role_name = "\"${snowflake_schema.this.database}\".\"${each.value}\""
   parent_role_name   = "SYSADMIN"
 

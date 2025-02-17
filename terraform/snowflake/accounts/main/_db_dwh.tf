@@ -23,11 +23,11 @@ module "dwh_db" {
   read_only_ar_to_fr_set = [
     module.fr_analyst.name
   ]
-  sr_trocco_import_ar_to_fr_set = [
+  sr_import_ar_to_fr_set = [
     module.sr_trocco_import.name
   ]
 
-  sr_trocco_transform_ar_to_fr_set = [
+  sr_transform_ar_to_fr_set = [
     module.sr_trocco_transform.name
   ]
 }
@@ -59,11 +59,11 @@ module "dwh_db_service_AB_schema" {
     module.fr_analyst.name
   ]
 
-  sr_trocco_import_ar_to_fr_set = [
+  sr_import_ar_to_fr_set = [
     module.sr_trocco_import.name
   ]
 
-  sr_trocco_transform_ar_to_fr_set = [
+  sr_transform_ar_to_fr_set = [
     module.sr_trocco_transform.name
   ]
 }
