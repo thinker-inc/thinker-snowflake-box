@@ -14,7 +14,7 @@ variable "schema" {
 }
 
 variable "format_type" {
-  description = "value of the file format format_type"
+  description = "value of the file format format_type { CSV | JSON | AVRO | ORC | PARQUET | XML | CUSTOM }"
   type        = string
 }
 

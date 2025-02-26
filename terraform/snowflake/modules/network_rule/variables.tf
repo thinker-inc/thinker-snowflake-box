@@ -19,14 +19,13 @@ variable "comment" {
   default     = null
 }
 
-# IPV4, AWSVPCEID, AZURELINKID and HOST_PORT
 variable "type" {
-  description = "pecifies the type of network identifiers being allowed or blocked. A network rule can have only one type"
+  description = "pecifies the type of network identifiers being allowed or blocked. A network rule can have only one type { IPV4 | AWSVPCEID | AZURELINKID | HOST_PORT | PRIVATE_HOST_PORT }"
   type        = string
 }
 
 variable "mode" {
-  description = "Specifies what is restricted by the network rule. Valid values are INGRESS, INTERNAL_STAGE and EGRESS"
+  description = "Specifies what is restricted by the network rule. { INGRESS | INTERNAL_STAGE | EGRESS }"
   type        = string
 }
 

@@ -13,36 +13,32 @@ variable "name" {
   type        = string
 }
 
-# ALL, SAML, PASSWORD, OAUTH, KEYPAIR
 variable "authentication_methods" {
-  description = "List of authentication methods."
+  description = "List of authentication methods. { ALL | SAML | PASSWORD | OAUTH | KEYPAIR }"
   type        = list(string)
   default     = ["ALL"]
 }
 
-# ALL, SAML, PASSWORD
 variable "mfa_authentication_methods" {
-  description = "List of MFA authentication methods."
+  description = "List of MFA authentication methods. { ALL | SAML | PASSWORD }"
   type        = list(string)
   default     = null
 }
 
-# OPTIONAL, REQUIRED
 variable "mfa_enrollment" {
-  description = "MFA enrollment setting."
+  description = "MFA enrollment setting. { OPTIONAL | REQUIRED }"
   type        = string
   default     = "OPTIONAL"
 }
 
-# ALL, SNOWFLAKE_UI, DRIVERS, SNOWSQL
 variable "client_types" {
-  description = "List of client types."
+  description = "List of client types. { ALL | SNOWFLAKE_UI | DRIVERS | SNOWSQL }"
   type        = list(string)
   default     = ["ALL"]
 }
 
 variable "security_integrations" {
-  description = "List of security integrations."
+  description = "List of security integrations. { ALL | AWS_IAM | API_AUTHENTICATION | EXTERNAL_OAUTH | OAUTH | SAML2 | SCIM }"
   type        = list(string)
   default     = ["ALL"]
 }

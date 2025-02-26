@@ -35,7 +35,7 @@ variable "default_warehouse" {
 }
 
 variable "default_secondary_roles_option" {
-  description = "Specifies the set of secondary roles that are active for the service user's session upon login. Currently only [ALL] value is supported"
+  description = "Specifies the set of secondary roles that are active for the service user's session upon login. Valid values are (case-insensitive): { DEFAULT | NONE | ALL }"
   type        = string
   default     = null
 }

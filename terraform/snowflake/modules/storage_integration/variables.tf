@@ -27,7 +27,7 @@ variable "storage_allowed_locations" {
 }
 
 variable "storage_provider" {
-  description = "value of the storage integration storage provider"
+  description = "value of the storage integration storage provider { S3 | S3GOV | S3CHINA | GCS | AZURE }"
   type        = string
 }
 
