@@ -1,7 +1,7 @@
 FROM ubuntu:22.04
 
 #ARG AWS_CLI_VER=2.13.20
-ENV TERRAFORM_VER=latest:^1.10
+ENV TERRAFORM_VER=latest:^1.11
 
 # BASE
 RUN apt update

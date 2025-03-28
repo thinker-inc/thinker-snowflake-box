@@ -21,4 +21,13 @@ resource "snowflake_service_user" "this" {
 
   rsa_public_key   = var.rsa_public_key
   rsa_public_key_2 = var.rsa_public_key_2
+
+  lifecycle {
+    ignore_changes = [
+      rsa_public_key,
+      rsa_public_key_2,
+      network_policy,
+      default_secondary_roles_option
+    ]
+  }
 }
