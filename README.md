@@ -14,3 +14,10 @@
 
 - 詳細の手順は、[terraform_dev.md](./docs/terraform_dev.md) を参照してください。
 - Terraformの接続には、秘密鍵を利用します。秘密鍵の生成方法は、[snowflake_key_pair.md](./docs/snowflake_key_pair.md) を参照してください。
+
+## Snowflake-Labs から snowflakedb に移行したことについて
+
+- v2.0.0への移行に伴い、「Snowflake-Labs」 から 「snowflakedb」 に移行しました。
+  - providerのsourceが変更になりました。
+  - state file が変更になりました。
+    - [Upgrading from Snowflake-Labs to snowflakedb Terraform Registry namespace](https://github.com/snowflakedb/terraform-provider-snowflake/blob/main/SNOWFLAKEDB_MIGRATION.md) を参照してください。
