@@ -13,7 +13,7 @@ variable "auto_resume" {
 variable "auto_suspend" {
   description = "Specifies the number of seconds of inactivity after which a warehouse is automatically suspended."
   type        = number
-  default     = 60
+  default     = 30
 }
 
 variable "comment" {
