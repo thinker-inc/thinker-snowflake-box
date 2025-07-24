@@ -189,3 +189,39 @@ resource "snowflake_grant_database_role" "grant_to_sysadmin" {
   ]
 }
 
+########################
+# NEW: Google Sheets 用の追加ロール
+########################
+
+# 既存のsr_tableauがあるので、新しい名前で作成
+module "sr_tableau_sheets" {
+  depends_on = [module.tableau_user]
+  source     = "../../modules/functional_role"
+  providers = {
+    snowflake = snowflake.security_admin
+  }
+
+  role_name      = "SR_TABLEAU_SHEETS"
+  grant_user_set = concat(local.manager, ["TABLEAU_USER"])
+  comment        = "Functional Role for Tableau accessing Google Sheets data"
+}
+
+# 新しいXSMALL_WH (既存のものと区別するため)
+module "xsmall_sheets_wh" {
+  source = "../../modules/access_role_and_warehouse"
+  providers = {
+    snowflake = snowflake.terraform
+  }
+
+  warehouse_name = "XSMALL_SHEETS_WH"
+  warehouse_size = "XSMALL"
+  comment        = "Warehouse for Google Sheets processing"
+
+  grant_usage_ar_to_fr_set = [
+    module.sr_trocco_import.name,
+    module.sr_tableau_sheets.name
+  ]
+  grant_admin_ar_to_fr_set = [
+    module.fr_manager.name
+  ]
+}

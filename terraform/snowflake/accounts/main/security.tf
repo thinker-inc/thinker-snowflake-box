@@ -148,3 +148,31 @@ module "network_policy_tableau_user" {
     "TABLEAU_USER"
   ]
 }
+
+########################
+# Google Sheets 専用ネットワークポリシー
+########################
+module "network_policy_google_sheets_access" {
+  depends_on = [module.network_rule_thinker, module.network_rule_trocco, module.network_rule_tableau_cloud_us_west_2]
+  source     = "../../modules/network_policy"
+  providers = {
+    snowflake = snowflake.fr_security_manager
+  }
+
+  policy_name = "NETWORK_POLICY_GOOGLE_SHEETS_ACCESS"
+  comment     = "Google Sheets アクセス用 ネットワークポリシー"
+
+  allowed_network_rule_list = [
+    module.network_rule_thinker.fully_qualified_name,
+    module.network_rule_trocco.fully_qualified_name,
+    module.network_rule_tableau_cloud_us_west_2.fully_qualified_name
+  ]
+
+  blocked_network_rule_list = []
+
+  set_for_account = false
+  users = [
+    "TROCCO_USER",
+    "TABLEAU_USER"
+  ]
+}

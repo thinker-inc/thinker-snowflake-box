@@ -81,3 +81,23 @@ module "tableau_authentication_policy" {
     "TABLEAU_USER"
   ]
 }
+
+
+# Google Sheets Tableau用ポリシー
+module "tableau_sheets_authentication_policy" {
+  depends_on = [module.security_db_authentication_schema]
+  source     = "../../modules/authentication_policy"
+  providers = {
+    snowflake = snowflake.fr_security_manager
+  }
+
+  database = module.security_db.name
+  schema   = module.security_db_authentication_schema.name
+  name     = "TABLEAU_SHEETS_AUTHENTICATION_USER_POLICY"
+
+  authentication_methods = ["KEYPAIR"]
+  client_types           = ["DRIVERS"]
+  users = [
+    "TABLEAU_USER"
+  ]
+}
