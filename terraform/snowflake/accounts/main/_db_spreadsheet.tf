@@ -21,15 +21,15 @@ module "spreadsheet_db" {
 }
 
 ########################
-# RAW Schema - 生データ（TROCCOから直接取り込み）
+# SOURCE Schema - 生データ（TROCCOから直接取り込み）
 ########################
-module "spreadsheet_db_raw_schema" {
+module "spreadsheet_db_lake_schema" {
   source = "../../modules/access_role_and_schema"
   providers = {
     snowflake = snowflake.terraform
   }
 
-  schema_name                 = "RAW"
+  schema_name                 = "LAKE"
   database_name               = module.spreadsheet_db.name
   comment                     = "Schema to store raw Google Spreadsheet data from TROCCO"
   data_retention_time_in_days = 1
@@ -44,15 +44,15 @@ module "spreadsheet_db_raw_schema" {
 }
 
 ########################
-# CLEANED Schema - クレンジング済みデータ
+# STAGING Schema - クレンジング済みデータ
 ########################
-module "spreadsheet_db_cleaned_schema" {
+module "spreadsheet_db_staging_schema" {
   source = "../../modules/access_role_and_schema"
   providers = {
     snowflake = snowflake.terraform
   }
 
-  schema_name                 = "CLEANED"
+  schema_name                 = "STAGING"
   database_name               = module.spreadsheet_db.name
   comment                     = "Schema to store cleaned Google Spreadsheet data"
   data_retention_time_in_days = 1
@@ -67,17 +67,40 @@ module "spreadsheet_db_cleaned_schema" {
 }
 
 ########################
-# TABLEAU_BI Schema - Tableau BI用データ
+# DWH Schema - データウェアハウス
 ########################
-module "spreadsheet_db_tableau_bi_schema" {
+module "spreadsheet_db_dwh_schema" {
   source = "../../modules/access_role_and_schema"
   providers = {
     snowflake = snowflake.terraform
   }
 
-  schema_name                 = "TABLEAU_BI"
+  schema_name                 = "DWH"
   database_name               = module.spreadsheet_db.name
-  comment                     = "Schema to store data for Tableau BI from Google Spreadsheets"
+  comment                     = "Schema to store data warehouse tables from Google Spreadsheets"
+  data_retention_time_in_days = 1
+
+  sr_import_ar_to_fr_set = [
+    module.sr_trocco_spreadsheet.name
+  ]
+
+  sr_transform_ar_to_fr_set = [
+    module.sr_trocco_spreadsheet.name
+  ]
+}
+
+########################
+# MART Schema - 分析用データ
+########################
+module "spreadsheet_db_mart_schema" {
+  source = "../../modules/access_role_and_schema"
+  providers = {
+    snowflake = snowflake.terraform
+  }
+
+  schema_name                 = "MART"
+  database_name               = module.spreadsheet_db.name
+  comment                     = "Schema to store analysis-ready data from Google Spreadsheets"
   data_retention_time_in_days = 1
 
   sr_import_ar_to_fr_set = [
