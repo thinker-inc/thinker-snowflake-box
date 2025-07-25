@@ -64,4 +64,4 @@ variable "skip_header" {
   description = "value of the file format skip header"
   type        = number
   default     = null
-} 
+}

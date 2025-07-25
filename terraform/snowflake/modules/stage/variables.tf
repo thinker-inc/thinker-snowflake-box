@@ -44,4 +44,4 @@ variable "directory" {
   description = "value of the stage directory"
   type        = string
   default     = false
-} 
+}

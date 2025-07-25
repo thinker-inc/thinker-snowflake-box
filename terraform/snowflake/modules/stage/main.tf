@@ -21,4 +21,4 @@ resource "snowflake_grant_privileges_to_account_role" "stage_grant" {
     object_type = "STAGE"
     object_name = snowflake_stage.this.fully_qualified_name
   }
-} 
+}
