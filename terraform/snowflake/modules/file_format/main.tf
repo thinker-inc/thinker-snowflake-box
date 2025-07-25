@@ -23,4 +23,4 @@ resource "snowflake_grant_privileges_to_account_role" "file_format_grant" {
     object_type = "FILE FORMAT"
     object_name = snowflake_file_format.this.fully_qualified_name
   }
-} 
+}
