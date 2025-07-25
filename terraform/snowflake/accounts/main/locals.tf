@@ -6,7 +6,8 @@ locals {
   # マネージャーグループ
   manager = [
     "RYOTA_HASEGAWA",
-    "HUNAG"
+    "KUNJIE_HUANG",
+    "lee@thinker-inc.jp"
   ]
 
 }

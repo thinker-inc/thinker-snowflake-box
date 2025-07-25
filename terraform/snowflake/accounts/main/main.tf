@@ -106,6 +106,18 @@ module "sr_trocco_transform" {
   comment        = "Functional Role for trocco transform in Project {}"
 }
 
+module "sr_trocco_spreadsheet" {
+  depends_on = [module.trocco_user]
+  source     = "../../modules/functional_role"
+  providers = {
+    snowflake = snowflake.security_admin
+  }
+
+  role_name      = "SR_TROCCO_SPREADSHEET"
+  grant_user_set = concat(local.manager, ["TROCCO_USER"])
+  comment        = "Functional Role for trocco spreadsheet in Project {}"
+}
+
 ########################
 # Warehouse
 ########################
@@ -193,6 +205,24 @@ module "sr_trocco_transform_wh" {
 
   grant_usage_ar_to_fr_set = [
     module.sr_trocco_transform.name
+  ]
+  grant_admin_ar_to_fr_set = [
+    module.fr_manager.name
+  ]
+}
+
+module "sr_trocco_spreadsheet_wh" {
+  source = "../../modules/access_role_and_warehouse"
+  providers = {
+    snowflake = snowflake.terraform
+  }
+
+  warehouse_name = "SR_TROCCO_SPREADSHEET_WH"
+  warehouse_size = "XSMALL"
+  comment        = "Warehouse for TROCCO SPREADSHEET of {} projects"
+
+  grant_usage_ar_to_fr_set = [
+    module.sr_trocco_spreadsheet.name
   ]
   grant_admin_ar_to_fr_set = [
     module.fr_manager.name
