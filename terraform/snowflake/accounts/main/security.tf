@@ -60,6 +60,7 @@ module "network_rule_trocco" {
 }
 
 # Tableau cloud IP address list
+# 後でリージョン調べて変更予定
 # Doc: https://help.tableau.com/current/pro/desktop/en-us/publish_tableau_online_ip_authorization.htm
 module "network_rule_tableau_cloud_us_west_2" {
   depends_on = [module.security_db_network_schema]

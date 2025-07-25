@@ -39,8 +39,8 @@ module "developer_authentication_policy" {
   mfa_authentication_methods = ["PASSWORD"]
   mfa_enrollment             = "REQUIRED"
   users = [
-    "RYOTA_HASEGAWA",
-    "HUNAG"
+    "lee@thinker-inc.jp"
+    , "hasegawa@thinker-inc.jp"
   ]
 }
 
