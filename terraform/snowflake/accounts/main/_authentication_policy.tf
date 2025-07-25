@@ -38,10 +38,7 @@ module "developer_authentication_policy" {
   client_types               = ["ALL"]
   mfa_authentication_methods = ["PASSWORD"]
   mfa_enrollment             = "REQUIRED"
-  users = [
-    "lee@thinker-inc.jp"
-    , "hasegawa@thinker-inc.jp"
-  ]
+  users                      = local.manager
 }
 
 # トロッコ用ポリシー
