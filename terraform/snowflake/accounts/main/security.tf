@@ -106,7 +106,7 @@ module "network_policy_default" {
 }
 
 module "network_policy_trocco_user" {
-  depends_on = [module.network_rule_trocco]
+  depends_on = [module.network_rule_trocco, module.trocco_user]
   source     = "../../modules/network_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
@@ -128,7 +128,7 @@ module "network_policy_trocco_user" {
 }
 
 module "network_policy_tableau_user" {
-  depends_on = [module.network_rule_tableau_cloud_us_west_2]
+  depends_on = [module.network_rule_tableau_cloud_us_west_2, module.tableau_user]
   source     = "../../modules/network_policy"
   providers = {
     snowflake = snowflake.fr_security_manager

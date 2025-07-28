@@ -8,8 +8,10 @@ module "trocco_user" {
     snowflake = snowflake.security_admin
   }
 
-  name    = "TROCCO_USER"
-  comment = "trocco service user was created by terraform"
+  name              = "TROCCO_USER"
+  comment           = "trocco service user was created by terraform"
+  default_role      = "SR_TROCCO_IMPORT"
+  default_warehouse = "SR_TROCCO_IMPORT_WH"
 }
 
 module "tableau_user" {
@@ -18,8 +20,10 @@ module "tableau_user" {
     snowflake = snowflake.security_admin
   }
 
-  name    = "TABLEAU_USER"
-  comment = "tableau service user was created by terraform"
+  name              = "TABLEAU_USER"
+  comment           = "tableau service user was created by terraform"
+  default_role      = "SR_TABLEAU"
+  default_warehouse = "SR_TABLEAU_WH"
 }
 
 ########################
