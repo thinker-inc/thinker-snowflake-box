@@ -43,7 +43,7 @@ module "fr_data_engineer" {
   }
 
   role_name      = "FR_DATA_ENGINEER"
-  grant_user_set = concat(local.manager, ["ENGINEER_HASEGAWA"])
+  grant_user_set = local.manager
   comment        = "Functional Role for Data Engineer in Project all"
 }
 
@@ -54,7 +54,7 @@ module "fr_scientist" {
   }
 
   role_name      = "FR_SCIENTIST"
-  grant_user_set = concat(local.manager, ["SCIENTIST_HASEGAWA"])
+  grant_user_set = local.manager
   comment        = "Functional Role for data scientist in Project {}"
 }
 
@@ -65,7 +65,7 @@ module "fr_analyst" {
   }
 
   role_name      = "FR_ANALYST"
-  grant_user_set = concat(local.manager, ["ANALYST_HASEGAWA"])
+  grant_user_set = local.manager
   comment        = "Functional Role for analysis in Project {}"
 }
 
