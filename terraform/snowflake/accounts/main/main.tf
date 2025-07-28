@@ -8,8 +8,10 @@ module "trocco_user" {
     snowflake = snowflake.security_admin
   }
 
-  name    = "TROCCO_USER"
-  comment = "trocco service user was created by terraform"
+  name              = "TROCCO_USER"
+  comment           = "trocco service user was created by terraform"
+  default_role      = "SR_TROCCO_IMPORT"
+  default_warehouse = "SR_TROCCO_IMPORT_WH"
 }
 
 module "tableau_user" {
@@ -18,8 +20,10 @@ module "tableau_user" {
     snowflake = snowflake.security_admin
   }
 
-  name    = "TABLEAU_USER"
-  comment = "tableau service user was created by terraform"
+  name              = "TABLEAU_USER"
+  comment           = "tableau service user was created by terraform"
+  default_role      = "SR_TABLEAU"
+  default_warehouse = "SR_TABLEAU_WH"
 }
 
 ########################
@@ -43,7 +47,7 @@ module "fr_data_engineer" {
   }
 
   role_name      = "FR_DATA_ENGINEER"
-  grant_user_set = concat(local.manager, ["ENGINEER_HASEGAWA"])
+  grant_user_set = local.manager
   comment        = "Functional Role for Data Engineer in Project all"
 }
 
@@ -54,7 +58,7 @@ module "fr_scientist" {
   }
 
   role_name      = "FR_SCIENTIST"
-  grant_user_set = concat(local.manager, ["SCIENTIST_HASEGAWA"])
+  grant_user_set = local.manager
   comment        = "Functional Role for data scientist in Project {}"
 }
 
@@ -65,7 +69,7 @@ module "fr_analyst" {
   }
 
   role_name      = "FR_ANALYST"
-  grant_user_set = concat(local.manager, ["ANALYST_HASEGAWA"])
+  grant_user_set = local.manager
   comment        = "Functional Role for analysis in Project {}"
 }
 
@@ -104,6 +108,18 @@ module "sr_trocco_transform" {
   role_name      = "SR_TROCCO_TRANSFORM"
   grant_user_set = concat(local.manager, ["TROCCO_USER"])
   comment        = "Functional Role for trocco transform in Project {}"
+}
+
+module "sr_trocco_spreadsheet" {
+  depends_on = [module.trocco_user]
+  source     = "../../modules/functional_role"
+  providers = {
+    snowflake = snowflake.security_admin
+  }
+
+  role_name      = "SR_TROCCO_SPREADSHEET"
+  grant_user_set = concat(local.manager, ["TROCCO_USER"])
+  comment        = "Functional Role for trocco spreadsheet in Project {}"
 }
 
 ########################
@@ -193,6 +209,24 @@ module "sr_trocco_transform_wh" {
 
   grant_usage_ar_to_fr_set = [
     module.sr_trocco_transform.name
+  ]
+  grant_admin_ar_to_fr_set = [
+    module.fr_manager.name
+  ]
+}
+
+module "sr_trocco_spreadsheet_wh" {
+  source = "../../modules/access_role_and_warehouse"
+  providers = {
+    snowflake = snowflake.terraform
+  }
+
+  warehouse_name = "SR_TROCCO_SPREADSHEET_WH"
+  warehouse_size = "XSMALL"
+  comment        = "Warehouse for TROCCO SPREADSHEET of {} projects"
+
+  grant_usage_ar_to_fr_set = [
+    module.sr_trocco_spreadsheet.name
   ]
   grant_admin_ar_to_fr_set = [
     module.fr_manager.name
