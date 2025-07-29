@@ -59,8 +59,27 @@ module "network_rule_trocco" {
   ]
 }
 
-# Tableau cloud IP address list
-# Doc: https://help.tableau.com/current/pro/desktop/en-us/publish_tableau_online_ip_authorization.htm
+# Tableau Desktop用ネットワークルール
+module "network_rule_tableau_desktop" {
+  depends_on = [module.security_db_network_schema]
+  source     = "../../modules/network_rule"
+  providers = {
+    snowflake = snowflake.fr_security_manager
+  }
+
+  rule_name = "NETWORK_RULE_TABLEAU_DESKTOP"
+  database  = module.security_db.name
+  schema    = module.security_db_network_schema.name
+  comment   = "TABLEAU DESKTOP 許可リスト（東京・大阪オフィス）"
+  type      = "IPV4"
+  mode      = "INGRESS"
+  value_list = [
+    "150.195.218.240", # cato networks - Tokyo
+    "150.195.212.98"   # cato networks - Osaka
+  ]
+}
+
+# Tableau Cloud用ネットワークルール
 module "network_rule_tableau_cloud_us_west_2" {
   depends_on = [module.security_db_network_schema]
   source     = "../../modules/network_rule"
@@ -71,7 +90,7 @@ module "network_rule_tableau_cloud_us_west_2" {
   rule_name = "NETWORK_RULE_TABLEAU_CLOUD_US_WEST_2"
   database  = module.security_db.name
   schema    = module.security_db_network_schema.name
-  comment   = "TABLEAU CLOUD 許可リスト"
+  comment   = "TABLEAU CLOUD 許可リスト（AWS us-west-2）"
   type      = "IPV4"
   mode      = "INGRESS"
   value_list = [
@@ -128,16 +147,17 @@ module "network_policy_trocco_user" {
 }
 
 module "network_policy_tableau_user" {
-  depends_on = [module.network_rule_tableau_cloud_us_west_2, module.tableau_user]
+  depends_on = [module.network_rule_tableau_desktop, module.network_rule_tableau_cloud_us_west_2, module.tableau_user]
   source     = "../../modules/network_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
 
   policy_name = "NETWORK_POLICY_TABLEAU_USER"
-  comment     = "TABLEAU USER ネットワークポリシー"
+  comment     = "TABLEAU USER ネットワークポリシー（Desktop + Cloud）"
 
   allowed_network_rule_list = [
+    module.network_rule_tableau_desktop.fully_qualified_name,
     module.network_rule_tableau_cloud_us_west_2.fully_qualified_name
   ]
 
