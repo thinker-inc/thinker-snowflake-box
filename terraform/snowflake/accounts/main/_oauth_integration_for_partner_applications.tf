@@ -4,8 +4,8 @@
 # https://registry.terraform.io/providers/snowflakedb/snowflake/latest/docs/resources/oauth_integration_for_partner_applications
 # ########################
 
-# tableau cloud oauth
-module "account_oauth_integration_for_partner_applications" {
+# Tableau Cloud用OAuth統合
+module "tableau_cloud_oauth_integration" {
   source = "../../modules/oauth_integration_for_partner_applications"
   providers = {
     snowflake = snowflake.fr_security_manager
@@ -20,8 +20,8 @@ module "account_oauth_integration_for_partner_applications" {
   oauth_use_secondary_roles    = "NONE"
 }
 
-# tableau desktop oauth
-module "tableau_desktop_oauth_integration_for_partner_applications" {
+# Tableau Desktop用OAuth統合
+module "tableau_desktop_oauth_integration" {
   source = "../../modules/oauth_integration_for_partner_applications"
   providers = {
     snowflake = snowflake.fr_security_manager

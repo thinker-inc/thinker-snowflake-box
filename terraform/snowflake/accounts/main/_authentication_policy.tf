@@ -5,7 +5,7 @@
 # ########################
 # Snowflake Account全体
 module "account_authentication_policy" {
-  depends_on = [module.developer_authentication_policy, module.account_oauth_integration_for_partner_applications]
+  depends_on = [module.developer_authentication_policy]
   source     = "../../modules/authentication_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
@@ -60,9 +60,9 @@ module "trocco_authentication_policy" {
   ]
 }
 
-# タブロー用ポリシー（OAuth認証）
+# Tableau用ポリシー（OAuth認証）
 module "tableau_authentication_policy" {
-  depends_on = [module.security_db_authentication_schema, module.account_oauth_integration_for_partner_applications, module.tableau_desktop_oauth_integration_for_partner_applications]
+  depends_on = [module.security_db_authentication_schema, module.tableau_cloud_oauth_integration, module.tableau_desktop_oauth_integration]
   source     = "../../modules/authentication_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
