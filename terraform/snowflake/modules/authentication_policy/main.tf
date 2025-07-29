@@ -22,5 +22,5 @@ resource "snowflake_account_authentication_policy_attachment" "account" {
 resource "snowflake_user_authentication_policy_attachment" "users" {
   for_each                   = var.users
   authentication_policy_name = snowflake_authentication_policy.this.fully_qualified_name
-  user_name                  = upper(each.value)
+  user_name                  = each.value
 }

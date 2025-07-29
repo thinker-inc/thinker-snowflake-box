@@ -146,25 +146,25 @@ module "network_policy_trocco_user" {
   ]
 }
 
-module "network_policy_tableau_user" {
-  depends_on = [module.network_rule_tableau_desktop, module.network_rule_tableau_cloud_us_west_2, module.tableau_user]
+# Tableau統合用ネットワークポリシー
+module "network_policy_tableau" {
+  depends_on = [module.network_rule_tableau_cloud_us_west_2, module.network_rule_tableau_desktop]
   source     = "../../modules/network_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
 
-  policy_name = "NETWORK_POLICY_TABLEAU_USER"
-  comment     = "TABLEAU USER ネットワークポリシー（Desktop + Cloud）"
+  policy_name = "NETWORK_POLICY_TABLEAU"
+  comment     = "TABLEAU 統合ネットワークポリシー（Desktop + Cloud）"
 
   allowed_network_rule_list = [
-    module.network_rule_tableau_desktop.fully_qualified_name,
-    module.network_rule_tableau_cloud_us_west_2.fully_qualified_name
+    module.network_rule_tableau_cloud_us_west_2.fully_qualified_name,
+    module.network_rule_tableau_desktop.fully_qualified_name
   ]
 
   blocked_network_rule_list = []
 
   set_for_account = false
-  users = [
-    "TABLEAU_USER"
-  ]
+  users           = local.manager
 }
+

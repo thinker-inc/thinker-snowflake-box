@@ -5,7 +5,7 @@
 # ########################
 # Snowflake Account全体
 module "account_authentication_policy" {
-  depends_on = [module.developer_authentication_policy]
+  depends_on = [module.developer_authentication_policy, module.account_oauth_integration_for_partner_applications]
   source     = "../../modules/authentication_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
@@ -16,8 +16,8 @@ module "account_authentication_policy" {
   schema     = module.security_db_authentication_schema.name
   name       = "REQUIRE_MFA_AUTHENTICATION_ACCOUNT_POLICY"
 
-  authentication_methods     = ["PASSWORD"]
-  client_types               = ["SNOWFLAKE_UI"]
+  authentication_methods     = ["PASSWORD", "ALL"]
+  client_types               = ["SNOWFLAKE_UI", "DRIVERS"]
   mfa_authentication_methods = ["PASSWORD"]
   mfa_enrollment             = "REQUIRED"
 }
@@ -60,9 +60,9 @@ module "trocco_authentication_policy" {
   ]
 }
 
-# タブロー用ポリシー
+# タブロー用ポリシー（OAuth認証）
 module "tableau_authentication_policy" {
-  depends_on = [module.security_db_authentication_schema]
+  depends_on = [module.security_db_authentication_schema, module.account_oauth_integration_for_partner_applications, module.tableau_desktop_oauth_integration_for_partner_applications]
   source     = "../../modules/authentication_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
@@ -70,11 +70,10 @@ module "tableau_authentication_policy" {
 
   database = module.security_db.name
   schema   = module.security_db_authentication_schema.name
-  name     = "tableau_authentication_user_policy"
+  name     = "tableau_oauth_authentication_policy"
 
-  authentication_methods = ["KEYPAIR"]
+  authentication_methods = ["ALL"]
   client_types           = ["DRIVERS"]
-  users = [
-    "TABLEAU_USER"
-  ]
+  comment                = "Tableau OAuth認証用ポリシー（Desktop + Cloud）"
+  users                  = [] # OAuth認証ではユーザーアタッチメントは不要
 }
