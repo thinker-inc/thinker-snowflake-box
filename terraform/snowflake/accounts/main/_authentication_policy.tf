@@ -16,8 +16,8 @@ module "account_authentication_policy" {
   schema     = module.security_db_authentication_schema.name
   name       = "REQUIRE_MFA_AUTHENTICATION_ACCOUNT_POLICY"
 
-  authentication_methods     = ["PASSWORD", "ALL"]
-  client_types               = ["SNOWFLAKE_UI", "DRIVERS"]
+  authentication_methods     = ["PASSWORD"]
+  client_types               = ["SNOWFLAKE_UI"]
   mfa_authentication_methods = ["PASSWORD"]
   mfa_enrollment             = "REQUIRED"
 }
@@ -34,14 +34,14 @@ module "developer_authentication_policy" {
   schema   = module.security_db_authentication_schema.name
   name     = "DEVELOPER_AUTHENTICATION_USER_POLICY"
 
-  authentication_methods     = ["ALL"]
-  client_types               = ["ALL"]
+  authentication_methods     = ["PASSWORD", "OAUTH"]
+  client_types               = ["SNOWFLAKE_UI", "DRIVERS"]
   mfa_authentication_methods = ["PASSWORD"]
   mfa_enrollment             = "REQUIRED"
   users                      = local.manager
 }
 
-# トロッコ用ポリシー
+# TROCCO用ポリシー
 module "trocco_authentication_policy" {
   depends_on = [module.security_db_authentication_schema]
   source     = "../../modules/authentication_policy"
@@ -51,7 +51,7 @@ module "trocco_authentication_policy" {
 
   database = module.security_db.name
   schema   = module.security_db_authentication_schema.name
-  name     = "trocco_authentication_user_policy"
+  name     = "TROCCO_AUTHENTICATION_USER_POLICY"
 
   authentication_methods = ["KEYPAIR"]
   client_types           = ["DRIVERS"]
@@ -70,10 +70,10 @@ module "tableau_authentication_policy" {
 
   database = module.security_db.name
   schema   = module.security_db_authentication_schema.name
-  name     = "tableau_oauth_authentication_policy"
+  name     = "TABLEAU_OAUTH_AUTHENTICATION_POLICY"
 
-  authentication_methods = ["ALL"]
+  authentication_methods = ["OAUTH"]
   client_types           = ["DRIVERS"]
-  comment                = "Tableau OAuth認証用ポリシー（Desktop + Cloud）"
-  users                  = [] # OAuth認証ではユーザーアタッチメントは不要
+  mfa_enrollment         = "OPTIONAL"
+  users                  = []
 }
