@@ -59,25 +59,6 @@ module "network_rule_trocco" {
   ]
 }
 
-# Tableau Desktop用ネットワークルール
-module "network_rule_tableau_desktop" {
-  depends_on = [module.security_db_network_schema]
-  source     = "../../modules/network_rule"
-  providers = {
-    snowflake = snowflake.fr_security_manager
-  }
-
-  rule_name = "NETWORK_RULE_TABLEAU_DESKTOP"
-  database  = module.security_db.name
-  schema    = module.security_db_network_schema.name
-  comment   = "TABLEAU DESKTOP 許可リスト（東京・大阪オフィス）"
-  type      = "IPV4"
-  mode      = "INGRESS"
-  value_list = [
-    "150.195.218.240", # cato networks - Tokyo
-    "150.195.212.98"   # cato networks - Osaka
-  ]
-}
 
 # Tableau Cloud用ネットワークルール
 module "network_rule_tableau_cloud_us_west_2" {
@@ -148,7 +129,7 @@ module "network_policy_trocco_user" {
 
 # Tableau統合用ネットワークポリシー
 module "network_policy_tableau" {
-  depends_on = [module.network_rule_tableau_cloud_us_west_2, module.network_rule_tableau_desktop]
+  depends_on = [module.network_rule_tableau_cloud_us_west_2, module.network_rule_thinker]
   source     = "../../modules/network_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
@@ -159,7 +140,7 @@ module "network_policy_tableau" {
 
   allowed_network_rule_list = [
     module.network_rule_tableau_cloud_us_west_2.fully_qualified_name,
-    module.network_rule_tableau_desktop.fully_qualified_name
+    module.network_rule_thinker.fully_qualified_name
   ]
 
   blocked_network_rule_list = []
