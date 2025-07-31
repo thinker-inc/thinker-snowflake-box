@@ -43,3 +43,9 @@ variable "comment" {
   type        = string
   default     = null
 }
+
+variable "oauth_roles_ar_to_fr_set" {
+  description = "Set of functional role for grant roles"
+  type        = set(string)
+  default     = []
+}

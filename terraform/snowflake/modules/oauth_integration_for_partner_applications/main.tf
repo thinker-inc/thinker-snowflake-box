@@ -10,3 +10,15 @@ resource "snowflake_oauth_integration_for_partner_applications" "this" {
   blocked_roles_list           = var.blocked_roles_list
   comment                      = var.comment
 }
+
+# 作成したOAuth統合を使用する権限を付与
+resource "snowflake_grant_privileges_to_account_role" "integration_grant" {
+  for_each = var.oauth_roles_ar_to_fr_set
+
+  privileges        = ["USAGE"]
+  account_role_name = each.value
+  on_account_object {
+    object_type = "INTEGRATION"
+    object_name = snowflake_oauth_integration_for_partner_applications.this.name
+  }
+}

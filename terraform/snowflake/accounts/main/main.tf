@@ -14,18 +14,6 @@ module "trocco_user" {
   default_warehouse = "SR_TROCCO_IMPORT_WH"
 }
 
-module "tableau_user" {
-  source = "../../modules/service_user"
-  providers = {
-    snowflake = snowflake.security_admin
-  }
-
-  name              = "TABLEAU_USER"
-  comment           = "tableau service user was created by terraform"
-  default_role      = "SR_TABLEAU"
-  default_warehouse = "SR_TABLEAU_WH"
-}
-
 ########################
 # Functional Role
 ########################
@@ -74,14 +62,13 @@ module "fr_analyst" {
 }
 
 module "sr_tableau" {
-  depends_on = [module.tableau_user]
-  source     = "../../modules/functional_role"
+  source = "../../modules/functional_role"
   providers = {
     snowflake = snowflake.security_admin
   }
 
   role_name      = "SR_TABLEAU"
-  grant_user_set = concat(local.manager, ["TABLEAU_USER"])
+  grant_user_set = local.manager
   comment        = "Functional Role for business intelligence in Project {}"
 }
 
