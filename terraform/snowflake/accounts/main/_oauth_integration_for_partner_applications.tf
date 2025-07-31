@@ -13,11 +13,12 @@ module "tableau_cloud_oauth_integration" {
 
   name                         = "TABLEAU_CLOUD_SECURITY_INTEGRATION"
   oauth_client                 = "TABLEAU_SERVER"
-  comment                      = "for tableau cloud oauth"
+  comment                      = "for tableau cloud oauth (us-west-2)"
   enabled                      = true
   oauth_issue_refresh_tokens   = true
   oauth_refresh_token_validity = 432000 # 5日
   oauth_use_secondary_roles    = "NONE"
+  oauth_roles_ar_to_fr_set     = ["SR_TABLEAU"]
 }
 
 # Tableau Desktop用OAuth統合

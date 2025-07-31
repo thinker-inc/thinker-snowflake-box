@@ -34,7 +34,7 @@ module "developer_authentication_policy" {
   schema   = module.security_db_authentication_schema.name
   name     = "DEVELOPER_AUTHENTICATION_USER_POLICY"
 
-  authentication_methods     = ["PASSWORD", "OAUTH"]
+  authentication_methods     = ["PASSWORD", "OAUTH", "KEYPAIR"]
   client_types               = ["SNOWFLAKE_UI", "DRIVERS"]
   mfa_authentication_methods = ["PASSWORD"]
   mfa_enrollment             = "REQUIRED"
