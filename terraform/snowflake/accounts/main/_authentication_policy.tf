@@ -16,8 +16,8 @@ module "account_authentication_policy" {
   schema     = module.security_db_authentication_schema.name
   name       = "REQUIRE_MFA_AUTHENTICATION_ACCOUNT_POLICY"
 
-  authentication_methods     = ["PASSWORD", "OAUTH", "KEYPAIR"]
-  client_types               = ["SNOWFLAKE_UI", "DRIVERS"]
+  authentication_methods     = ["PASSWORD"]
+  client_types               = ["SNOWFLAKE_UI"]
   mfa_authentication_methods = ["PASSWORD"]
   mfa_enrollment             = "REQUIRED"
 }
@@ -34,11 +34,11 @@ module "developer_authentication_policy" {
   schema   = module.security_db_authentication_schema.name
   name     = "DEVELOPER_AUTHENTICATION_USER_POLICY"
 
-  authentication_methods = ["KEYPAIR"]
-  client_types           = ["DRIVERS"]
-  users = [
-    "TERRAFORM_USER"
-  ]
+  authentication_methods     = ["ALL"]
+  client_types               = ["ALL"]
+  mfa_authentication_methods = ["PASSWORD"]
+  mfa_enrollment             = "REQUIRED"
+  users                      = local.manager
 }
 
 # TROCCO用ポリシー
@@ -75,5 +75,5 @@ module "tableau_authentication_policy" {
   authentication_methods = ["OAUTH"]
   client_types           = ["DRIVERS"]
   mfa_enrollment         = "OPTIONAL"
-  users                  = []
+  users                  = [] # TableauはOAuthでログインするので、Snowflake側で個別のユーザーを指定する必要がない
 }
