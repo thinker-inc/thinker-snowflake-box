@@ -3,9 +3,9 @@
 # https://docs.snowflake.com/en/user-guide/authentication-policies#label-authentication-policy-hardening-authentication
 # https://docs.snowflake.com/ja/sql-reference/functions/policy_references
 # ########################
-# Snowflake Account全体
+# アカウント全体（UIアクセス用 - MFA必須）
 module "account_authentication_policy" {
-  depends_on = [module.developer_authentication_policy]
+  depends_on = [module.developer_api_authentication_policy]
   source     = "../../modules/authentication_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
@@ -16,14 +16,14 @@ module "account_authentication_policy" {
   schema     = module.security_db_authentication_schema.name
   name       = "REQUIRE_MFA_AUTHENTICATION_ACCOUNT_POLICY"
 
-  authentication_methods     = ["PASSWORD"]
+  authentication_methods     = ["PASSWORD", "OAUTH"]
   client_types               = ["SNOWFLAKE_UI"]
   mfa_authentication_methods = ["PASSWORD"]
   mfa_enrollment             = "REQUIRED"
 }
 
-# 開発者用ポリシー
-module "developer_authentication_policy" {
+# 開発者用ポリシー（API/ドライバーアクセス用 - キーペア認証）
+module "developer_api_authentication_policy" {
   depends_on = [module.security_db_authentication_schema]
   source     = "../../modules/authentication_policy"
   providers = {
@@ -32,13 +32,12 @@ module "developer_authentication_policy" {
 
   database = module.security_db.name
   schema   = module.security_db_authentication_schema.name
-  name     = "DEVELOPER_AUTHENTICATION_USER_POLICY"
+  name     = "DEVELOPER_API_AUTHENTICATION_POLICY"
 
-  authentication_methods     = ["PASSWORD", "OAUTH", "KEYPAIR"]
-  client_types               = ["SNOWFLAKE_UI", "DRIVERS"]
-  mfa_authentication_methods = ["PASSWORD"]
-  mfa_enrollment             = "REQUIRED"
-  users                      = local.manager
+  authentication_methods = ["KEYPAIR"]
+  client_types           = ["DRIVERS"]
+  mfa_enrollment         = "OPTIONAL"
+  users                  = local.manager
 }
 
 # TROCCO用ポリシー
