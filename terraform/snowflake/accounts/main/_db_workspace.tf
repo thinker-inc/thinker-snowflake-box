@@ -23,7 +23,8 @@ module "workspace_db" {
   read_only_ar_to_fr_set = [
     module.fr_data_engineer.name,
     module.fr_scientist.name,
-    module.fr_analyst.name
+    module.fr_analyst.name,
+    module.sr_tableau.name
   ]
 
   sr_import_ar_to_fr_set = [
@@ -58,7 +59,8 @@ module "workspace_db_service_a_schema" {
   read_only_ar_to_fr_set = [
     module.fr_data_engineer.name,
     module.fr_scientist.name,
-    module.fr_analyst.name
+    module.fr_analyst.name,
+    module.sr_tableau.name
   ]
 
   sr_import_ar_to_fr_set = [

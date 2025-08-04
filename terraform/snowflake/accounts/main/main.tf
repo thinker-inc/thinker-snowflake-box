@@ -35,7 +35,7 @@ module "fr_data_engineer" {
   }
 
   role_name      = "FR_DATA_ENGINEER"
-  grant_user_set = local.manager
+  grant_user_set = concat(local.manager, local.analytics_users)
   comment        = "Functional Role for Data Engineer in Project all"
 }
 
@@ -68,7 +68,7 @@ module "sr_tableau" {
   }
 
   role_name      = "SR_TABLEAU"
-  grant_user_set = local.manager
+  grant_user_set = concat(local.manager, local.analytics_users)
   comment        = "Functional Role for business intelligence in Project {}"
 }
 
@@ -81,7 +81,7 @@ module "sr_trocco_import" {
 
   role_name = "SR_TROCCO_IMPORT"
 
-  grant_user_set = concat(local.manager, ["TROCCO_USER"])
+  grant_user_set = concat(local.manager, local.analytics_users, ["TROCCO_USER"])
   comment        = "Functional Role for trocco import in Project {}"
 }
 
@@ -159,7 +159,8 @@ module "read_only_wh" {
   comment        = "Warehouse for Read Only of {} projects"
 
   grant_usage_ar_to_fr_set = [
-    module.fr_analyst.name
+    module.fr_analyst.name,
+    module.sr_tableau.name
   ]
   grant_admin_ar_to_fr_set = [
     module.fr_manager.name

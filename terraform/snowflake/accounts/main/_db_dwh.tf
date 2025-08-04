@@ -21,7 +21,8 @@ module "dwh_db" {
   ]
 
   read_only_ar_to_fr_set = [
-    module.fr_analyst.name
+    module.fr_analyst.name,
+    module.sr_tableau.name
   ]
   sr_import_ar_to_fr_set = [
     module.sr_trocco_import.name
@@ -56,7 +57,8 @@ module "dwh_db_service_AB_schema" {
   ]
 
   read_only_ar_to_fr_set = [
-    module.fr_analyst.name
+    module.fr_analyst.name,
+    module.sr_tableau.name
   ]
 
   sr_import_ar_to_fr_set = [
