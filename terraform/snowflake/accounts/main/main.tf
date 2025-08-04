@@ -159,7 +159,8 @@ module "read_only_wh" {
   comment        = "Warehouse for Read Only of {} projects"
 
   grant_usage_ar_to_fr_set = [
-    module.fr_analyst.name
+    module.fr_analyst.name,
+    module.sr_tableau.name
   ]
   grant_admin_ar_to_fr_set = [
     module.fr_manager.name
