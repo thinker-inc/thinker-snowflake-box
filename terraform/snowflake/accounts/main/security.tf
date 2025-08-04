@@ -59,8 +59,8 @@ module "network_rule_trocco" {
   ]
 }
 
-# Tableau cloud IP address list
-# Doc: https://help.tableau.com/current/pro/desktop/en-us/publish_tableau_online_ip_authorization.htm
+
+# Tableau Cloud用ネットワークルール
 module "network_rule_tableau_cloud_us_west_2" {
   depends_on = [module.security_db_network_schema]
   source     = "../../modules/network_rule"
@@ -71,7 +71,7 @@ module "network_rule_tableau_cloud_us_west_2" {
   rule_name = "NETWORK_RULE_TABLEAU_CLOUD_US_WEST_2"
   database  = module.security_db.name
   schema    = module.security_db_network_schema.name
-  comment   = "TABLEAU CLOUD 許可リスト"
+  comment   = "TABLEAU CLOUD 許可リスト（AWS us-west-2）"
   type      = "IPV4"
   mode      = "INGRESS"
   value_list = [
@@ -127,24 +127,25 @@ module "network_policy_trocco_user" {
   ]
 }
 
-module "network_policy_tableau_user" {
-  depends_on = [module.network_rule_tableau_cloud_us_west_2, module.tableau_user]
+# Tableau統合用ネットワークポリシー
+module "network_policy_tableau" {
+  depends_on = [module.network_rule_tableau_cloud_us_west_2, module.network_rule_thinker]
   source     = "../../modules/network_policy"
   providers = {
     snowflake = snowflake.fr_security_manager
   }
 
-  policy_name = "NETWORK_POLICY_TABLEAU_USER"
-  comment     = "TABLEAU USER ネットワークポリシー"
+  policy_name = "NETWORK_POLICY_TABLEAU"
+  comment     = "TABLEAU 統合ネットワークポリシー（Desktop + Cloud）"
 
   allowed_network_rule_list = [
-    module.network_rule_tableau_cloud_us_west_2.fully_qualified_name
+    module.network_rule_tableau_cloud_us_west_2.fully_qualified_name,
+    module.network_rule_thinker.fully_qualified_name
   ]
 
   blocked_network_rule_list = []
 
   set_for_account = false
-  users = [
-    "TABLEAU_USER"
-  ]
+  users           = local.manager
 }
+
