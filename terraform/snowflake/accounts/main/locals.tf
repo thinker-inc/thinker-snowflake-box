@@ -10,8 +10,8 @@ locals {
     "LEE@THINKER-INC.JP"
   ]
 
-  # 新規追加ユーザー
-  new_users = [
+  # 分析利用者
+  analytics_users = [
     "SAKAMUNE@THINKER-INC.JP",
     "MIYAHARA@THINKER-INC.JP"
   ]
