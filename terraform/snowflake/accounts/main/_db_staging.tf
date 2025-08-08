@@ -37,15 +37,15 @@ module "staging_db" {
 ########################
 # Schema
 ########################
-module "staging_db_service_a_schema" {
+module "staging_db_spreadsheet_schema" {
   source = "../../modules/access_role_and_schema"
   providers = {
     snowflake = snowflake.terraform
   }
 
-  schema_name                 = "SERVICE_A"
+  schema_name                 = "SPREADSHEET"
   database_name               = module.staging_db.name
-  comment                     = "Schema to store data with minimal transformation from raw data of service A"
+  comment                     = "Schema to store data with minimal transformation from raw data of spreadsheet"
   data_retention_time_in_days = 1
 
   manager_ar_to_fr_set = [
@@ -71,15 +71,15 @@ module "staging_db_service_a_schema" {
   ]
 }
 
-module "staging_db_service_b_schema" {
+module "staging_db_timecrowd_schema" {
   source = "../../modules/access_role_and_schema"
   providers = {
     snowflake = snowflake.terraform
   }
 
-  schema_name                 = "SERVICE_B"
+  schema_name                 = "TIMECROWD"
   database_name               = module.staging_db.name
-  comment                     = "Schema to store data with minimal transformation from raw data of service B"
+  comment                     = "Schema to store data with minimal transformation from raw data of timecrowd"
   data_retention_time_in_days = 1
 
   manager_ar_to_fr_set = [
