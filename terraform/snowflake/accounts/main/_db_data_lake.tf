@@ -37,15 +37,15 @@ module "data_lake_db" {
 ########################
 # Schema
 ########################
-module "data_lake_db_service_a_schema" {
+module "data_lake_db_spreadsheet_schema" {
   source = "../../modules/access_role_and_schema"
   providers = {
     snowflake = snowflake.terraform
   }
 
-  schema_name                    = "SERVICE_A"
+  schema_name                    = "SPREADSHEET"
   database_name                  = module.data_lake_db.name
-  comment                        = "Schema to store loaded raw data of service A"
+  comment                        = "Schema to store loaded raw data of spreadsheet"
   data_retention_time_in_days    = 1
   grant_feature_external_table   = true
   grant_feature_stored_procedure = true
@@ -82,7 +82,7 @@ module "data_lake_db_service_a_schema" {
 # 
 #   name        = "PARQUET_FILE_FORMAT"
 #   database    = module._data_lake.name
-#   schema      = module.data_lake_db_service_a_schema.name
+#   schema      = module.data_lake_db_spreadsheet_schema.name
 #   format_type = "PARQUET"
 #   comment     = "file format for parquet file"
 # 
@@ -102,7 +102,7 @@ module "data_lake_db_service_a_schema" {
 #   name                = "EXTERNAL_STAGE"
 #   url                 = "{s3_url}"
 #   database            = module._data_lake.name
-#   schema              = module.data_lake_db_service_a_schema.name
+#   schema              = module.data_lake_db_spreadsheet_schema.name
 #   file_format         = "FORMAT_NAME = ${local.parquet_file_format_fullqualified_name}"
 #   storage_integration = module.s3_storage_integration.name
 #   comment             = "external stage for loading data from s3"
@@ -114,15 +114,15 @@ module "data_lake_db_service_a_schema" {
 #   ]
 # }
 
-module "data_lake_db_service_b_schema" {
+module "data_lake_db_timecrowd_schema" {
   source = "../../modules/access_role_and_schema"
   providers = {
     snowflake = snowflake.terraform
   }
 
-  schema_name                    = "SERVICE_B"
+  schema_name                    = "TIMECROWD"
   database_name                  = module.data_lake_db.name
-  comment                        = "Schema to store loaded raw data of service B"
+  comment                        = "Schema to store loaded raw data of timecrowd"
   data_retention_time_in_days    = 1
   grant_feature_external_table   = true
   grant_feature_stored_procedure = true
