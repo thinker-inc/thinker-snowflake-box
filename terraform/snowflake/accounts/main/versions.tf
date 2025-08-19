@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     snowflake = {
-      source  = "Snowflakedb/snowflake"
+      source  = "snowflakedb/snowflake"
       version = "~> 2.1.0"
     }
   }
@@ -9,8 +9,10 @@ terraform {
 
 # 事前にSYSADMINとSECURITYADMINをGRANTしたロール。
 provider "snowflake" {
-  alias = "terraform"
-  role  = "TERRAFORM_SR"
+  alias             = "terraform"
+  role              = "TERRAFORM_SR"
+  account_name      = "THINKER_BOX"
+  organization_name = "THINKER"
   preview_features_enabled = [
     "snowflake_file_format_resource",
     "snowflake_storage_integration_resource",
@@ -19,24 +21,26 @@ provider "snowflake" {
 }
 
 provider "snowflake" {
-  alias = "sys_admin"
-  role  = "SYSADMIN"
-  preview_features_enabled = [
-
-  ]
+  alias                    = "sys_admin"
+  role                     = "SYSADMIN"
+  account_name             = "THINKER_BOX"
+  organization_name        = "THINKER"
+  preview_features_enabled = []
 }
 
 provider "snowflake" {
-  alias = "security_admin"
-  role  = "SECURITYADMIN"
-  preview_features_enabled = [
-
-  ]
+  alias                    = "security_admin"
+  role                     = "SECURITYADMIN"
+  account_name             = "THINKER_BOX"
+  organization_name        = "THINKER"
+  preview_features_enabled = []
 }
 
 provider "snowflake" {
-  alias = "fr_security_manager"
-  role  = "FR_SECURITY_MANAGER"
+  alias             = "fr_security_manager"
+  role              = "FR_SECURITY_MANAGER"
+  account_name      = "THINKER_BOX"
+  organization_name = "THINKER"
   preview_features_enabled = [
     "snowflake_network_rule_resource",
     "snowflake_network_policy_attachment_resource",
