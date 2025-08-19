@@ -6,7 +6,6 @@ terraform {
     }
   }
 }
-
 # 事前にSYSADMINとSECURITYADMINをGRANTしたロール。
 provider "snowflake" {
   alias = "terraform"
@@ -19,19 +18,15 @@ provider "snowflake" {
 }
 
 provider "snowflake" {
-  alias = "sys_admin"
-  role  = "SYSADMIN"
-  preview_features_enabled = [
-
-  ]
+  alias                    = "sys_admin"
+  role                     = "SYSADMIN"
+  preview_features_enabled = []
 }
 
 provider "snowflake" {
-  alias = "security_admin"
-  role  = "SECURITYADMIN"
-  preview_features_enabled = [
-
-  ]
+  alias                    = "security_admin"
+  role                     = "SECURITYADMIN"
+  preview_features_enabled = []
 }
 
 provider "snowflake" {
