@@ -146,6 +146,6 @@ module "network_policy_tableau" {
   blocked_network_rule_list = []
 
   set_for_account = false
-  users           = local.manager
+  users           = concat(local.manager, local.analytics_users)
 }
 
