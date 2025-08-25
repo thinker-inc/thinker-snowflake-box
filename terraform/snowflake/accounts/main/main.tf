@@ -57,7 +57,7 @@ module "fr_analyst" {
   }
 
   role_name      = "FR_ANALYST"
-  grant_user_set = local.manager
+  grant_user_set = concat(local.manager, local.analytics_users)
   comment        = "Functional Role for analysis in Project {}"
 }
 
