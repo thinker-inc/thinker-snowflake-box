@@ -46,7 +46,7 @@ module "fr_scientist" {
   }
 
   role_name      = "FR_SCIENTIST"
-  grant_user_set = local.manager
+  grant_user_set = concat(local.manager, local.analytics_users)
   comment        = "Functional Role for data scientist in Project {}"
 }
 
