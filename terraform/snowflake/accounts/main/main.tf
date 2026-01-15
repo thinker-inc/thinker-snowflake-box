@@ -14,6 +14,18 @@ module "trocco_user" {
   default_warehouse = "SR_TROCCO_IMPORT_WH"
 }
 
+module "looker_studio_user" {
+  source = "../../modules/service_user"
+  providers = {
+    snowflake = snowflake.security_admin
+  }
+
+  name              = "LOOKER_STUDIO_USER"
+  comment           = "looker studio service user was created by terraform"
+  default_role      = "SR_LOOKER_STUDIO"
+  default_warehouse = "READ_ONLY_WH"
+}
+
 ########################
 # Functional Role
 ########################
@@ -70,6 +82,18 @@ module "sr_tableau" {
   role_name      = "SR_TABLEAU"
   grant_user_set = concat(local.manager, local.analytics_users)
   comment        = "Functional Role for business intelligence in Project {}"
+}
+
+module "sr_looker_studio" {
+  depends_on = [module.looker_studio_user]
+  source     = "../../modules/functional_role"
+  providers = {
+    snowflake = snowflake.security_admin
+  }
+
+  role_name      = "SR_LOOKER_STUDIO"
+  grant_user_set = ["LOOKER_STUDIO_USER"]
+  comment        = "Functional Role for looker studio in Project {}"
 }
 
 module "sr_trocco_import" {
@@ -160,7 +184,8 @@ module "read_only_wh" {
 
   grant_usage_ar_to_fr_set = [
     module.fr_analyst.name,
-    module.sr_tableau.name
+    module.sr_tableau.name,
+    module.sr_looker_studio.name
   ]
   grant_admin_ar_to_fr_set = [
     module.fr_manager.name

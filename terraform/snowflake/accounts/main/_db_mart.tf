@@ -22,7 +22,8 @@ module "mart_db" {
 
   read_only_ar_to_fr_set = [
     module.fr_analyst.name,
-    module.sr_tableau.name
+    module.sr_tableau.name,
+    module.sr_looker_studio.name
   ]
 
   sr_import_ar_to_fr_set = [
@@ -59,7 +60,8 @@ module "mart_db_tableau_schema" {
 
   read_only_ar_to_fr_set = [
     module.fr_analyst.name,
-    module.sr_tableau.name
+    module.sr_tableau.name,
+    module.sr_looker_studio.name
   ]
 
   sr_import_ar_to_fr_set = [

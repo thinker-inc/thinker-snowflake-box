@@ -24,7 +24,8 @@ module "workspace_db" {
     module.fr_data_engineer.name,
     module.fr_scientist.name,
     module.fr_analyst.name,
-    module.sr_tableau.name
+    module.sr_tableau.name,
+    module.sr_looker_studio.name
   ]
 
   sr_import_ar_to_fr_set = [
@@ -60,7 +61,8 @@ module "workspace_db_service_a_schema" {
     module.fr_data_engineer.name,
     module.fr_scientist.name,
     module.fr_analyst.name,
-    module.sr_tableau.name
+    module.sr_tableau.name,
+    module.sr_looker_studio.name
   ]
 
   sr_import_ar_to_fr_set = [
