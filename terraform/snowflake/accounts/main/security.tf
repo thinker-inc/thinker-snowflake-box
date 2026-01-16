@@ -84,6 +84,27 @@ module "network_rule_tableau_cloud_us_west_2" {
 }
 
 ########################
+# Looker Studio
+########################
+module "network_rule_looker_studio" {
+  depends_on = [module.security_db_network_schema]
+  source     = "../../modules/network_rule"
+  providers = {
+    snowflake = snowflake.fr_security_manager
+  }
+
+  rule_name = "NETWORK_RULE_LOOKER_STUDIO"
+  database  = module.security_db.name
+  schema    = module.security_db_network_schema.name
+  comment   = "LOOKER STUDIO 許可リスト"
+  type      = "IPV4"
+  mode      = "INGRESS"
+  value_list = [
+    "35.243.23.68"
+  ]
+}
+
+########################
 # Network Policy
 ########################
 module "network_policy_default" {
@@ -149,5 +170,28 @@ module "network_policy_tableau" {
 
   set_for_account = false
   users           = concat(local.manager, local.analytics_users)
+}
+
+module "network_policy_looker_studio" {
+  depends_on = [module.network_rule_looker_studio, module.network_rule_thinker]
+  source     = "../../modules/network_policy"
+  providers = {
+    snowflake = snowflake.fr_security_manager
+  }
+
+  policy_name = "NETWORK_POLICY_LOOKER_STUDIO"
+  comment     = "LOOKER STUDIO ネットワークポリシー"
+
+  allowed_network_rule_list = [
+    module.network_rule_looker_studio.fully_qualified_name,
+    module.network_rule_thinker.fully_qualified_name
+  ]
+
+  blocked_network_rule_list = []
+
+  set_for_account = false
+  users = [
+    "LOOKER_STUDIO_USER"
+  ]
 }
 
