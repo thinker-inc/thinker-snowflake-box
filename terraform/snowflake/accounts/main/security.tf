@@ -96,11 +96,11 @@ module "network_rule_looker_studio" {
   rule_name = "NETWORK_RULE_LOOKER_STUDIO"
   database  = module.security_db.name
   schema    = module.security_db_network_schema.name
-  comment   = "LOOKER STUDIO 許可リスト"
+  comment   = "LOOKER STUDIO 許可リスト（Google側送信元IPが変動するためIPv4を許可）"
   type      = "IPV4"
   mode      = "INGRESS"
   value_list = [
-    "35.243.23.68"
+    "0.0.0.0/0"
   ]
 }
 
