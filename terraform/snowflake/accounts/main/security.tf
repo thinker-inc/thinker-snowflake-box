@@ -95,7 +95,7 @@ module "network_rule_looker_studio" {
 
   # NOTE:
   # - Looker Studio は SaaS 側（Google 管理インフラ）から Snowflake に直接接続するため、
-  #   送信元IPを社内/VPN（Cato）の固定IPに寄せる保身が取れない。
+  #   送信元IPを社内/VPN（Cato）の固定IPに寄せる方針が取れない。
   # - 送信元IP変動による接続失敗を避ける目的で、例外的に IPv4 を許可している。
   # - その代わり、影響範囲を最小化するため、本 Network Rule を参照する Network Policy は
   #   `LOOKER_STUDIO_USER` のみにアタッチしている（アカウント全体には適用しない）。
