@@ -60,4 +60,27 @@ module "trocco_authentication_policy" {
   ]
 }
 
+########################
+# Looker Studio用ポリシー（非対話接続：キーペアのみ）
+########################
+module "looker_studio_authentication_policy" {
+  depends_on = [module.security_db_authentication_schema]
+  source     = "../../modules/authentication_policy"
+  providers = {
+    snowflake = snowflake.fr_security_manager
+  }
+
+  database = module.security_db.name
+  schema   = module.security_db_authentication_schema.name
+  name     = "LOOKER_STUDIO_AUTHENTICATION_USER_POLICY"
+
+  # Looker Studio connector は非対話（UI/MFA不可）なので KEYPAIR のみに限定する。
+  # REPORTED_CLIENT_TYPE が "OTHER" になるケースもあるため、client_types は ALL とする。
+  authentication_methods = ["KEYPAIR"]
+  client_types           = ["ALL"]
+  users = [
+    "LOOKER_STUDIO_USER"
+  ]
+}
+
 
