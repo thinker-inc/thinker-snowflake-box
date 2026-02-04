@@ -570,40 +570,18 @@ resource "snowflake_grant_database_role" "grant_sr_trocco_transform_ar_to_fr" {
 # FUNCTION USAGE (UDF/UDTF)
 ########################
 #
-# テーブル/ビューの SELECT 権限とは別に、ビュー内で参照される UDF/UDTF を実行するには
-# FUNCTION の USAGE が必要になるケースがある。
-# 影響範囲を最小化するため、スキーマ単位でON/OFFし、さらにロールグループも限定できるようにする。
+# VIEW 内で参照される UDF/UDTF を実行するには、呼び出しロールに FUNCTION の USAGE が必要になるケースがある。
+# 権限は「指定して付与」ではなく「許可する」方針とし、本 module で一括管理する。
+#
+# NOTE:
+# - `grant_feature_function_usage` が true の場合のみ作成する（feature flag）。
+# - default は true（広く許可）。スキーマ単位で止めたい場合は module 呼び出し側で false を渡す。
 
-locals {
-  function_usage_database_roles = {
-    manager     = snowflake_database_role.manager_ar.fully_qualified_name
-    transformer = snowflake_database_role.transformer_ar.fully_qualified_name
-    read_only   = snowflake_database_role.read_only_ar.fully_qualified_name
-    sr_import   = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
-    sr_transform = snowflake_database_role.sr_trocco_transform_ar.fully_qualified_name
-  }
-
-  # NOTE:
-  # - このリポジトリでは、FUNCTION USAGE が実際に必要になったスキーマ（DWH.INT / MART.TABLEAU_BI）
-  #   にのみ限定して付与する（過剰付与を避ける）。
-  # - module 呼び出し側の引数を増やすと IDE 診断が追従できず誤検知が出やすいため、
-  #   スキーマ名で条件分岐する。
-  enable_function_usage = (
-    (var.database_name == "DWH" && var.schema_name == "INT") ||
-    (var.database_name == "MART" && var.schema_name == "TABLEAU_BI")
-  )
-
-  function_usage_targets = local.enable_function_usage ? {
-    read_only = local.function_usage_database_roles.read_only
-    sr_import = local.function_usage_database_roles.sr_import
-  } : {}
-}
-
-resource "snowflake_grant_privileges_to_database_role" "grant_function_usage_all_functions" {
-  for_each = local.function_usage_targets
+resource "snowflake_grant_privileges_to_database_role" "grant_read_only_all_functions_usage" {
+  count = var.grant_feature_function_usage ? 1 : 0 # 条件に応じてリソース作成
 
   privileges         = ["USAGE"]
-  database_role_name = each.value
+  database_role_name = snowflake_database_role.read_only_ar.fully_qualified_name
 
   on_schema_object {
     all {
@@ -613,11 +591,39 @@ resource "snowflake_grant_privileges_to_database_role" "grant_function_usage_all
   }
 }
 
-resource "snowflake_grant_privileges_to_database_role" "grant_function_usage_future_functions" {
-  for_each = local.function_usage_targets
+resource "snowflake_grant_privileges_to_database_role" "grant_read_only_future_functions_usage" {
+  count = var.grant_feature_function_usage ? 1 : 0 # 条件に応じてリソース作成
 
   privileges         = ["USAGE"]
-  database_role_name = each.value
+  database_role_name = snowflake_database_role.read_only_ar.fully_qualified_name
+
+  on_schema_object {
+    future {
+      object_type_plural = "FUNCTIONS"
+      in_schema          = snowflake_schema.this.fully_qualified_name
+    }
+  }
+}
+
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_import_all_functions_usage" {
+  count = var.grant_feature_function_usage ? 1 : 0 # 条件に応じてリソース作成
+
+  privileges         = ["USAGE"]
+  database_role_name = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
+
+  on_schema_object {
+    all {
+      object_type_plural = "FUNCTIONS"
+      in_schema          = snowflake_schema.this.fully_qualified_name
+    }
+  }
+}
+
+resource "snowflake_grant_privileges_to_database_role" "grant_sr_import_future_functions_usage" {
+  count = var.grant_feature_function_usage ? 1 : 0 # 条件に応じてリソース作成
+
+  privileges         = ["USAGE"]
+  database_role_name = snowflake_database_role.sr_trocco_import_ar.fully_qualified_name
 
   on_schema_object {
     future {

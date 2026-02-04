@@ -74,3 +74,9 @@ variable "grant_feature_stored_procedure" {
   default = false # trueにすればリソースが作成され、falseなら作成されない
 
 }
+
+variable "grant_feature_function_usage" {
+  description = "Feature flag. If true, grant USAGE on ALL/FUTURE FUNCTIONS in this schema to access roles (read_only and sr_import). Default is true (broad allow); set false to disable per schema."
+  type        = bool
+  default     = true
+}
