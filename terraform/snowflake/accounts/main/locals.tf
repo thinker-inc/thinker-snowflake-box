@@ -13,7 +13,8 @@ locals {
   # 分析利用者
   analytics_users = [
     "SAKAMUNE@THINKER-INC.JP",
-    "MIYAHARA@THINKER-INC.JP"
+    "MIYAHARA@THINKER-INC.JP",
+    "H.TAMURA@THINKER-INC.JP"
   ]
 
 }
