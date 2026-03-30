@@ -19,12 +19,6 @@ variable "authentication_methods" {
   default     = ["ALL"]
 }
 
-variable "mfa_authentication_methods" {
-  description = "List of MFA authentication methods. { ALL | SAML | PASSWORD }"
-  type        = list(string)
-  default     = null
-}
-
 variable "mfa_enrollment" {
   description = "MFA enrollment setting. { OPTIONAL | REQUIRED }"
   type        = string

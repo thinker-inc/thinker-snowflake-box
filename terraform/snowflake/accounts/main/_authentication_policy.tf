@@ -16,10 +16,9 @@ module "account_authentication_policy" {
   schema     = module.security_db_authentication_schema.name
   name       = "REQUIRE_MFA_AUTHENTICATION_ACCOUNT_POLICY"
 
-  authentication_methods     = ["PASSWORD"]
-  client_types               = ["SNOWFLAKE_UI"]
-  mfa_authentication_methods = ["PASSWORD"]
-  mfa_enrollment             = "REQUIRED"
+  authentication_methods = ["PASSWORD"]
+  client_types           = ["SNOWFLAKE_UI"]
+  mfa_enrollment         = "REQUIRED"
 }
 
 # 開発者用ポリシー（API/ドライバーアクセス用 - キーペア認証、パスワード認証、OAuth認証対応）
@@ -34,11 +33,10 @@ module "developer_authentication_policy" {
   schema   = module.security_db_authentication_schema.name
   name     = "DEVELOPER_AUTHENTICATION_USER_POLICY"
 
-  authentication_methods     = ["ALL"]
-  client_types               = ["ALL"]
-  mfa_authentication_methods = ["PASSWORD"]
-  mfa_enrollment             = "REQUIRED"
-  users                      = concat(local.manager, local.analytics_users)
+  authentication_methods = ["ALL"]
+  client_types           = ["ALL"]
+  mfa_enrollment         = "REQUIRED"
+  users                  = concat(local.manager, local.analytics_users)
 }
 
 # TROCCO用ポリシー

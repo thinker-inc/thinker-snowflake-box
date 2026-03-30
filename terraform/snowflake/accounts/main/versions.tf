@@ -2,7 +2,7 @@ terraform {
   required_providers {
     snowflake = {
       source  = "Snowflakedb/snowflake"
-      version = "~> 2.1.0"
+      version = "~> 2.14.1"
     }
   }
 }
@@ -33,7 +33,6 @@ provider "snowflake" {
   alias = "fr_security_manager"
   role  = "FR_SECURITY_MANAGER"
   preview_features_enabled = [
-    "snowflake_network_rule_resource",
     "snowflake_network_policy_attachment_resource",
     "snowflake_password_policy_resource",
     "snowflake_account_password_policy_attachment_resource",
